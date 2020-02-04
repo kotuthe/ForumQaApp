@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_pattern_dot"
+    tools:context=".ActivityLogin">
+
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
+
+        <LinearLayout
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <AutoCompleteTextView
+                android:id="@+id/actEmail"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:nextFocusDown="@id/editPassword"
+                android:hint="@string/login_email_hint"
+                android:inputType="textEmailAddress"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/edit_login"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:singleLine="true" />
+
+            <EditText
+                android:id="@+id/editPassword"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:hint="@string/login_password_hint"
+                android:imeActionId="999"
+                android:imeActionLabel="@string/login_password_ime"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textPassword"
+                android:maxLines="1"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:background="@drawable/edit_login"
+                android:textColor="@android:color/black"
+                android:textColorHint="@android:color/darker_gray"
+                android:singleLine="true" />
+
+            <net.tochinavi.www.tochinaviapp.view.ButtonAction
+                android:id="@+id/buttonLogin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="@string/login_button_login"
+                android:textSize="15sp"
+                android:textStyle="bold"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="80dp">
+                <TextView
+                    android:id="@+id/textViewForgetLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/normal_margin"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorLinkBlue"
+                    android:layout_centerInParent="true"
+                    android:text="@string/login_forget_link" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/black"
+                    android:layout_centerInParent="true"
+                    android:text="@string/login_new_member_msg" />
+            </RelativeLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Login progress -->
+    <RelativeLayout
+        android:id="@+id/viewLoading"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/colorModalBg"
+        android:visibility="gone">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="@dimen/normal_safe_area_margin"
+            android:layout_marginRight="@dimen/normal_safe_area_margin"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:background="@drawable/layout_loading_bg">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/normal_margin"
+                android:layout_marginBottom="@dimen/normal_margin"
+                android:indeterminateDrawable="@drawable/progress_circular_normal"/>
+
+            <TextView
+                android:id="@+id/textViewLoading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginLeft="@dimen/normal_margin"
+                android:layout_marginRight="@dimen/normal_margin"
+                android:paddingBottom="30dp"
+                android:textColor="@android:color/black"
+                android:textSize="17sp"
+                android:text="@string/login_loading_msg" />
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+    <!-- Login progress -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

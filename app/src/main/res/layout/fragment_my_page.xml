@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGroupTableViewBackground"
+    tools:context=".FragmentMyPage">
+
+    <!-- no login ver -->
+    <include
+        android:id="@+id/layoutNoLogin"
+        layout="@layout/fragment_my_page_no_login"
+        android:visibility="gone"/>
+
+    <!-- login ver -->
+    <LinearLayout
+        android:id="@+id/layoutLogin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_pattern_dot"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/fragment_my_page_user_padding_bottom"
+                    android:paddingTop="@dimen/fragment_my_page_user_padding_top">
+
+                    <ImageView
+                        android:id="@+id/imageViewUser"
+                        android:layout_width="@dimen/fragment_my_page_img_user_size"
+                        android:layout_height="@dimen/fragment_my_page_img_user_size"
+                        android:scaleType="centerCrop"
+                        android:background="@android:color/darker_gray" />
+
+                    <TextView
+                        android:id="@+id/textViewUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="name"
+                        android:textSize="@dimen/font_size_normal"
+                        android:textColor="@android:color/black" />
+
+                    <TextView
+                        android:id="@+id/textViewUserDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="detail"
+                        android:textColor="@android:color/black"
+                        android:textSize="@dimen/font_size_normal" />
+
+                </LinearLayout>
+
+                <!-- 数字 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/fragment_my_page_number_height"
+                    android:background="@android:color/black"
+                    android:orientation="horizontal">
+                    <!-- 称号 -->
+                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberBadge"/>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/fragment_my_page_number_separator_height"
+                        android:layout_gravity="center"
+                        android:background="@android:color/white"/>
+
+                    <!-- チェックイン -->
+                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberCheckin"/>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="@dimen/fragment_my_page_number_separator_height"
+                        android:layout_gravity="center"
+                        android:background="@android:color/white"/>
+
+                    <!-- クチコミ -->
+                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberReview"/>
+                </LinearLayout>
+
+                <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+                    android:id="@+id/listViewItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:divider="@color/colorListDivider"
+                    android:dividerHeight="@dimen/list_divider_height"/>
+
+                <include layout="@layout/view_line_gray"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/normal_footer_margin" />
+            </LinearLayout>
+
+        </ScrollView>
+
+        <!-- 広告 -->
+        <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+            android:id="@+id/viewAdvtFooter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/advt_height"
+            android:layout_gravity="bottom"/>
+        <!--
+        <net.tochinavi.www.tochinaviapp.views.ViewAdvtFooter
+            android:id="@+id/viewAdvtFooter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/advt_height"
+            android:layout_gravity="bottom"/>
+            -->
+
+    </LinearLayout>
+
+</FrameLayout>

@@ -21,15 +21,75 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    // coilのため
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.core:core-ktx:1.1.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    // TabLayout(※アップデートするとレイアウト崩れるからそのままで)
+    implementation 'com.google.android.material:material:1.0.0'
+    // volley
+    implementation 'com.android.volley:volley:1.1.1'
+    // Network
+    implementation 'com.github.kittinunf.fuel:fuel:1.15.1' //for JVM
+    implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1' //for Android
+    implementation 'com.github.kittinunf.fuel:fuel-livedata:1.15.1' //for LiveData support
+    implementation 'com.github.kittinunf.fuel:fuel-rxjava:1.15.1' //for RxJava support
+    implementation 'com.github.kittinunf.fuel:fuel-coroutines:1.15.1'
+    //for Kotlin Coroutines support
+    implementation 'com.github.kittinunf.fuel:fuel-gson:1.15.1' //for Gson support
+    implementation 'com.github.kittinunf.fuel:fuel-jackson:1.15.1' //for Jackson support
+    implementation 'com.github.kittinunf.fuel:fuel-moshi:1.15.1' //for Moshi support
+    implementation 'com.github.kittinunf.fuel:fuel-forge:1.15.1' //for Forge support
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
+    // image
+    implementation 'io.coil-kt:coil:0.8.0'
 }
+
+
+/*  TochinaviApp
+    api fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    // 追加compile
+    // ※メモ※
+    // gms追加後[compile 'com.android.support:appcompat-v7:25.2.0']でエラーが起きるためその対応
+    // 64Kを超えたとき対応：https://developer.android.com/studio/build/multidex.html?hl=ja
+    // compile 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
+    implementation('org.apache.httpcomponents:httpmime:4.3') {
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    // compile 'com.google.android.gms:play-services-analytics:9.2.0'
+    implementation 'org.apache.httpcomponents:httpclient-android:4.3.5'
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:mediarouter-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support:support-v4:28.0.0'
+    implementation 'com.android.volley:volley:1.+'
+    implementation 'com.google.android.gms:play-services-location:10.0.1'
+    // implementation 'com.android.support.constraint:constraint-layout:1.0.0-beta5'
+    implementation 'com.google.android.gms:play-services:10.0.1'
+    implementation 'com.google.android.gms:play-services-maps:10.0.1'
+    implementation 'com.android.support:multidex:1.0.1'
+    implementation 'com.google.firebase:firebase-core:10.0.1'
+    implementation 'com.github.andremion:louvre:1.2.3'
+
+    // update-191224
+    implementation 'com.android.support.constraint:constraint-layout:2.0.0-beta4'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.10.0'
+    implementation group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.10.0'
+
+    testImplementation 'junit:junit:4.12'
+ */

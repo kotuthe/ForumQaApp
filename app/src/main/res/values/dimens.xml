@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Normal -->
+    <!--== 共通項目 ==-->
+    <!-- margin -->
+    <dimen name="normal_margin">8dp</dimen>
+    <dimen name="normal_safe_area_margin">16dp</dimen>
+    <dimen name="normal_header_margin">20dp</dimen>
+    <dimen name="normal_footer_margin">30dp</dimen>
+
+    <!-- font size -->
+    <dimen name="font_size_normal">14sp</dimen>
+    <dimen name="font_size_small">12sp</dimen>
+    <dimen name="font_size_row_title">14sp</dimen>
+    <dimen name="font_size_row_sub">12sp</dimen>
+    <dimen name="font_size_caption">13sp</dimen>
+    <dimen name="font_size_fragment_ranking_btn">15sp</dimen>
+
+    <dimen name="font_line_spacing_normal">3dp</dimen>
+    <dimen name="font_line_spacing_review_detail">3dp</dimen>
+
+    <!-- ListView Row -->
+    <!-- セルの高さ 1行文字の時 -->
+    <dimen name="row_normal_height">46dp</dimen>
+    <!-- セルのアンカーサイズ -->
+    <dimen name="row_anchor_size">16dp</dimen>
+    <dimen name="row_left_anchor_height">12dp</dimen>
+    <!-- セルのanchorの横幅 row_anchor_size + (12 * 2)-->
+    <dimen name="row_anchor_width">40dp</dimen>
+    <!-- セルの短いanchorの横幅 row_anchor_size + 12-->
+    <dimen name="row_short_anchor_width">28dp</dimen>
+    <!-- listViewの区切り線の高さ -->
+    <dimen name="list_divider_height">0.5px</dimen>
+
+
+    <!-- 広告の高さ -->
+    <dimen name="advt_height">50dp</dimen>
+
+    <!-- 各レイアウト事 -->
+    <!-- cmn layout -->
+    <dimen name="cmn_btn_ok_cancel_height">50dp</dimen>
+
+    <!-- row layout -->
+    <dimen name="row_spot_image_size">80dp</dimen>
+    <dimen name="row_short_spot_height">110dp</dimen>
+
+    <dimen name="row_search_category_item_height">65dp</dimen>
+    <dimen name="row_search_category_item_image_size">48dp</dimen>
+
+    <dimen name="row_ranking_image_size">35dp</dimen>
+
+    <dimen name="row_my_page_item_height">70dp</dimen>
+    <dimen name="row_my_page_item_image_size">30dp</dimen>
+
+    <dimen name="row_spot_info_margin">12dp</dimen>
+    <dimen name="row_spot_info_review_height">148dp</dimen>
+    <dimen name="row_spot_info_review_user_image_size">24dp</dimen>
+    <dimen name="row_spot_info_review_image_height">100dp</dimen>
+    <dimen name="row_spot_info_basic_icon_size">16dp</dimen>
+
+    <dimen name="row_my_review_type_width">60dp</dimen>
+    <dimen name="row_my_review_height">152dp</dimen>
+
+    <!-- fragment layout -->
+    <dimen name="fragment_ranking_btn_height">50dp</dimen>
+    <dimen name="fragment_ranking_btn_padding">25dp</dimen>
+
+    <dimen name="fragment_my_page_img_user_size">100dp</dimen>
+    <dimen name="fragment_my_page_user_padding_top">20dp</dimen>
+    <dimen name="fragment_my_page_user_padding_bottom">10dp</dimen>
+    <dimen name="fragment_my_page_number_height">60dp</dimen>
+    <dimen name="fragment_my_page_number_separator_height">30dp</dimen>
+
+    <!-- activity layout -->
+    <dimen name="activity_splash_logo_width">180dp</dimen>
+    <dimen name="activity_splash_logo_height">120dp</dimen>
+    <dimen name="activity_splash_map_width">150dp</dimen>
+    <dimen name="activity_splash_map_height">160dp</dimen>
+    <dimen name="activity_splash_company_width">230dp</dimen>
+    <dimen name="activity_splash_company_height">23dp</dimen>
+
+    <dimen name="activity_app_data_update_logo_width">195dp</dimen>
+    <dimen name="activity_app_data_update_logo_height">130dp</dimen>
+
+    <dimen name="activity_spot_info_top_btn_height">60dp</dimen>
+    <dimen name="activity_spot_info_top_category_image_size">24dp</dimen>
+    <dimen name="activity_spot_info_top_image_height">240dp</dimen>
+    <dimen name="activity_spot_info_top_image_more_size">36dp</dimen>
+    <dimen name="activity_spot_info_map_height">120dp</dimen>
+    <dimen name="activity_spot_info_share_height">100dp</dimen>
+    <dimen name="activity_spot_info_share_btn_height">50dp</dimen>
+    <dimen name="activity_spot_review_detail_image_height">200dp</dimen>
+
+    <dimen name="activity_input_review_btn_cancel_width">70dp</dimen>
+    <dimen name="activity_input_review_btn_cancel_height">26dp</dimen>
+    <dimen name="activity_input_review_btn_cancel_radius">12dp</dimen>
+    <dimen name="activity_input_review_btn_image_padding">26dp</dimen>
+
+    <dimen name="activity_my_badge_detail_image_margin">80dp</dimen>
+    <dimen name="activity_my_badge_detail_text_margin">60dp</dimen>
+
+    <!-- other layout  -->
+    <dimen name="list_view_result_header_height">32dp</dimen>
+    <dimen name="list_view_empty_image_size">100dp</dimen>
+    <dimen name="view_no_login_image_size">100dp</dimen>
+
+
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

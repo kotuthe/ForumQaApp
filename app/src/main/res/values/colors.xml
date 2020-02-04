@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#FCF770</color>
+    <color name="colorPrimaryDark">#ECE340</color>
     <color name="colorAccent">#D81B60</color>
+
+    <!-- フッタータブ -->
+    <color name="colorTabBg">#4f5051</color>
+    <color name="colorTabIconActive">#FCF770</color>
+    <color name="colorTabIcon">#787878</color>
+
+    <!-- ListView divider色 -->
+    <color name="colorListDivider">@android:color/darker_gray</color>
+
+    <!-- iOS色（グレー） -->
+    <color name="colorGroupTableViewBackground">#F2F2F7</color>
+
+    <!-- モーダルの背景色（ローディングなど） -->
+    <color name="colorModalBg">#3C3C4350</color>
+
+    <!-- Topのステータスバー -->
+    <color name="colorTopStatus">#DADADA</color>
+
+    <!-- リンクテキスト -->
+    <color name="colorLinkBlue">#7a8bd0</color>
+
 </resources>
