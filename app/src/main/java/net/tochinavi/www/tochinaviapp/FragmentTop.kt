@@ -2,6 +2,7 @@ package net.tochinavi.www.tochinaviapp
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,15 +13,18 @@ import android.widget.TextView
 import coil.api.load
 import coil.decode.DataSource
 import coil.request.Request
+import kotlinx.android.synthetic.main.alert_normal.*
 import kotlinx.android.synthetic.main.fragment_top.*
 import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.convertString
+import net.tochinavi.www.tochinaviapp.view.AlertActionSheet
+import net.tochinavi.www.tochinaviapp.view.AlertNormal
 
 /**
  * A simple [Fragment] subclass.
  */
-class FragmentTop : Fragment() {
+class FragmentTop : Fragment(), AlertNormal.OnSimpleDialogClickListener, AlertActionSheet.OnSimpleDialogClickListener {
 
     companion object {
         val TAG = "FragmentTop"
@@ -81,8 +85,63 @@ class FragmentTop : Fragment() {
         }
     }
 
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        Log.i(">> Result", "$requestCode, $resultCode, $data")
+    }
+
+    override fun onSimpleDialogNegativeClick(requestCode: Int) {
+        Log.i(">> alert", "Negative: " + requestCode)
+    }
+
+    override fun onSimpleDialogPositiveClick(requestCode: Int) {
+        Log.i(">> alert", "Positive: " + requestCode)
+    }
+
+    override fun onSimpleDialogActionClick(requestCode: Int, index: Int) {
+        Log.i(">> alert", "Action: " + requestCode + ", index: " + index)
+    }
+
+
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        buttonTest.setOnClickListener {
+
+
+            if (fragmentManager != null) {
+                 val alert = AlertNormal.newInstance(
+                     requestCode = 100,
+                     title = "お気に入りに登録しますか？",
+                     msg = "ネットワークが切断されました",
+                     positiveLabel = "登録する",
+                     negativeLabel = "キャンセル"
+                )
+                alert.setFragment(this)
+                // alert.setTargetFragment(this, 100)
+                alert.show(fragmentManager!!, AlertNormal.TAG)
+
+            }
+        }
+
+        buttonTest02.setOnClickListener {
+
+
+            if (fragmentManager != null) {
+                val alert = AlertActionSheet.newInstance(
+                    requestCode = 200,
+                    title = null,
+                    msg = "ログアウトしますか",
+                    actionLabels = arrayOf("ログアウト1", "ログアウト2", "ログアウト3", "ログアウト4", "ログアウト5"),
+                    negativeLabel = "キャンセル"
+                )
+                alert.setFragment(this)
+                alert.setActionDestructive(0)
+                alert.show(fragmentManager!!, AlertActionSheet.TAG)
+            }
+        }
 
         /*
         imageViewTest.load("https://www.olympus-imaging.jp/product/dslr/e30/sample/images/index_image_07_l.jpg") {

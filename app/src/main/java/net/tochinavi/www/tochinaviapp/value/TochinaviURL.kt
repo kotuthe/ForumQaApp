@@ -1,5 +1,9 @@
 package net.tochinavi.www.tochinaviapp.value
 
+
+/*
+これは使わないようにする
+ */
 class TochinaviURL {
     private val DOMAIN_PUBLIC = "https://www.tochinavi.net"
     private val DOMAIN_TEST = "http://test.tochinavi.net"
@@ -10,6 +14,7 @@ class TochinaviURL {
      */
     private val isTest: Boolean = false
 
+    /*
     // 栃ナビ用のURL
     fun returnURL(path: String, basic: Boolean?): String {
         // 本環境
@@ -70,6 +75,5 @@ class TochinaviURL {
     fun my_http_url_spot_info(): String {
         return returnURL("/spot/home/?id=", true)
     }
-
-
+    */
 }

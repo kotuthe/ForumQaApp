@@ -55,6 +55,8 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     // image
     implementation 'io.coil-kt:coil:0.8.0'
+    // Blur
+    implementation 'jp.wasabeef:blurry:3.+'
 }
 
 

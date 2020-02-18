@@ -25,7 +25,7 @@
             android:textStyle="bold"/>
     </RelativeLayout>
 
-    <include layout="@layout/view_line_gray"/>
+    <include layout="@layout/merge_line_gray"/>
 
     <LinearLayout
         android:layout_width="match_parent"

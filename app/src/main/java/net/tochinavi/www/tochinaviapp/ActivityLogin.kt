@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_login.*
 import net.tochinavi.www.tochinaviapp.entities.DataUsers
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
+import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
 import org.json.JSONObject
@@ -30,11 +31,12 @@ import java.net.URL
 class ActivityLogin : AppCompatActivity() {
 
     companion object {
-        val TAG = "FragmentMyPage"
+        val TAG = "ActivityLogin"
     }
 
     // 変数 //
     private var mContext: Context? = null
+    private var mySP: MySharedPreferences? = null
     private var fromTag: String = ""
     private var data_users: DataUsers? = null
 
@@ -43,6 +45,7 @@ class ActivityLogin : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         mContext = applicationContext
+        mySP = MySharedPreferences(mContext!!)
 
         val intent = intent
         ifNotNull(intent.getStringExtra("tag"), {
@@ -210,6 +213,8 @@ class ActivityLogin : AppCompatActivity() {
             } finally {
                 db.cleanup()
                 Handler().postDelayed(Runnable {
+                    // ログイン成功
+                    mySP!!.set_status_login(true)
                     /*
                     when(fromTag) {
                         FragmentMyPage.TAG -> {

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/background"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="SpUsage">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="24dp"
+        android:layout_gravity="bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layoutDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/alert_normal_bg"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="20dp">
+
+                <TextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="4dp"
+                    android:textColor="@android:color/black"
+                    android:textSize="16dp"
+                    android:textStyle="bold"
+                    tools:text="Title" />
+
+                <TextView
+                    android:id="@+id/textViewMsg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorTextGray"
+                    android:textSize="13dp"
+                    android:textStyle="normal"
+                    tools:text="message\nmessage" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.3dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <!-- required -->
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonAction01"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_as_button_height"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorIosBlue"
+                    android:text="Action 1"/>
+
+                <View
+                    android:id="@+id/viewSeparator02"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="@android:color/darker_gray"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonAction02"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_as_button_height"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorIosBlue"
+                    android:text="Action 2"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <View
+                    android:id="@+id/viewSeparator03"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="@android:color/darker_gray"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonAction03"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_as_button_height"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorIosBlue"
+                    android:text="Action 3"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <View
+                    android:id="@+id/viewSeparator04"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="@android:color/darker_gray"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonAction04"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_as_button_height"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorIosBlue"
+                    android:text="Action 4"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <View
+                    android:id="@+id/viewSeparator05"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.3dp"
+                    android:background="@android:color/darker_gray"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonAction05"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/alert_as_button_height"
+                    android:gravity="center"
+                    android:textStyle="normal"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorIosBlue"
+                    android:text="Action 5"
+                    android:visibility="gone"
+                    tools:visibility="visible"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layoutCancelDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/alert_normal_bg"
+            android:orientation="vertical">
+
+            <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                android:id="@+id/buttonNegative"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/alert_as_button_height"
+                android:gravity="center"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:textColor="@color/colorIosBlue"
+                android:text="Cancel"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</FrameLayout>

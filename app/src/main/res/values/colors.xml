@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#FCF770</color>
-    <color name="colorPrimaryDark">#ECE340</color>
+    <color name="colorPrimaryDark">#E5DE59</color>
     <color name="colorAccent">#D81B60</color>
 
     <!-- フッタータブ -->
@@ -9,10 +9,15 @@
     <color name="colorTabIconActive">#FCF770</color>
     <color name="colorTabIcon">#787878</color>
 
+    <!-- テキスト Gray -->
+    <color name="colorTextGray">#787878</color>
+
     <!-- ListView divider色 -->
     <color name="colorListDivider">@android:color/darker_gray</color>
 
     <!-- iOS色（グレー） -->
+    <color name="colorIosBlue">#007AFF</color>
+    <color name="colorIosPink">#FF375F</color>
     <color name="colorGroupTableViewBackground">#F2F2F7</color>
 
     <!-- モーダルの背景色（ローディングなど） -->

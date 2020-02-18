@@ -36,6 +36,10 @@
     <!-- 広告の高さ -->
     <dimen name="advt_height">50dp</dimen>
 
+    <!-- アラートのボタンの高さ -->
+    <dimen name="alert_button_height">44dp</dimen>
+    <dimen name="alert_as_button_height">48dp</dimen>
+
     <!-- 各レイアウト事 -->
     <!-- cmn layout -->
     <dimen name="cmn_btn_ok_cancel_height">50dp</dimen>

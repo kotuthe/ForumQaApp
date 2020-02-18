@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/row_my_page_item_height"
+        android:orientation="horizontal"
+        android:gravity="center"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/imageViewIcon"
+            android:scaleType = "centerCrop"
+            android:layout_width="@dimen/row_my_page_item_image_size"
+            android:layout_height="@dimen/row_my_page_item_image_size"
+            android:layout_marginLeft="@dimen/normal_safe_area_margin"
+            android:layout_gravity="center"/>
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:textSize="@dimen/font_size_row_title"
+            android:textStyle="bold"
+            android:textColor="@color/colorLinkBlue"
+            android:text="title"/>
+
+        <ImageView
+            android:layout_width="@dimen/row_anchor_size"
+            android:layout_height="@dimen/row_left_anchor_height"
+            android:layout_marginRight="@dimen/normal_safe_area_margin"
+            android:src="@drawable/ic_left_arrow_gray"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

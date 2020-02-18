@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">栃ナビ！</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- app -->
+    <string name="app_copyright">© Yamazen Communications Co.,Ltd. All Rights Reserved.</string>
+    <string name="title_activity_init_description">ActivityInitDescription</string>
+
+    <!-- activity_init_description -->
+    <string name="init_description_title">初めての方</string>
+    <string name="init_description_button_close">開始する</string>
+    <string name="title_activity_app_data_update">ActivityAppDataUpdate</string>
+
+    <!-- activity_app_data_update -->
+    <string name="app_data_update_titile">データの更新中</string>
+    <string name="app_data_update_loading_msg">読み込み中...</string>
+    <string name="app_data_update_button_retry">再度、更新する</string>
+    <string name="app_data_update_button_close">閉じる</string>
+
+    <!-- activity_login -->
+    <string name="login_title">ログイン</string>
+    <string name="login_loading_msg">ログインしています...</string>
+    <string name="login_email_hint">栃ナビ！ID（メールアドレス）</string>
+    <string name="login_password_hint">パスワード</string>
+    <string name="login_password_ime">認証</string>
+    <string name="login_button_login">ログイン</string>
+    <string name="login_forget_link">ID、パスワードを忘れてしまった方はこちら ></string>
+    <string name="login_new_member_msg">栃ナビ！の新規会員登録はPCまたは\nスマートフォンWEBから行えます</string>
+
+    <!-- fragment_spot_search -->
+    <string name="spot_search_sv_hint">検索ワードを入力</string>
+    <string name="spot_search_sv_cancel">キャンセル</string>
+
+    <!-- fragment_mypage -->
+    <string name="mypage_no_login_msg">ご利用するにはログインが必要です</string>
+    <string name="mypage_button_login">ログイン</string>
+
+    <!-- activity_my_page_setting -->
+    <string name="my_page_setting_title">設定</string>
+    <string name="my_page_setting_notice_caption">近くにお気に入りスポットがあると通知</string>
+    <string name="my_page_setting_notice_title">通知を許可</string>
+    <string name="my_page_setting_login_title">ログイン</string>
+
+    <!-- menu -->
+    <string name="menu_setting">設定</string>
+
+
+</resources>

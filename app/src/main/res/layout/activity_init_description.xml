@@ -29,7 +29,7 @@
                 android:textStyle="bold"/>
         </RelativeLayout>
 
-        <include layout="@layout/view_line_gray"/>
+        <include layout="@layout/merge_line_gray"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

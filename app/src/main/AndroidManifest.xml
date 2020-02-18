@@ -47,18 +47,42 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityLogin"></activity>
+
+        <!-- Splash Screen -->
+        <activity
+            android:name=".ActivitySplash"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait"/>
+        <!--
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        -->
+
+        <activity android:name=".ActivityMyPageSetting"></activity>
+        <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityAppDataUpdate"
-            android:label="@string/title_activity_app_data_update"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityInitDescription"
-            android:label="@string/title_activity_init_description"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- Android9でのHttp通信対策 -->
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- Android9でのHttp通信対策 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" /> <!-- Google Map利用の為のAPIキー -->
+            android:required="false" />
+        <!-- Google Map利用の為のAPIキー -->
         <!--
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -76,23 +100,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
         -->
-        <!-- Splash Screen -->
-        <activity
-            android:name=".ActivitySplash"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
     </application>
 
 </manifest>

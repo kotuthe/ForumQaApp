@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGroupTableViewBackground"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants">
+
+            <!-- 各Webリンク -->
+            <include layout="@layout/merge_line_gray"/>
+            <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:background="@android:color/white"
+                android:divider="@color/colorListDivider"
+                android:dividerHeight="@dimen/list_divider_height"/>
+            <include layout="@layout/merge_line_gray"/>
+
+            <!-- 通知 -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/colorTextGray"
+                android:layout_marginLeft="@dimen/normal_safe_area_margin"
+                android:layout_marginRight="@dimen/normal_safe_area_margin"
+                android:text="@string/my_page_setting_notice_caption"/>
+            <include layout="@layout/merge_line_gray"/>
+            <LinearLayout
+                android:id="@+id/layoutNotice"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_normal_height"
+                android:background="@android:color/white"
+                android:paddingLeft="@dimen/normal_safe_area_margin"
+                android:paddingRight="@dimen/normal_safe_area_margin"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginRight="8dp"
+                    android:textSize="@dimen/font_size_row_title"
+                    android:textColor="@color/colorLinkBlue"
+                    android:text="@string/my_page_setting_notice_title"/>
+
+                <TextView
+                    android:id="@+id/textViewStatusNotice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/normal_safe_area_margin"
+                    android:layout_marginRight="8dp"
+                    android:textSize="@dimen/font_size_row_title"
+                    android:textColor="@android:color/darker_gray"
+                    android:text="value"/>
+
+                <ImageView
+                    android:layout_width="@dimen/row_anchor_size"
+                    android:layout_height="@dimen/row_left_anchor_height"
+                    android:src="@drawable/ic_left_arrow_gray"
+                    android:scaleType="fitCenter"/>
+
+            </LinearLayout>
+            <include layout="@layout/merge_line_gray"/>
+
+            <!-- ログイン -->
+            <include layout="@layout/merge_line_gray"/>
+            <LinearLayout
+                android:id="@+id/layoutLogin"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/row_normal_height"
+                android:layout_marginTop="@dimen/row_normal_height"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <TextView
+                    android:id="@+id/textViewStatusLogin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:textSize="@dimen/font_size_row_title"
+                    android:textColor="@color/colorLinkBlue"
+                    android:text="@string/my_page_setting_login_title"/>
+
+            </LinearLayout>
+            <include layout="@layout/merge_line_gray"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
