@@ -7,6 +7,9 @@ import androidx.fragment.app.FragmentPagerAdapter
 import net.tochinavi.www.tochinaviapp.*
 import net.tochinavi.www.tochinaviapp.value.Constants
 
+/**
+ * BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT：Fragmentがオンスクリーンになった時、onResumeを呼ぶ
+ */
 class TabMainAdapter(fm: FragmentManager, private val context: Context): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     private val TAB_NUM = 5

@@ -152,7 +152,7 @@ class DBTableArea2(context: Context) {
 
         try {
             val sql = StringBuffer()
-            sql.append("select * from $tableName where id = $parent_id")
+            sql.append("select * from $tableName where parent_id = $parent_id")
             c = dBHelper.db!!.rawQuery(sql.toString(), null)
 
             var isResult = c!!.moveToFirst()

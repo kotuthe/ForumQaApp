@@ -315,6 +315,12 @@ class ActivityAppDataUpdate : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
+            // Topへ
+            FragmentTop.TAG -> {
+                val intent = Intent()
+                setResult(RESULT_OK, intent);
+                finish()
+            }
             else -> {
                 finish()
             }

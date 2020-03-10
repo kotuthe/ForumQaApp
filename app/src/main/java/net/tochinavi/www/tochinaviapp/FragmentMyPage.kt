@@ -31,7 +31,7 @@ import org.json.JSONObject
 class FragmentMyPage : Fragment() {
 
     companion object {
-        val TAG = "FragmentMyPage"
+        val TAG = "MyPage"
     }
 
     // リクエスト
@@ -116,6 +116,16 @@ class FragmentMyPage : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i(">> $TAG", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(">> $TAG", "onPause")
     }
 
     /** メニュー **/

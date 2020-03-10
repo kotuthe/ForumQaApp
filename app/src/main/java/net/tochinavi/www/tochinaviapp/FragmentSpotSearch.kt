@@ -23,7 +23,7 @@ import net.tochinavi.www.tochinaviapp.view.ListSearchAdapter
 class FragmentSpotSearch : Fragment() {
 
     companion object {
-        val TAG = "FragmentSpotSearch"
+        val TAG = "SpotSearch"
     }
 
     private var dataCategory: ArrayList<DataCategory1> = ArrayList()
@@ -69,6 +69,16 @@ class FragmentSpotSearch : Fragment() {
             }
         }
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.i(">> $TAG", "onResume")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.i(">> $TAG", "onPause")
     }
 
     /** 検索フォームの設定 **/

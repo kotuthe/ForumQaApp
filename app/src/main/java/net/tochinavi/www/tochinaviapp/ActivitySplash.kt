@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
+import java.util.*
 
 class ActivitySplash : Activity() {
     private val TAG: String = "ActivitySplash"
@@ -24,7 +25,11 @@ class ActivitySplash : Activity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
+        // データの初期設定
         mySP = MySharedPreferences(this)
+        mySP!!.put(MySharedPreferences.Keys.app_data_update_time, 0)
+        mySP!!.put(MySharedPreferences.Keys.top_location_first_alert, false)
+        mySP!!.put(MySharedPreferences.Keys.spot_neighbor_location_first_alert, false)
 
         // ステータスバーの色
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -48,6 +53,7 @@ class ActivitySplash : Activity() {
             // Topへ遷移
             mHandler.postDelayed(mRunnable, 800)
         }
+
     }
 
     override fun onStop() {

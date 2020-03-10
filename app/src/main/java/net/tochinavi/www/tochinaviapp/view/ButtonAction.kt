@@ -10,7 +10,7 @@ import android.widget.Button
 import net.tochinavi.www.tochinaviapp.R
 
 
-class ButtonAction(context: Context, attr: AttributeSet) : Button(context, attr, R.attr.borderlessButtonStyle) {
+class ButtonAction(context: Context, attr: AttributeSet) : androidx.appcompat.widget.AppCompatButton(context, attr, R.attr.borderlessButtonStyle) {
 
     init {
         this.setBackgroundResource(R.drawable.btn_action)

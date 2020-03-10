@@ -44,4 +44,12 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <!-- CheckBox -->
+    <style name="MyCheckBox" parent="Theme.AppCompat.Light">
+        <!-- 枠線 -->
+        <item name="colorControlNormal">@android:color/darker_gray</item>
+        <!-- チェック時の色 -->
+        <item name="colorControlActivated">@color/colorLinkBlue</item>
+    </style>
+
 </resources>

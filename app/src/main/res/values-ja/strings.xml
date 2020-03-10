@@ -43,8 +43,17 @@
     <string name="my_page_setting_notice_title">通知を許可</string>
     <string name="my_page_setting_login_title">ログイン</string>
 
+    <!-- activity_spot_neighbor_narrow -->
+    <string name="spot_neighbor_narrow_category_caption">カテゴリー</string>
+    <string name="spot_neighbor_narrow_distance_caption">表示範囲</string>
+    <string name="spot_neighbor_narrow_other_caption">その他</string>
+    <string name="spot_neighbor_narrow_coupon_title">クーポンあり</string>
+    <string name="spot_neighbor_narrow_select">選択してください</string>
+    <string name="spot_neighbor_narrow_no_select">指定なし</string>
+
     <!-- menu -->
     <string name="menu_setting">設定</string>
+    <string name="menu_search_narrow">絞込み</string>
 
 
 </resources>

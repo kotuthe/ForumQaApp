@@ -21,6 +21,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    // Keep the following configuration in order to target Java 8.
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     // coilのため
     kotlinOptions {
         jvmTarget = '1.8'
@@ -37,10 +42,14 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.2'
     // TabLayout(※アップデートするとレイアウト崩れるからそのままで)
     implementation 'com.google.android.material:material:1.0.0'
     // volley
     implementation 'com.android.volley:volley:1.1.1'
+    // Google Play Service
+    implementation 'com.google.android.gms:play-services-location:17.0.0'
     // Network
     implementation 'com.github.kittinunf.fuel:fuel:1.15.1' //for JVM
     implementation 'com.github.kittinunf.fuel:fuel-android:1.15.1' //for Android

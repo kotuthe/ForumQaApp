@@ -47,8 +47,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <!-- Splash Screen -->
+        <activity android:name=".ActivitySpotNeighborNarrowCategorySecond"></activity>
+        <activity android:name=".ActivitySpotNeighborNarrowCategoryThird"></activity>
+        <activity android:name=".ActivitySpotNeighborNarrow" /> <!-- Splash Screen -->
         <activity
             android:name=".ActivitySplash"
             android:screenOrientation="portrait">
@@ -58,8 +59,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
         <!--
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -69,37 +71,20 @@
             </intent-filter>
         </activity>
         -->
-
-        <activity android:name=".ActivityMyPageSetting"></activity>
+        <activity android:name=".ActivityMyPageSetting" />
         <activity android:name=".ActivityLogin" />
         <activity
             android:name=".ActivityAppDataUpdate"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityInitDescription"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <!-- Android9でのHttp通信対策 -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- Android9でのHttp通信対策 -->
         <uses-library
             android:name="org.apache.http.legacy"
-            android:required="false" />
-        <!-- Google Map利用の為のAPIキー -->
-        <!--
+            android:required="false" /> <!-- Google Map利用の為のAPIキー -->
         <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-        -->
-        <!--
- ※アプリ間のファイル共有：多分使わないかも（なんで使用しているか調査の必要あり）
-        <provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.provider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
-        </provider>
-        -->
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
     </application>
 
 </manifest>
