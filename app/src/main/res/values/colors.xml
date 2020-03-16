@@ -9,27 +9,32 @@
     <color name="colorTabIconActive">#FCF770</color>
     <color name="colorTabIcon">#787878</color>
 
-    <!-- テキスト Gray -->
-    <color name="colorTextGray">#787878</color>
-
-    <!-- ListView divider色 -->
-    <color name="colorListDivider">@android:color/darker_gray</color>
-
     <!-- iOS色（グレー） -->
     <color name="colorIosBlue">#007AFF</color>
     <color name="colorIosPink">#FF375F</color>
     <color name="colorGroupTableViewBackground">#F2F2F7</color>
 
-    <!-- モーダルの背景色（ローディングなど） -->
-    <color name="colorModalBg">#3C3C4350</color>
-
     <!-- Topのステータスバー -->
     <color name="colorTopStatus">#DADADA</color>
+
+    <!-- ランキング　タブ -->
+    <color name="colorRankingTabDis">#F1F1F1</color>
+
+    <!-- モーダルの背景色（ローディングなど） -->
+    <color name="colorModalBg">#3C3C4350</color>
 
     <!-- リンクテキスト -->
     <color name="colorLinkBlue">#7a8bd0</color>
 
     <!-- 写真のotherカラー -->
     <color name="colorOtherImageNumber">#3C3C4350</color>
+
+    <!-- 共通 View Color -->
+    <!-- テキスト Gray -->
+    <color name="colorTextGray">#787878</color>
+    <!-- ListView divider色 -->
+    <color name="colorListDivider">@android:color/darker_gray</color>
+    <!-- 画像のプレースホルダーカラー -->
+    <color name="colorImageViewBg">#DADADA</color>
 
 </resources>

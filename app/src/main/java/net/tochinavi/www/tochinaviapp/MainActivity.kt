@@ -1,6 +1,7 @@
 package net.tochinavi.www.tochinaviapp
 
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.TypedValue
@@ -9,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.layout_tab_item_main.view.*
+import kotlinx.android.synthetic.main.tab_item_main.view.*
 import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.view.TabMainAdapter
 
@@ -45,6 +46,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * ActionBarのレイアウト
      */
+    @SuppressLint("RestrictedApi")
     private fun setActionBar(position: Int) {
         if (supportActionBar == null) { return }
         supportActionBar!!.setShowHideAnimationEnabled(false)
@@ -105,7 +107,7 @@ class MainActivity : AppCompatActivity() {
      */
     private fun createTabItem(icon: Int, title: String, titleSize: Float = 10f): View {
         val inflater = LayoutInflater.from(this)
-        val itemView: View = inflater.inflate(R.layout.layout_tab_item_main, null)
+        val itemView: View = inflater.inflate(R.layout.tab_item_main, null)
         itemView.tabIcon.setImageDrawable(ContextCompat.getDrawable(this, icon))
         itemView.tabText.setText(title)
         itemView.tabText.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleSize)

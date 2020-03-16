@@ -9,6 +9,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 
@@ -73,16 +74,33 @@ class ListSpotNeighborAdapter(context: Context, datas: ArrayList<DataSpotList>) 
             holder = view!!.tag as ViewHolder
         }
 
-        /*
-        val icon = arrayIcon[position]
-        val title = arrayTitle[position]
-        holder.icon!!.setImageDrawable(ContextCompat.getDrawable(mContext, icon))
-        holder.title!!.text = title
-        */
         val data = arrayData[position]
         holder.name!!.text = data.name
         holder.address!!.text = data.address
-        // holder.category.
+        holder.category!!.text = data.category
+        holder.distance!!.text = data.distance
+
+        // 画像
+        holder.imageSpot!!.tag = data.id // キャッシュ制御の為※これほんとに必要か検討する
+        holder.imageSpot!!.load(data.image_url) {
+            placeholder(R.drawable.ic_image_placeholder)
+        }
+
+        // チェックイン数、クチコミ数
+        if (data.review_num > 0) {
+            holder.layoutReviewNum!!.visibility = View.VISIBLE
+            holder.reviewNum!!.text = "%d件".format(data.review_num)
+        } else {
+            holder.layoutReviewNum!!.visibility = View.INVISIBLE
+        }
+
+        // クーポン
+        holder.layoutCoupon!!.visibility =
+            if (data.coupon_enable) View.VISIBLE else View.INVISIBLE
+
+        // チェックイン可能
+        holder.layoutCheckinEnable!!.visibility =
+            if (data.checkin_enable) View.VISIBLE else View.INVISIBLE
 
         return view!!
     }

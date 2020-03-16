@@ -8,6 +8,9 @@
     <string name="app_copyright">© Yamazen Communications Co.,Ltd. All Rights Reserved.</string>
     <string name="title_activity_init_description">ActivityInitDescription</string>
 
+    <!-- loading -->
+    <string name="loading_normal_message">読み込み中...</string>
+
     <!-- activity_init_description -->
     <string name="init_description_title">初めての方</string>
     <string name="init_description_button_close">開始する</string>

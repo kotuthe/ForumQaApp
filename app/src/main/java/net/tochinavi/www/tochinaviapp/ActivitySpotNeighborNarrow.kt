@@ -54,6 +54,11 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_neighbor_narrow)
 
+        condCategory = intent.getIntExtra("category_id", 0)
+        condCategoryType = intent.getIntExtra("category_type", 0)
+        condDistance = intent.getDoubleExtra("distance", 0.0)
+        condCoupon = intent.getBooleanExtra("coupon", false)
+
         val db = DBHelper(this)
         try {
             dataCategoryArray = DBTableCategory1(this).getAll(db)
@@ -139,6 +144,9 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
             setResult(Activity.RESULT_OK, intent)
             finish()
         }
+
+        // 条件からレイアウトの更新
+        checkboxCoupon.isChecked = condCoupon
     }
 
     /**

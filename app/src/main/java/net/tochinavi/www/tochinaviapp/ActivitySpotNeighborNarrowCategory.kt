@@ -80,8 +80,8 @@ class ActivitySpotNeighborNarrowCategorySecond : AppCompatActivity() {
                     val index = position - 1
                     // Log.i(">> $TAG_SHORT", "category: ${dataArray[index].name}")
                     val intent = Intent(context, ActivitySpotNeighborNarrowCategoryThird::class.java)
-                    intent.putExtra("id", dataArray[position].id)
-                    intent.putExtra("name", dataArray[position].name)
+                    intent.putExtra("id", dataArray[index].id)
+                    intent.putExtra("name", dataArray[index].name)
                     startActivity(intent)
                 }
             }

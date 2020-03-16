@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -22,7 +23,7 @@
             android:layout_width="@dimen/row_spot_image_size"
             android:layout_height="@dimen/row_spot_image_size"
             android:layout_marginRight="@dimen/normal_margin"
-            android:background="#CCCCCC"
+            android:background="@color/colorImageViewBg"
             android:scaleType="centerCrop"/>
 
         <!-- 右側：詳細 -->

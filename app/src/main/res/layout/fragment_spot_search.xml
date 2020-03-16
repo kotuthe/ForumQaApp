@@ -10,86 +10,88 @@
         android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="visible">
+        android:orientation="vertical">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="visible">
 
+            <!-- ワード -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="60dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
-                <!-- ワード -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <FrameLayout
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1">
-
-                        <SearchView
-                            android:id="@+id/searchView"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:background="@drawable/search_normal_bg"
-                            android:queryBackground="@drawable/search_normal_bg"
-                            android:queryHint="@string/spot_search_sv_hint" />
-
-                        <TextView
-                            android:id="@+id/textViewSVHint"
-                            android:layout_width="wrap_content"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="50dp"
-                            android:clickable="false"
-                            android:gravity="center"
-                            android:text="@string/spot_search_sv_hint"
-                            android:textColor="@color/colorTextGray" />
-                    </FrameLayout>
-
-                    <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
-                        android:id="@+id/buttonCancel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:gravity="center"
-                        android:padding="8dp"
-                        android:text="@string/spot_search_sv_cancel"
-                        android:textAlignment="center"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
-
-                <!-- カテゴリー -->
-                <include layout="@layout/merge_line_gray"/>
-                <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
-                    android:id="@+id/listView"
-                    android:layout_width="match_parent"
+                <FrameLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:divider="@color/colorListDivider"
-                    android:dividerHeight="@dimen/list_divider_height" />
-                <include layout="@layout/merge_line_gray"/>
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"/>
+                    android:layout_weight="1">
 
+                    <SearchView
+                        android:id="@+id/searchView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/search_normal_bg"
+                        android:queryBackground="@drawable/search_normal_bg"
+                        android:queryHint="@string/spot_search_sv_hint" />
+
+                    <TextView
+                        android:id="@+id/textViewSVHint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="50dp"
+                        android:clickable="false"
+                        android:gravity="center"
+                        android:text="@string/spot_search_sv_hint"
+                        android:textColor="@color/colorTextGray" />
+                </FrameLayout>
+
+                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                    android:id="@+id/buttonCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:text="@string/spot_search_sv_cancel"
+                    android:textAlignment="center"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
-        </ScrollView>
+            <include layout="@layout/merge_line_gray"/>
+
+            <!-- カテゴリー -->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+                        android:id="@+id/listView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white"
+                        android:divider="@color/colorListDivider"
+                        android:dividerHeight="@dimen/list_divider_height" />
+                    <include layout="@layout/merge_line_gray"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"/>
+
+                </LinearLayout>
+            </ScrollView>
+
+        </LinearLayout>
+
     </LinearLayout>
-
-
 
 </FrameLayout>

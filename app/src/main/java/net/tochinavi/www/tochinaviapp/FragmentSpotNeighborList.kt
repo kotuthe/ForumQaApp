@@ -9,27 +9,31 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
+import android.widget.AbsListView
+import android.widget.AdapterView
+import android.widget.BaseAdapter
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.fragment_top.*
+import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
+import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
+import net.tochinavi.www.tochinaviapp.view.ListSpotNeighborAdapter
 import net.tochinavi.www.tochinaviapp.view.LoadingNormal
+import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
 import org.json.JSONObject
 
-// Topページを見ながら作成
-// 1.絞り込みメニュー
-// 2.検索処理
-// 3.リストアダプター
-// 4.listview
+// 検討すること
+// 周辺検索の地図はいらないのではないか？
 class FragmentSpotNeighborList : Fragment() {
 
     companion object {
@@ -48,6 +52,8 @@ class FragmentSpotNeighborList : Fragment() {
 
     // 変数 //
     private var listData: ArrayList<DataSpotList> = ArrayList()
+    private var mAdapter: BaseAdapter? = null
+    private var isEndScroll: Boolean = false
 
     // 位置情報
     private var mLocationClient: FusedLocationProviderClient? = null
@@ -55,7 +61,7 @@ class FragmentSpotNeighborList : Fragment() {
     private var mLocationCallback: LocationCallback? = null
 
     // 条件
-    private var condPage: Int = 0
+    private var condPage: Int = 1
     private var condCategory: Int = 0
     private var condCategoryType: Int = 1 // 1,2,3
     private var condDistance: Double = ActivitySpotNeighborNarrow.dataDistanceArray[0]
@@ -77,6 +83,73 @@ class FragmentSpotNeighborList : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setHasOptionsMenu(true)
+
+        // データの初期化
+        condPage = 1
+        condCategory = 0
+        condCategoryType = 1
+        condDistance = ActivitySpotNeighborNarrow.dataDistanceArray[0]
+        condCoupon = false
+        isEndScroll = false
+        if (listData.count() > 0) {
+            listData.clear()
+            if (mAdapter != null) mAdapter!!.notifyDataSetChanged()
+        }
+
+        // listViewの初期化
+        mAdapter = ListSpotNeighborAdapter(context!!, listData)
+        listView.apply {
+            adapter = mAdapter
+            onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
+                Log.i(">> $TAG", "position: $pos")
+            }
+
+            // スクロール
+            setOnScrollListener(object : AbsListView.OnScrollListener {
+                override fun onScrollStateChanged(p0: AbsListView?, p1: Int) {
+                    // TODO("Not yet implemented")
+                }
+
+                override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
+                    if (!listData.isEmpty() && !isEndScroll) {
+                        if ((p1 + p2 + 2) >= p3) {
+                            Log.i("$>> TAG", "一番下に行ったよ")
+                            // ※ここで続きを検索させる
+                            isEndScroll = true
+                            onSearch()
+                        }
+                    }
+                }
+            })
+
+            // タッチ速度設定
+            val changer = TouchListenerSetSpeed()
+            setOnTouchListener { view, motionEvent ->
+                changer.setOnTouch(motionEvent)
+                false
+            }
+        }
+
+        // リフレッシュ
+        refreshLayout.apply {
+            setColorSchemeResources(R.color.colorIosBlue)
+
+            setOnRefreshListener {
+                isEndScroll = false
+                condPage = 1
+                mLocation = null
+
+                loading!!.show(fragmentManager!!, LoadingNormal.TAG)
+                loading!!.updateLayout(getString(R.string.loading_normal_message), true)
+
+                // 位置情報を更新してから検索
+                setLocation()
+
+                // 数秒後に消す
+                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+            }
+        }
+
     }
 
     // フラグメント　オンスクリーン
@@ -92,7 +165,7 @@ class FragmentSpotNeighborList : Fragment() {
             if (loading != null && !loading!!.isVisible) { enable = true }
             if (enable) {
                 loading = LoadingNormal.newInstance(
-                    message = "読み込み中...",
+                    message = getString(R.string.loading_normal_message),
                     isProgress = true
                 )
                 loading!!.show(fragmentManager!!, LoadingNormal.TAG)
@@ -125,6 +198,11 @@ class FragmentSpotNeighborList : Fragment() {
             // 絞り込みへ
             Log.i(">> $TAG", "絞り込みへ")
             val intent = Intent(activity, ActivitySpotNeighborNarrow::class.java)
+            intent.putExtra("category_id", condCategory)
+            intent.putExtra("category_type", condCategoryType)
+            intent.putExtra("distance", condDistance)
+            intent.putExtra("coupon", condCoupon)
+
             startActivityForResult(intent, REQUEST_NARROW)
             return true
         }
@@ -134,7 +212,7 @@ class FragmentSpotNeighborList : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        // Log.i(">> $TAG", "onActivityResult: $requestCode, $resultCode, $data")
+        Log.i(">> $TAG", "onActivityResult: $requestCode, $resultCode, $data")
         when(requestCode) {
             REQUEST_NARROW -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
@@ -143,14 +221,31 @@ class FragmentSpotNeighborList : Fragment() {
                     condDistance = data.getDoubleExtra("distance", 0.0)
                     condCoupon = data.getBooleanExtra("coupon", false)
 
-                    // 検索へ
+                    // データの初期化
+                    isEndScroll = false
+                    condPage = 1
+                    mLocation = null
+                    if (listData.size > 0) {
+                        listView.setSelection(0)
+                    }
+                    // 次にonResumeが呼ばれる
                 }
             }
         }
     }
 
+    private fun showListViewEmpty(message: String) {
+        layoutEmpty.visibility = View.VISIBLE
+        layoutEmpty.textViewMsg.text = message
+    }
+
+    private fun hideListViewEmpty() {
+        layoutEmpty.visibility = View.GONE
+    }
+
     /** 位置情報取得 -> 周辺検索への流れ　（周辺検索する場合はこの関数を読めばOK） **/
     private fun setLocation() {
+        hideListViewEmpty()
         // 端末の位置情報サービスをチェック
         val manager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
@@ -242,6 +337,7 @@ class FragmentSpotNeighborList : Fragment() {
                         mLocation = task.result
                         Log.i(">> $TAG", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         // この後周辺検索へ
+                        onSearch()
                     } else {
                         // last location is null
                         Log.i(">> $TAG", "getLatLon: last location is null")
@@ -259,6 +355,10 @@ class FragmentSpotNeighborList : Fragment() {
      * ※位置情報サービスOFF -> ON に変更した時になる
      */
     private fun getLocationHighQuality() {
+        if (loading != null) {
+            // 5秒ほど時間がかかるため
+            loading!!.updateLayout(getString(R.string.loading_normal_message) + "\nしばらくお待ちください...", true)
+        }
         val request = LocationRequest()
         request.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         request.interval = 500
@@ -271,6 +371,7 @@ class FragmentSpotNeighborList : Fragment() {
                 mLocationClient!!.removeLocationUpdates(this)
                 Log.i(">> $TAG", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 // この後周辺検索へ
+                onSearch()
             }
         }
         mLocationClient!!.requestLocationUpdates(request, mLocationCallback, null)
@@ -283,7 +384,7 @@ class FragmentSpotNeighborList : Fragment() {
 
         Log.i(">> $TAG", "errorLocation")
         if (!(mySP!!.get(MySharedPreferences.Keys.spot_neighbor_location_first_alert) as Boolean)) {
-            // アラートを表示
+            // アラート（1回のみ）
             mySP!!.put(MySharedPreferences.Keys.spot_neighbor_location_first_alert, true)
 
             if (fragmentManager != null) {
@@ -297,8 +398,24 @@ class FragmentSpotNeighborList : Fragment() {
                 alert.setFragment(this)
                 alert.show(fragmentManager!!, AlertNormal.TAG)
             }
+
+            if (loading != null) {
+                loading!!.onDismiss()
+            }
+        } else {
+            // ローディング
+            if (loading != null) {
+                loading!!.updateLayout("現在地を取得できませんでした", true)
+                loading!!.onDismiss(1000)
+            }
         }
-        // 位置情報なしの検索へ
+
+        if (listData.size > 0) {
+            listData.clear()
+            mAdapter!!.notifyDataSetChanged()
+            condPage = 1 // 次の検索のため
+        }
+        showListViewEmpty("現在地を取得できませんでした。\n周辺のお店を検索するには位置情報サービスをONにしてください。")
     }
 
     /**
@@ -307,27 +424,13 @@ class FragmentSpotNeighborList : Fragment() {
     private fun onSearch() {
         Log.i(">> ${FragmentTop.TAG}", "onSearch")
         if (mLocation == null) {
-            // 周辺検索はできないよ
-            /*
-            // アラート表示
-            mActivity.runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    new AlertDialog.Builder(getContext())
-                            .setTitle("周辺のお店を検索できません")
-                            .setMessage("周辺のお店を検索するには位置情報の利用を許可してください")
-                            .setPositiveButton("OK", null)
-                            .show();
-                }
-            });
-             */
-            // データがnullですのエラー文を表示（listViewの裏）
+            // 周辺検索はできないよ (多分ここにはこないと思う)
+            errorLocation()
             return
         }
 
         if (loading != null) {
-            Log.i(">> ${FragmentTop.TAG}", "onSearch loading not null")
-            loading!!.updateLayout("データの読み込み中...", true)
+            loading!!.updateLayout(getString(R.string.loading_normal_message), true)
             loading!!.onDismiss(1000)
         }
 
@@ -357,7 +460,7 @@ class FragmentSpotNeighborList : Fragment() {
 
         println(params)
 
-        val url = MyString().my_http_url_app() + "/search_spot/search.php"
+        val url = MyString().my_http_url_app() + "/spot/get_neighbor_list.php"
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->
                 if (loading != null) {
@@ -365,7 +468,7 @@ class FragmentSpotNeighborList : Fragment() {
                 }
 
                 if (condPage == 1 && listData.count() > 0) {
-                    recyclerView.smoothScrollToPosition(0)
+                    listView.setSelection(0)
                     listData.clear()
                     mAdapter!!.notifyDataSetChanged()
                 }
@@ -373,18 +476,9 @@ class FragmentSpotNeighborList : Fragment() {
                 val datas = json.obj().get("datas") as JSONObject
                 val result = datas.get("result") as Boolean
                 if (result) {
-
                     val spot_array = datas.getJSONArray("spot_array")
                     for (i in 0..spot_array.length() - 1) {
                         val obj = spot_array.getJSONObject(i)
-                        val review_image_list = obj.getJSONArray("review_image_list")
-                        var review_image_array: ArrayList<String> = ArrayList()
-                        if (review_image_list.length() > 0) {
-                            for (j in 0..review_image_list.length() - 1) {
-                                review_image_array.add(review_image_list.getString(j))
-                            }
-                        }
-                        val distance: String = if (mLocation != null) obj.getString("distance") else ""
                         listData.add(
                             DataSpotList(
                                 obj.getInt("id"),
@@ -393,21 +487,28 @@ class FragmentSpotNeighborList : Fragment() {
                                 obj.getString("address"),
                                 obj.getInt("parent_category_id"),
                                 obj.getString("category"),
-                                distance,
+                                obj.getString("distance"),
                                 obj.getInt("review_num"),
                                 obj.getString("image"),
                                 obj.getBoolean("checkin_enable"),
                                 obj.getBoolean("coupon_enable"),
-                                obj.getInt("review_image_num"),
-                                obj.getInt("favorite_num"),
-                                review_image_array
+                                0,
+                                0,
+                                arrayListOf()
                             )
                         )
                     }
+
                     mAdapter!!.notifyDataSetChanged()
                     condPage++
+                    isEndScroll = false // 成功以外は更新は止めるためにここだけにfalseを設定する
+                    hideListViewEmpty()
                 } else {
-
+                    // 検索結果なし
+                    // ページ1の時はエラー文の表示する
+                    if (condPage == 1) {
+                        showListViewEmpty("対象のスポットが見つかりませんでした")
+                    }
                 }
             }, failure = { error ->
                 // 通信エラー

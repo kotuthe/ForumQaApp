@@ -2,7 +2,6 @@ package net.tochinavi.www.tochinaviapp
 
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -56,19 +55,21 @@ class FragmentSpotSearch : Fragment() {
 
         // カテゴリーの一覧
         if (dataCategory.size > 0) {
-            val adapter = ListSearchAdapter(context!!, 0)
+            val mAdapter = ListSearchAdapter(context!!, 0)
             for (i in 0..dataCategory.size - 1) {
                 val item = dataCategory.get(i)
-                adapter.add(DataListSearch(MyImage().icon_category(item.id), item.name, item.sub_title))
+                mAdapter.add(DataListSearch(MyImage().icon_category(item.id), item.name, item.sub_title))
             }
-            listView.adapter = adapter
-            listView.setOnItemClickListener { parent, view, position, id ->
-                // カテゴリー検索へ
-                val item = dataCategory.get(position)
-                onSearch(null, item.id)
+
+            listView.apply {
+                adapter = mAdapter
+                setOnItemClickListener { parent, view, position, id ->
+                    // カテゴリー検索へ
+                    val item = dataCategory.get(position)
+                    onSearch(null, item.id)
+                }
             }
         }
-
     }
 
     override fun onResume() {
@@ -79,6 +80,12 @@ class FragmentSpotSearch : Fragment() {
     override fun onPause() {
         super.onPause()
         Log.i(">> $TAG", "onPause")
+
+        // 検索フォームをクリア
+        if (!searchView.isIconified) {
+            searchView.isIconified = true
+            searchView.isIconified = true
+        }
     }
 
     /** 検索フォームの設定 **/
@@ -136,6 +143,7 @@ class FragmentSpotSearch : Fragment() {
 
     /** 検索へ **/
     private fun onSearch(word: String?, category: Int?) {
+        Log.i("$TAG", "w: $word, c: $category")
         /*
         val intent = Intent(activity, ActivitySpotSearch::class.java)
         intent.putExtra("word", word)
