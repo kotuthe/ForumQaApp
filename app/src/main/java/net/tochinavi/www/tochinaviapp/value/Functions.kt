@@ -158,10 +158,10 @@ class Functions(private val context: Context) {
      * @param dp
      * @return float pixel
      */
-    fun convertDp2Px(dp: Float): Float {
+    /*fun convertDp2Px(dp: Float): Float {
         val metrics = context.resources.displayMetrics
         return dp * metrics.density
-    }
+    }*/
 
     /**
      * リサイズするマトリクスを取得

@@ -18,7 +18,7 @@ class RecyclerInfiniteScrollListener(
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
 
-        if (dy > 0) {
+        if (dy > 0 || dx > 0) {
             visibleItemCount = recyclerView.childCount
             totalItemCount = layoutManager.itemCount
 

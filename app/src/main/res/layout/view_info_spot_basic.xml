@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="16dp"
+    android:layout_marginRight="16dp"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <!-- 地図 -->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_spot_info_map_height"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@android:color/white">
+
+        <!-- Google Map表示 -->
+        <!--
+        <fragment
+            android:id="@+id/fragmentMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/list_view_empty" />
+            -->
+        <fragment
+            android:id="@+id/fragmentMap"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- クリックイベント -->
+        <Button
+            android:id="@+id/buttonMap"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent" />
+    </FrameLayout>
+
+    <include layout="@layout/merge_line_gray" />
+
+    <!-- 住所、電話番号など -->
+    <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/colorListDivider"
+        android:dividerHeight="@dimen/list_divider_height" />
+
+    <include layout="@layout/merge_line_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/buttonWebDetail"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/btn_link"
+            android:text="栃ナビ！サイトを見る"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+</LinearLayout>

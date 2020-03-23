@@ -54,9 +54,21 @@
     <string name="spot_neighbor_narrow_select">選択してください</string>
     <string name="spot_neighbor_narrow_no_select">指定なし</string>
 
+    <!-- activity_spot_info_image_search -->
+    <string name="spot_info_actions_review">クチコミ</string>
+    <string name="spot_info_actions_favorite">お気に入り</string>
+    <string name="spot_info_actions_checkin">チェックイン</string>
+    <string name="spot_info_actions_map">地図</string>
+    <string name="spot_info_actions_phone">電話</string>
+
+    <!-- share -->
+    <string name="share_mail">"  メール"</string>
+    <string name="share_line">"  LINE"</string>
+
     <!-- menu -->
     <string name="menu_setting">設定</string>
     <string name="menu_search_narrow">絞込み</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

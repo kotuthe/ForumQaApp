@@ -36,5 +36,7 @@
     <color name="colorListDivider">@android:color/darker_gray</color>
     <!-- 画像のプレースホルダーカラー -->
     <color name="colorImageViewBg">#DADADA</color>
+    <!-- Viewが空の時の背景色 -->
+    <color name="colorViewEmptyBg">#EFEFF4</color>
 
 </resources>

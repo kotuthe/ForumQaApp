@@ -200,11 +200,10 @@ class FragmentTop : Fragment() {
             Log.i(">> $TAG", "spotへ : ${item.name}")
             if (item.type == 1) {
                 // スポット情報へ
-                /*
                 val intent = Intent(activity, ActivitySpotInfo_ImageSearch::class.java)
                 intent.putExtra("id", item.id)
+                intent.putExtra("name", item.name)
                 startActivity(intent)
-                */
             } else {
                 // 病院
             }
@@ -332,7 +331,7 @@ class FragmentTop : Fragment() {
         val viewItem = RelativeLayout(context)
         viewItem.tag = tag
         val rlp = RelativeLayout.LayoutParams(
-            functions!!.convertDp2Px(80f).toInt(),
+            80f.convertDpToPx(context!!).toInt(),
             RelativeLayout.LayoutParams.MATCH_PARENT
         )
         viewItem.layoutParams = rlp
