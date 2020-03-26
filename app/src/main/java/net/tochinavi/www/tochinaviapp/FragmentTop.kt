@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.fragment_top.*
 import kotlinx.android.synthetic.main.view_top_selection.*
 import kotlinx.android.synthetic.main.view_top_selection.view.*
+import net.tochinavi.www.tochinaviapp.entities.DataBadge
 import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.entities.DataTopSelection
@@ -163,7 +164,13 @@ class FragmentTop : Fragment() {
         textViewSort.text = dataSelectionSorts[0].value
 
         // エリアをクリック
-        viewArea.setOnClickListener { showSelection(1) }
+        viewArea.setOnClickListener {
+            // showSelection(1) // 元に戻すこと
+
+            // クチコミテスト
+            val intent = Intent(activity, ActivityInputReview::class.java)
+            startActivity(intent)
+        }
 
         // 並べ替えをクリック
         viewSort.setOnClickListener { showSelection(2) }

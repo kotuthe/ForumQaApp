@@ -3,6 +3,7 @@ package net.tochinavi.www.tochinaviapp.view
 import android.content.Context
 import android.graphics.Point
 import android.graphics.Rect
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,11 +59,30 @@ class RecyclerISReviewImagesAdapter(private val context: Context, val items: Arr
             state: RecyclerView.State
         ) {
 
-            // ※最終アイテムがぴったりになってしますのどうにかしたい
             outRect.top = space / 2
-            outRect.left = space
-            outRect.right = 0
             outRect.bottom = space / 2
+
+            // ※まだこの仕組みは未完成
+            var left = space / 2
+            var right = space / 2
+            val position = parent.getChildAdapterPosition(view)
+            if (position == 0) {
+                // 最初
+                left = 8f.convertDpToPx(context).toInt()
+                right = space / 2
+            } else if (position == state.itemCount - 2) {
+                if (getItemViewType(position) == ITEM_TYPE_HALF &&
+                        getItemViewType(state.itemCount - 1) == ITEM_TYPE_HALF) {
+                    left = space / 2
+                    right = 8f.convertDpToPx(context).toInt()
+                }
+            } else if (position == state.itemCount - 1) {
+                left = space / 2
+                right = 8f.convertDpToPx(context).toInt()
+            }
+
+            outRect.left = left
+            outRect.right = right
         }
     }
 

@@ -52,4 +52,12 @@
         <item name="colorControlActivated">@color/colorLinkBlue</item>
     </style>
 
+    <!-- クチコミ投稿画面の下線を消す  -->
+    <style name="MyEditText">
+        <item name="colorControlNormal">@android:color/transparent</item>
+        <item name="colorControlActivated">@android:color/transparent</item>
+        <item name="colorControlHighlight">@android:color/transparent</item>
+        <item name="android:textCursorDrawable">@drawable/edit_txt_cursor</item>
+    </style>
+
 </resources>

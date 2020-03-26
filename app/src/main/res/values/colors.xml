@@ -20,6 +20,11 @@
     <!-- ランキング　タブ -->
     <color name="colorRankingTabDis">#F1F1F1</color>
 
+    <!-- 称号取得モーダル -->
+    <color name="colorGetBadgeMain">#FFC52F</color>
+
+
+
     <!-- モーダルの背景色（ローディングなど） -->
     <color name="colorModalBg">#3C3C4350</color>
 
@@ -28,6 +33,10 @@
 
     <!-- 写真のotherカラー -->
     <color name="colorOtherImageNumber">#3C3C4350</color>
+
+    <!-- ページャーのアイテム -->
+    <color name="colorPagerItem">@android:color/darker_gray</color>
+    <color name="colorPagerItemActive">#FF375F</color>
 
     <!-- 共通 View Color -->
     <!-- テキスト Gray -->

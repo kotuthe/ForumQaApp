@@ -52,6 +52,7 @@
                 <FrameLayout
                     android:id="@+id/viewReviewImageArea"
                     android:layout_width="match_parent"
+                    android:layout_marginBottom="8dp"
                     android:layout_height="300dp">
 
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
@@ -68,7 +69,6 @@
                     android:id="@+id/viewReviewTextArea"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp">
 
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll

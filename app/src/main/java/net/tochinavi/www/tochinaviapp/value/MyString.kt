@@ -13,7 +13,7 @@ class MyString() {
 
     /** [注意] 公開: false, テスト: true **/
     fun isTest(): Boolean {
-        return false
+        return true
     }
 
     /*  */
@@ -45,10 +45,14 @@ class MyString() {
     fun my_http_url_partner_top_web(): String { return returnURL("", true); }
     // 会員ページ
     fun my_http_url_member_detail(): String { return returnURL("/mypage/home/show.shtml?id=", true); }
+
     // クーポンページ
-    fun my_http_url_coupon(): String { return returnURL("/spot/osusume/?id=", true); }
+    fun my_http_url_coupon(id: Int): String {
+        return returnURL("/spot/osusume/?id=%d".format(id), true) }
+
     // スポットページ
-    fun my_http_url_spot_info(): String { return returnURL( "/spot/home/?id=", true); }
+    fun my_http_url_spot_info(id: Int): String {
+        return returnURL( "/spot/home/?id=%d".format(id), true) }
 
 
 }

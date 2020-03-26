@@ -1,6 +1,9 @@
 package net.tochinavi.www.tochinaviapp.value
 
 import android.content.Context
+import android.util.TypedValue
+import android.widget.Button
+import androidx.core.content.ContextCompat
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -56,6 +59,19 @@ fun String.convertDate(format: String = "yyyy-MM-dd HH:mm:ss"): Date? {
         e.printStackTrace()
     }
     return date
+}
+
+/**
+ * ボタンにアイコンをセット
+ */
+fun Button.setLeftIcon(icon: Int) {
+    val drawable = ContextCompat.getDrawable(this.context, icon)
+    val size = 18f.convertDpToPx(this.context).toInt()
+    /*if (functions.isTablet()) {
+        size = 22f.convertDpToPx(this.context).toInt()
+    }*/
+    drawable!!.setBounds(0, 0, size, size)
+    this.setCompoundDrawables(drawable, null, null, null)
 }
 
 

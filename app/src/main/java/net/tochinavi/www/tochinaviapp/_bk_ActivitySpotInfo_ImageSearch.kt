@@ -3,9 +3,7 @@ package net.tochinavi.www.tochinaviapp
 
 
 import android.Manifest
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.BitmapFactory
 import android.graphics.drawable.TransitionDrawable
@@ -14,7 +12,6 @@ import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.BaseAdapter
@@ -53,8 +50,8 @@ import org.json.JSONObject
 
 
 // 続きはここから
-// もとに戻るボタンの実装
-class ActivitySpotInfo_ImageSearch :
+// しっかり丁寧に作ること
+class _bk_ActivitySpotInfo_ImageSearch :
     AppCompatActivity(),
     OnMapReadyCallback,
     AlertNormal.OnSimpleDialogClickListener {
@@ -71,23 +68,13 @@ class ActivitySpotInfo_ImageSearch :
         checkin,
     }
 
-    enum class LoginType  {
-        favorite,
-        review,
-        checkin,
-    }
-
     // リクエスト
     private val REQUEST_PERMISSION_FINE_LOCATION: Int = 0x1
-    private val REQUEST_IN_LOGIN: Int = 0x2
-    private val REQUEST_ALERT_NO_DATA: Int = 0x3
-    private val REQUEST_ALERT_CHECKIN: Int = 0x4
-    private val REQUEST_ALERT_NO_LOGIN: Int = 0x5
-    private val REQUEST_ALERT_FAVORITE: Int = 0x6
-    private val REQUEST_ALERT_MEMBER_MORE_ENTRY: Int = 0x7
+    private val REQUEST_ALERT_NO_DATA: Int = 0x2
 
     // UI //
-    private var loading: LoadingNormal? = null
+    //layoutBasic
+    //layoutShare
 
     // 変数 //
     private var mContext: Context? = null
@@ -151,11 +138,6 @@ class ActivitySpotInfo_ImageSearch :
             dataSpot!!.name = it
         })
 
-        if (supportActionBar != null) {
-            supportActionBar!!.title = "写真から探す"
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
-
         initLayout()
         setLocation()
     }
@@ -169,85 +151,21 @@ class ActivitySpotInfo_ImageSearch :
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        when(requestCode) {
-            // ログイン後
-            REQUEST_IN_LOGIN -> {
-                if (resultCode == Activity.RESULT_OK) {
-                    // スポットページの更新
-                    getSpotData()
-                }
-            }
-        }
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId == android.R.id.home) {
-            finish()
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
-    /**
-     * アラート　ポジティブ
-     */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
         Log.i(">> $TAG_SHORT", "onSimpleDialogActionClick requestCode: $requestCode")
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
                 finish()
             }
-            REQUEST_ALERT_NO_LOGIN -> {
-                // ログイン画面へ
-                val intent = Intent(this, ActivityLogin::class.java)
-                intent.putExtra("tag", TAG)
-                startActivityForResult(intent, REQUEST_IN_LOGIN)
-            }
-            REQUEST_ALERT_CHECKIN -> {
-                // チェックインへ
-                loading!!.updateLayout("チェックインをしています...", true)
-                loading!!.show(supportFragmentManager, LoadingNormal.TAG)
-
-                targetLocationType = LocationType.checkin
-                setLocation()
-            }
-            REQUEST_ALERT_FAVORITE -> {
-                // お気に入り
-                loading!!.updateLayout(if (dataSpot!!.bookMarkEnable)
-                    "お気に入りを解除します..." else "お気に入りに登録します...", true)
-                loading!!.show(supportFragmentManager, LoadingNormal.TAG)
-
-                // お気に入り登録へ
-                doFavorite()
-            }
-            REQUEST_ALERT_MEMBER_MORE_ENTRY -> {
-                Log.i(">> $TAG_SHORT", "会員情報を完璧にする")
-                /*
-                Uri uri = Uri.parse(new TochinaviURL().my_http_url_member_info_update());
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(intent);
-                */
-            }
-
         }
     }
 
-    /**
-     * アラート　ネガティブ
-     */
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
         Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
     }
 
-    /**
-     * UI設定
-     */
     private fun initLayout() {
         Log.i(">> $TAG_SHORT", "initLayout")
-
-        // UI
-        loading = LoadingNormal.newInstance( message = "", isProgress = true )
 
         // 上部 //
         if (!dataSpot!!.name.isEmpty()) {
@@ -282,6 +200,7 @@ class ActivitySpotInfo_ImageSearch :
                 false
             }
         }
+
         imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // ギャラリーへ
             val index = view.id
@@ -320,20 +239,19 @@ class ActivitySpotInfo_ImageSearch :
         val snapHelper = LinearSnapHelper()
         snapHelper.attachToRecyclerView(rcvReviewText)
          */
+
         textAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // クチコミ詳細へ
             val index = view.id
             Log.i(">> $TAG_SHORT", "クチコミ詳細へ : ${textListData[index].id}")
         })
 
+
         // 基本情報 //
         val mapFragment = supportFragmentManager.findFragmentById(R.id.fragmentMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
         layoutBasic.buttonWebDetail.setOnClickListener {
-            // WEBへ
-            startActivity(MyIntent().web_browser(
-                MyString().my_http_url_spot_info(dataSpot!!.id)))
         }
 
         basicAdapter = ListSpotInfoBasicAdapter(mContext!!, basicListData)
@@ -341,167 +259,25 @@ class ActivitySpotInfo_ImageSearch :
             adapter = basicAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 Log.i(">> $TAG_SHORT", "position: $pos")
-                val item = basicListData[pos]
-                when (item.type) {
-                    Constants.SPOT_BASIC_INFO_TYPE.address -> {
-                        // 地図へ
-                    }
-                    Constants.SPOT_BASIC_INFO_TYPE.phone -> {
-                        // 電話
-                        startActivity(
-                            MyIntent().phone(dataSpot!!.phone))
-                    }
-                    Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
-                        // クーポンへ
-                        startActivity(MyIntent().web_browser(
-                            MyString().my_http_url_coupon(dataSpot!!.id)))
-                    }
-                }
             }
-        }
-
-        // お店のシェア //
-        layoutShare.textViewTitle.text = "お店の情報をシェアする"
-        layoutShare.textViewCopyTitle.text = "URLをコピーする"
-        layoutShare.textViewCopy.text = ""
-        layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
-        layoutShare.buttonMail.setOnClickListener {
-            // メールのシェア
-            startActivity(
-                MyIntent().mail(dataSpot!!.snsShareTextLong))
-        }
-        layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
-        layoutShare.buttonLine.setOnClickListener {
-            // ラインのシェア
-            MyIntent().line(dataSpot!!.snsShareText, {
-                startActivity(it)
-            }, {
-                val alert = AlertNormal.newInstance(
-                    requestCode = 0,
-                    title = null,
-                    msg = "お店の情報をシェアするには\nLINEのインストールが必要です",
-                    positiveLabel = "OK",
-                    negativeLabel = null
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
-            })
         }
 
         // アクションフッター //
         layoutActions.viewReview.setOnClickListener {
-            // クチコミ投稿へ
-            // Firebase
-            doInputReview()
+
         }
         layoutActions.viewFavorite.setOnClickListener {
-            // お気に入り
-            /*
-            mFirebase.sendEvent(
-                FirebaseHelper.screenName.IS_Spot_Info,
-                FirebaseHelper.eventCategory.Button,
-                FirebaseHelper.eventAction.Tap,
-                "IS:お気に入り"
-        );
-        */
-            if (mySP!!.get_status_login()) {
-                val message = if (dataSpot!!.bookMarkEnable)
-                    "お気に入りを解除しますか？" else "お気に入りに登録しますか？"
-
-                val positive_label = if (dataSpot!!.bookMarkEnable)
-                    "解除する" else "登録する"
-
-                val alert = AlertNormal.newInstance(
-                    requestCode = REQUEST_ALERT_FAVORITE,
-                    title = null,
-                    msg = message,
-                    positiveLabel = positive_label,
-                    negativeLabel = "キャンセル"
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
-            } else {
-
-                // ログインしてください
-                showNoLoginAlert(LoginType.favorite)
-            }
-
 
         }
         layoutActions.viewCheckin.setOnClickListener {
-            // チェックイン
-            /*
-            // アナリティクス送信
-                mFirebase.sendEvent(
-                        FirebaseHelper.screenName.IS_Spot_Info,
-                        FirebaseHelper.eventCategory.Button,
-                        FirebaseHelper.eventAction.Tap,
-                        "チェックイン"
-                );
-             */
-
-            if (mySP!!.get_status_login()) {
-                // チェックイン
-                if (dataSpot!!.checkinEnable) {
-                    // できる
-                    val alert = AlertNormal.newInstance(
-                        requestCode = REQUEST_ALERT_CHECKIN,
-                        title = "チェックインしますか？",
-                        msg = null,
-                        positiveLabel = "チェックイン",
-                        negativeLabel = "キャンセル"
-                    )
-                    alert.show(supportFragmentManager, AlertNormal.TAG)
-                } else {
-                    // できない
-                    val alert = AlertNormal.newInstance(
-                        requestCode = 0,
-                        title = "チェックインできません",
-                        msg = "※同じスポットで\n連続でチェックインしている\nまたは範囲外のスポットです",
-                        positiveLabel = "OK",
-                        negativeLabel = null
-                    )
-                    alert.show(supportFragmentManager, AlertNormal.TAG)
-                }
-            } else {
-                // ログインへ誘導
-                showNoLoginAlert(LoginType.checkin)
-            }
 
         }
         layoutActions.viewMap.setOnClickListener {
-            // Map
 
         }
         layoutActions.viewPhone.setOnClickListener {
-            // 電話
-            startActivity(MyIntent().phone(dataSpot!!.phone))
-        }
-    }
 
-    /**
-     * ログインしますかアラート
-     */
-    private fun showNoLoginAlert(type: LoginType) {
-        var title = ""
-        when (type) {
-            LoginType.checkin -> {
-                title = "チェックインをする"
-            }
-            LoginType.favorite -> {
-                title = "お気に入り"
-            }
-            LoginType.review -> {
-                title = "クチコミ投稿"
-            }
         }
-
-        val alert = AlertNormal.newInstance(
-            requestCode = REQUEST_ALERT_NO_LOGIN,
-            title = title,
-            msg = "ご利用するにはログインが必要です",
-            positiveLabel = "ログイン",
-            negativeLabel = "キャンセル"
-        )
-        alert.show(supportFragmentManager, AlertNormal.TAG)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -656,11 +432,12 @@ class ActivitySpotInfo_ImageSearch :
      * ※位置情報サービスOFF -> ON に変更した時になる
      */
     private fun getLocationHighQuality() {
-        // 取得が長いのでアラート
-        if (targetLocationType == LocationType.checkin) {
-            loading!!.updateLayout("しばらくお待ちください...", true)
+        /* チェックインの場合はloadingが出る
+        if (loading != null) {
+            // 5秒ほど時間がかかるため
+            loading!!.updateLayout(getString(R.string.loading_normal_message) + "\nしばらくお待ちください...", true)
         }
-
+        */
         val request = LocationRequest()
         request.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
         request.interval = 500
@@ -689,7 +466,6 @@ class ActivitySpotInfo_ImageSearch :
             }
             LocationType.checkin -> {
                 // チェックイン
-                doCheckin()
             }
         }
         // リセット
@@ -714,107 +490,175 @@ class ActivitySpotInfo_ImageSearch :
             }
             LocationType.checkin -> {
                 // 「チェックインできない」アラートを表示後、処理を中止
-                loading!!.onDismiss()
-                // アラート表示
-                val alert = AlertNormal.newInstance(
-                    requestCode = 0,
-                    title = "チェックインできません",
-                    msg = "位置情報サービスをONにしてください",
-                    positiveLabel = "OK",
-                    negativeLabel = null
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
             }
         }
         // リセット
         targetLocationType = LocationType.getAll
+
+        /*
+        val alert = AlertNormal.newInstance(
+                    requestCode = REQUEST_CODE_ALERT_LOCATION,
+                    title = "現在地を取得できませんでした",
+                    msg = "周辺のお店を検索するには位置情報サービスをONにしてください",
+                    positiveLabel = "OK",
+                    negativeLabel = null
+                )
+                alert.setFragment(this)
+                alert.show(fragmentManager!!, AlertNormal.TAG)
+         */
 
     }
 
     /**
      * クチコミ画像を取得
      */
-
     private fun getReviewImages() {
         Log.i(">> $TAG_SHORT", "getReviewImages")
-        HttpSpotInfo(mContext!!).get_review_images(
-            dataSpot!!,
-            condReviewImagePage,
-            { datas, all_number ->
-                reviewImagesNumber = all_number
-                imageListData.addAll(datas)
-                imageAdapter!!.notifyDataSetChanged()
 
-                if (condReviewImagePage == 1) {
-                    // スケルトンビュー
-                    (rcvReviewImage.background as TransitionDrawable).startTransition(1000)
-                    getReviewTexts()
-                }
-                condReviewImagePage++
-            },
-            {
-                if (condReviewImagePage == 1) {
-                    when (it) {
-                        Constants.HTTP_STATUS.nodata -> {
-                            // ギャラリーのデータなし
-                            viewReviewImageArea.visibility = View.GONE
-                            getReviewTexts()
+        val params: ArrayList<Pair<String, Any>> = ArrayList()
+        params.add("id" to dataSpot!!.id)
+        params.add("page" to condReviewImagePage)
+        val url = MyString().my_http_url_app() + "/search_spot/get_spot_review_images.php"
+        url.httpGet(params).responseJson { request, response, result ->
+            result.fold(success = { json ->
+                val datas = json.obj().get("datas") as JSONObject
+                val result = datas.get("result") as Boolean
+                if (result) {
+                    val json_array = datas.getJSONArray("review")
+                    reviewImagesNumber = datas.getInt("all_number")
+
+                    for (i in 0..json_array.length() - 1) {
+                        val obj = json_array.getJSONObject(i)
+                        val js_review_images = obj.getJSONArray("review_images")
+                        var review_image_array: ArrayList<String> = arrayListOf()
+                        if (js_review_images.length() > 0) {
+                            for (j in 0..js_review_images.length() - 1) {
+                                review_image_array.add(js_review_images.getString(j))
+                            }
                         }
-                        Constants.HTTP_STATUS.network -> {
-                            val alert = AlertNormal.newInstance(
-                                requestCode = REQUEST_ALERT_NO_DATA,
-                                title = "クチコミを取得できません",
-                                msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。",
-                                positiveLabel = "OK",
-                                negativeLabel = null
+
+                        if (obj.getBoolean("user_enable")) {
+                            // クチコミの写真
+                            val dataReview = DataSpotReview(
+                                obj.getInt("review_id"),
+                                dataSpot!!.id,
+                                dataSpot!!.name,
+                                obj.getInt("user_id"),
+                                obj.getString("user_name"),
+                                obj.getString("user_icon"),
+                                obj.getString("user_detail"),
+                                obj.getString("review_date"),
+                                obj.getString("user_review"),
+                                review_image_array,
+                                "",
+                                obj.getInt("good_num"),
+                                obj.getBoolean("enable_good")
                             )
-                            alert.show(supportFragmentManager, AlertNormal.TAG)
+                            imageListData.add(dataReview)
+
+                        } else {
+                            // スポットの写真
+                            val dataReview = DataSpotReview(
+                                obj.getInt("review_id"),
+                                dataSpot!!.id,
+                                dataSpot!!.name,
+                                0,
+                                "",
+                                "",
+                                "",
+                                "",
+                                "",
+                                review_image_array,
+                                "",
+                                0,
+                                false
+                            )
+                            imageListData.add(dataReview)
                         }
                     }
-                }
-            })
-    }
+                    imageAdapter!!.notifyDataSetChanged()
 
+                    if (condReviewImagePage == 1) {
+                        // スケルトンビュー
+                        (rcvReviewImage.background as TransitionDrawable).startTransition(1000)
+                        getReviewTexts()
+                    }
+                    condReviewImagePage++
+
+                } else {
+                    // データなし ※ここが通る場合はサーバー側のエラー
+                    // スポットページに到達しないため何かを考える（ただしcondReviewTextPage == 1の時だけ）
+                }
+            }, failure = { error ->
+                // 通信エラー
+                Log.e(FragmentTop.TAG, error.toString())
+            })
+        }
+    }
+    //////////////////////////
     /**
-     * クチコミテキストを取得
+     * クチコミテキストを取得（続きはここから）
      */
     private fun getReviewTexts() {
         Log.i(">> $TAG_SHORT", "getReviewTexts")
-        HttpSpotInfo(mContext!!).get_review_texts(
-            dataSpot!!,
-            condReviewTextPage,
-            {
-                textListData.addAll(it)
-                textAdapter!!.notifyDataSetChanged()
 
-                if (condReviewTextPage == 1) {
-                    // スケルトンビュー
-                    (rcvReviewText.background as TransitionDrawable).startTransition(500)
-                    getSpotData()
-                }
-                condReviewTextPage++
-            },
-            {
-                if (condReviewTextPage == 1) {
-                    when (it) {
-                        Constants.HTTP_STATUS.nodata -> {
-                            // クチコミテキストのデータなし
-                            viewReviewTextArea.visibility = View.GONE
-                            getSpotData()
+        val params: ArrayList<Pair<String, Any>> = ArrayList()
+        params.add("id" to dataSpot!!.id)
+        params.add("page" to condReviewTextPage)
+        val url = MyString().my_http_url_app() + "/search_spot/get_spot_review_texts.php"
+        url.httpGet(params).responseJson { request, response, result ->
+            result.fold(success = { json ->
+                val datas = json.obj().get("datas") as JSONObject
+                val result = datas.get("result") as Boolean
+                if (result) {
+                    val json_array = datas.getJSONArray("review")
+
+                    for (i in 0..json_array.length() - 1) {
+                        val obj = json_array.getJSONObject(i)
+                        val js_review_images = obj.getJSONArray("review_images")
+                        var review_image_array: ArrayList<String> = arrayListOf()
+                        if (js_review_images.length() > 0) {
+                            for (j in 0..js_review_images.length() - 1) {
+                                review_image_array.add(js_review_images.getString(j))
+                            }
                         }
-                        Constants.HTTP_STATUS.network -> {
-                            val alert = AlertNormal.newInstance(
-                                requestCode = REQUEST_ALERT_NO_DATA,
-                                title = "クチコミを取得できません",
-                                msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。",
-                                positiveLabel = "OK",
-                                negativeLabel = null
-                            )
-                            alert.show(supportFragmentManager, AlertNormal.TAG)
-                        }
+
+                        val dataReview = DataSpotReview(
+                            obj.getInt("review_id"),
+                            dataSpot!!.id,
+                            dataSpot!!.name,
+                            obj.getInt("user_id"),
+                            obj.getString("user_name"),
+                            obj.getString("user_icon"),
+                            obj.getString("user_detail"),
+                            obj.getString("review_date"),
+                            obj.getString("user_review"),
+                            review_image_array,
+                            "",
+                            obj.getInt("good_num"),
+                            obj.getBoolean("enable_good")
+                        )
+                        textListData.add(dataReview)
+
                     }
+                    textAdapter!!.notifyDataSetChanged()
+
+                    if (condReviewTextPage == 1) {
+                        // スケルトンビュー
+                        (rcvReviewText.background as TransitionDrawable).startTransition(500)
+                        getSpotData()
+                    }
+                    condReviewTextPage++
+
+                } else {
+                    // データなし ※ここが通る場合はサーバー側のエラー
+                    // スポットページに到達しないため何かを考える（ただしcondReviewTextPage == 1の時だけ）
                 }
+            }, failure = { error ->
+                // 通信エラー
+                Log.e(FragmentTop.TAG, error.toString())
             })
+        }
     }
 
     /**
@@ -822,27 +666,74 @@ class ActivitySpotInfo_ImageSearch :
      */
     private fun getSpotData() {
         Log.i(">> $TAG_SHORT", "getSpotData")
-        HttpSpotInfo(mContext!!).get_spot_info(
-            dataSpot!!.id,
-            mLocation,
-            {
-                dataSpot = it
-                setLayoutDataSpot()
-            },
-            {
-                var msg: String? = null
-                if (it == Constants.HTTP_STATUS.network) {
-                    msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"
+
+        val params: ArrayList<Pair<String, Any>> = ArrayList()
+        params.add("id" to dataSpot!!.id)
+
+        // 周辺検索（エラー判定済み）
+        if (mLocation != null) {
+            params.add("latitude" to mLocation!!.latitude)
+            params.add("longitude" to mLocation!!.longitude)
+        }
+
+        // ログインID
+        if (mySP!!.get_status_login()) {
+            val db = DBHelper(mContext!!)
+            try {
+                val tableUsers = DBTableUsers(mContext!!)
+                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
+                    params.add("user_id" to it.user_id)
+                })
+            } catch (e: Exception) {
+                Log.e(TAG_SHORT, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+        }
+
+        println(params)
+
+        val url = MyString().my_http_url_app() + "/spot/get_spot_info.php"
+        url.httpGet(params).responseJson { request, response, result ->
+            result.fold(success = { json ->
+                val datas = json.obj().get("datas") as JSONObject
+                val result = datas.get("result") as Boolean
+                if (result) {
+                    val obj = datas.getJSONObject("info")
+                    dataSpot = DataSpotInfo(
+                        dataSpot!!.id,
+                        obj.getString("image"),
+                        obj.getBoolean("more_image"),
+                        obj.getString("name"),
+                        obj.getString("address"),
+                        obj.getString("phone"),
+                        obj.getString("hour"),
+                        obj.getString("holiday"),
+                        obj.getString("simple_detail"),
+                        obj.getString("simple_caption"),
+                        obj.getDouble("latitude"),
+                        obj.getDouble("longitude"),
+                        obj.getInt("category_large_id"),
+                        datas.getBoolean("checkin"),
+                        true,
+                        obj.getBoolean("review_photo_flag"),
+                        obj.getBoolean("wishlist_flag"),
+                        obj.getString("sns_share_text"),
+                        obj.getString("sns_share_text_long"),
+                        obj.getInt("is_free"),
+                        obj.getBoolean("coupon_enable")
+                    )
+                    setLayoutDataSpot()
+                } else {
+                    // データなし
+                    // 「取得できませんでした」アラートを表示して、
+                    // OK押したあとは前のページに戻る
                 }
-                val alert = AlertNormal.newInstance(
-                    requestCode = REQUEST_ALERT_NO_DATA,
-                    title = "お店の情報を取得できません",
-                    msg = msg,
-                    positiveLabel = "OK",
-                    negativeLabel = null
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
+            }, failure = { error ->
+                // 通信エラー
+                Log.e(FragmentTop.TAG, error.toString())
             })
+        }
     }
 
     /**
@@ -873,6 +764,8 @@ class ActivitySpotInfo_ImageSearch :
             basicAdapter!!.notifyDataSetChanged()
 
             // シェア
+            layoutShare.textViewTitle.text = "お店の情報をシェアする"
+            layoutShare.textViewCopyTitle.text = "URLをコピーする"
             layoutShare.textViewCopy.text = dataSpot!!.snsShareText
 
             // アクションフッター
@@ -888,130 +781,6 @@ class ActivitySpotInfo_ImageSearch :
 
         }
 
-    }
-
-    /**
-     * チェックインする
-     */
-    private fun doCheckin() {
-
-        Log.i(">> $TAG_SHORT", "doCheckin")
-        HttpSpotInfo(mContext!!).do_checkin(
-            dataSpot!!.id,
-            mLocation,
-            {
-                loading!!.onDismiss()
-                if (!it.isEmpty()) {
-                    // 獲得した称号を表示
-                    val modal = ModalGetBadge.newInstance(it)
-                    modal.show(supportFragmentManager, ModalGetBadge.TAG)
-                } else {
-                    // 完了メッセージ
-                    val alert = AlertNormal.newInstance(
-                        requestCode = 0,
-                        title = "チェックインを完了しました!",
-                        msg = "※同じスポットのチェックインは1日1回です",
-                        positiveLabel = "OK",
-                        negativeLabel = null
-                    )
-                    alert.show(supportFragmentManager, AlertNormal.TAG)
-                }
-                // スポットを更新
-                getSpotData()
-            },
-            {
-                loading!!.onDismiss()
-                var msg: String? = null
-                if (it == Constants.HTTP_STATUS.network) {
-                    msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"
-                }
-                // ※元の方ではスポットページの更新してた
-                val alert = AlertNormal.newInstance(
-                    requestCode = 0,
-                    title = "チェックインできません",
-                    msg = msg,
-                    positiveLabel = "OK",
-                    negativeLabel = null
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
-            })
-    }
-
-    /**
-     * お気に入り
-     */
-    private fun doFavorite() {
-        Log.i(">> $TAG_SHORT", "doFavorite")
-        HttpSpotInfo(mContext!!).do_favorite(
-            dataSpot!!.id,
-            {
-                loading!!.onDismiss(800)
-                // スポットを更新
-                getSpotData()
-            },
-            {
-                loading!!.onDismiss(800)
-                var msg: String? = null
-                if (it == Constants.HTTP_STATUS.network) {
-                    msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"
-                }
-                // ※元の方ではスポットページの更新してた
-                val alert = AlertNormal.newInstance(
-                    requestCode = 0,
-                    title = "お気に入りを更新できません",
-                    msg = msg,
-                    positiveLabel = "OK",
-                    negativeLabel = null
-                )
-                alert.show(supportFragmentManager, AlertNormal.TAG)
-            })
-    }
-
-    /**
-     * クチコミをする
-     */
-    private fun doInputReview() {
-        Log.i(">> $TAG_SHORT", "doInputReview")
-        HttpSpotInfo(mContext!!).check_input_review(
-            {
-                Log.i(">> $TAG_SHORT", "クチコミ投稿へ")
-
-                val intent = Intent(this, ActivityInputReview::class.java)
-                startActivity(intent)
-                /* クチコミ投稿へ
-                Intent intent = new Intent(ActivitySpotInfo_ImageSearch.this, ActivityInputReview.class);
-                intent.putExtra("spot_id", dataSpotInfo.getId());
-                intent.putExtra("spot_name", dataSpotInfo.getName());
-                intent.putExtra("type", type);
-                intent.putExtra("review_photo_flag", dataSpotInfo.getImageEnable());
-                startActivity(intent);
-                 */
-            },
-            {
-                when (it) {
-                    Constants.HTTP_STATUS.nodata -> {
-                        // 入力を促す
-                        val alert = AlertNormal.newInstance(
-                            requestCode = REQUEST_ALERT_MEMBER_MORE_ENTRY,
-                            title = "クチコミ投稿できません",
-                            msg = "クチコミを投稿するには、「性別、誕生日」を登録する必要があります。\n登録を行いますか？",
-                            positiveLabel = "登録する",
-                            negativeLabel = "キャンセル"
-                        )
-                        alert.show(supportFragmentManager, AlertNormal.TAG)
-                    }
-                    Constants.HTTP_STATUS.network -> {
-                        val alert = AlertNormal.newInstance(
-                            requestCode = 0,
-                            title = "クチコミ投稿できません",
-                            msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。",
-                            positiveLabel = "OK",
-                            negativeLabel = null
-                        )
-                        alert.show(supportFragmentManager, AlertNormal.TAG)
-                    }
-                }
-            })
     }
 
 }
