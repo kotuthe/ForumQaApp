@@ -60,4 +60,15 @@
         <item name="android:textCursorDrawable">@drawable/edit_txt_cursor</item>
     </style>
 
+    <style name="AppTheme.Louvre.Light.DarkActionBar" parent="Louvre.Theme.Light.DarkActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorLouvreAccent</item>
+        <item name="appbarTheme">@style/Widget.AppCompat.Light.PopupMenu</item>
+    </style>
+
+    <style name="AppTheme.Louvre.Preview" parent="Louvre.Theme.Preview">
+        <item name="colorAccent">@color/colorLouvreAccent</item>
+    </style>
+
 </resources>

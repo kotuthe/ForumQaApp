@@ -95,6 +95,7 @@ class ActivitySpotInfo_ImageSearch :
     private var dataSpot: DataSpotInfo? = null
     private lateinit var mGoogleMap: GoogleMap
     private var reviewImagesNumber: Int = 0
+    private var isGetSpotInfo = false
 
     // 位置情報
     private var mLocationClient: FusedLocationProviderClient? = null
@@ -286,6 +287,14 @@ class ActivitySpotInfo_ImageSearch :
             // ギャラリーへ
             val index = view.id
             Log.i(">> $TAG_SHORT", "ギャラリーへ : ${imageListData[index].id}")
+
+            val intent = Intent(this, ActivitySpotReviewGallery_ImageSearch::class.java)
+            intent.putExtra("selectIndex", index)
+            intent.putExtra("allNumber", reviewImagesNumber)
+            intent.putExtra("condPage", condReviewImagePage)
+            intent.putExtra("dataSpot", dataSpot)
+            intent.putExtra("imageListData", imageListData)
+            startActivity(intent)
         })
 
         // クチコミテキスト //
@@ -390,11 +399,18 @@ class ActivitySpotInfo_ImageSearch :
         // アクションフッター //
         layoutActions.viewReview.setOnClickListener {
             // クチコミ投稿へ
+            if (!isGetSpotInfo) {
+                Log.i(">> $TAG_SHORT", "not layoutActions")
+                return@setOnClickListener
+            }
             // Firebase
             doInputReview()
         }
         layoutActions.viewFavorite.setOnClickListener {
             // お気に入り
+            if (!isGetSpotInfo) {
+                return@setOnClickListener
+            }
             /*
             mFirebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -428,6 +444,9 @@ class ActivitySpotInfo_ImageSearch :
         }
         layoutActions.viewCheckin.setOnClickListener {
             // チェックイン
+            if (!isGetSpotInfo) {
+                return@setOnClickListener
+            }
             /*
             // アナリティクス送信
                 mFirebase.sendEvent(
@@ -469,10 +488,16 @@ class ActivitySpotInfo_ImageSearch :
         }
         layoutActions.viewMap.setOnClickListener {
             // Map
+            if (!isGetSpotInfo) {
+                return@setOnClickListener
+            }
 
         }
         layoutActions.viewPhone.setOnClickListener {
             // 電話
+            if (!isGetSpotInfo) {
+                return@setOnClickListener
+            }
             startActivity(MyIntent().phone(dataSpot!!.phone))
         }
     }
@@ -826,6 +851,7 @@ class ActivitySpotInfo_ImageSearch :
             dataSpot!!.id,
             mLocation,
             {
+                isGetSpotInfo = true
                 dataSpot = it
                 setLayoutDataSpot()
             },
@@ -972,20 +998,14 @@ class ActivitySpotInfo_ImageSearch :
      */
     private fun doInputReview() {
         Log.i(">> $TAG_SHORT", "doInputReview")
+        // ※ログイン確認を入れること
         HttpSpotInfo(mContext!!).check_input_review(
             {
-                Log.i(">> $TAG_SHORT", "クチコミ投稿へ")
-
+                // クチコミ投稿へ
                 val intent = Intent(this, ActivityInputReview::class.java)
+                intent.putExtra("dataSpot", dataSpot)
+                // intent.putExtra("type", "all")
                 startActivity(intent)
-                /* クチコミ投稿へ
-                Intent intent = new Intent(ActivitySpotInfo_ImageSearch.this, ActivityInputReview.class);
-                intent.putExtra("spot_id", dataSpotInfo.getId());
-                intent.putExtra("spot_name", dataSpotInfo.getName());
-                intent.putExtra("type", type);
-                intent.putExtra("review_photo_flag", dataSpotInfo.getImageEnable());
-                startActivity(intent);
-                 */
             },
             {
                 when (it) {

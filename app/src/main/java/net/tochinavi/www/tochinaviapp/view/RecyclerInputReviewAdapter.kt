@@ -3,6 +3,7 @@ package net.tochinavi.www.tochinaviapp.view
 import android.content.Context
 import android.graphics.Point
 import android.graphics.Rect
+import android.net.Uri
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +18,14 @@ import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
-class RecyclerInputReviewAdapter(private val context: Context, val items: ArrayList<String?>):
+class RecyclerInputReviewAdapter(private val context: Context, val items: ArrayList<Uri?>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // 定数 //
+    val TAG_VIEW_IMAGE: Int = 1
+    val TAG_VIEW_BUTTON_DELETE: Int = 2
+    val TAG_VIEW_ADD: Int = 3
+
     val spanCount = 3
     private val ITEM_TYPE_NORMAL = 1
     private val ITEM_TYPE_ADD = 2
@@ -79,8 +84,8 @@ class RecyclerInputReviewAdapter(private val context: Context, val items: ArrayL
     }
 
     override fun getItemViewType(position: Int): Int {
-        val imageUrl = items[position]
-        if (imageUrl == null) {
+        val item = items[position]
+        if (item == null) {
             return ITEM_TYPE_ADD
         }
         return ITEM_TYPE_NORMAL
@@ -96,7 +101,7 @@ class RecyclerInputReviewAdapter(private val context: Context, val items: ArrayL
         wm.defaultDisplay.getSize(disp_size)
         val space: Int = 8f.convertDpToPx(context).toInt()
         val width = (disp_size.x - (space * (spanCount + 1))) / spanCount
-        val height = width
+        val height = width + space + 40f.convertDpToPx(context).toInt()
 
         if (p1 == ITEM_TYPE_ADD) {
             // 追加
@@ -114,31 +119,44 @@ class RecyclerInputReviewAdapter(private val context: Context, val items: ArrayL
     /** holder: RecyclerViewHolder?, position: Int **/
     override fun onBindViewHolder(p0: RecyclerView.ViewHolder, p1: Int) {
 
-        val imageUrl = items[p1]
-        val isMain = if (p1 == 0 && imageUrl != null) true else false
-
-        // クリックイベント //
-        p0.itemView.id = p0.adapterPosition
-        p0.itemView.setOnClickListener{ view ->
-            if (isClickable) {
-                mOnClicklistener!!.onClick(view)
-            }
-        }
+        val uri = items[p1]
+        val isMain = (p1 == 0 && uri != null)
+        val viewId = p0.adapterPosition
 
         when (getItemViewType(p1)) {
             ITEM_TYPE_NORMAL -> {
                 val holder: ViewHolderItemNormal = p0 as ViewHolderItemNormal
                 holder.viewMain.visibility = if (isMain) View.VISIBLE else View.INVISIBLE
-                holder.imageView.load(imageUrl) {
+
+                holder.imageView.load(uri) {
                     placeholder(R.drawable.ic_image_placeholder)
                 }
-                // buttonDeleteが動くようにする
-                holder.buttonDelete.setOnClickListener {
-                    Log.i(">> image delete", "$p1")
+
+                holder.imageView.id = viewId
+                holder.imageView.tag = TAG_VIEW_IMAGE
+                holder.imageView.setOnClickListener{ view ->
+                    if (isClickable) {
+                        mOnClicklistener!!.onClick(view)
+                    }
+                }
+
+                holder.buttonDelete.id = viewId
+                holder.buttonDelete.tag = TAG_VIEW_BUTTON_DELETE
+                holder.buttonDelete.setOnClickListener{ view ->
+                    if (isClickable) {
+                        mOnClicklistener!!.onClick(view)
+                    }
                 }
             }
             ITEM_TYPE_ADD -> {
-                // val holder: ViewHolderItemAdd = p0 as ViewHolderItemAdd
+                val holder: ViewHolderItemAdd = p0 as ViewHolderItemAdd
+                holder.itemView.id = viewId
+                holder.itemView.tag = TAG_VIEW_ADD
+                holder.itemView.setOnClickListener{ view ->
+                    if (isClickable) {
+                        mOnClicklistener!!.onClick(view)
+                    }
+                }
             }
         }
     }

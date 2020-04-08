@@ -38,6 +38,9 @@
     <color name="colorPagerItem">@android:color/darker_gray</color>
     <color name="colorPagerItemActive">#FF375F</color>
 
+    <!-- Louverメインカラー -->
+    <color name="colorLouvreAccent">#95C96D</color>
+
     <!-- 共通 View Color -->
     <!-- テキスト Gray -->
     <color name="colorTextGray">#787878</color>

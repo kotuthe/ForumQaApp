@@ -49,20 +49,44 @@ class ModalGetBadge : DialogFragmentFullScreen() {
         }
     }
 
-    private var dismissFlag: Boolean = false
+    interface OnModalGetBadgeClickListener {
+        fun onModalGetBadgeCloseClick()
+    }
 
     // 初期オプション
+    var listener: OnModalGetBadgeClickListener? = null
+    private var dismissFlag: Boolean = false
     private var items: ArrayList<DataBadge> by Arguments()
 
-    // データ //
+    // その他オプション
+    private var mFragment: Fragment? = null
     private var mAdapter: RecyclerGetBadgeAdapter? = null
 
+    /**
+     * フラグメントでイベントを取得したいとき
+     */
+    fun setFragment(f: Fragment) {
+        mFragment = f
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
         // 背景クリックで閉じないようにする
         this.isCancelable = false
+
+        // Fragmentの場合
+        var fragment = targetFragment
+        if (fragment == null) {
+            fragment = mFragment
+        }
+
+        // Activityの場合
+        if (fragment is OnModalGetBadgeClickListener) {
+            listener = fragment
+        } else if (context is OnModalGetBadgeClickListener) {
+            listener = context
+        }
     }
 
     override fun onCreateView(
@@ -81,6 +105,7 @@ class ModalGetBadge : DialogFragmentFullScreen() {
         // layoutDialog.setOnTouchListener { _, _ -> true }
 
         buttonClose.setOnClickListener {
+            listener?.onModalGetBadgeCloseClick()
             onDismiss(250)
         }
         initLayout()

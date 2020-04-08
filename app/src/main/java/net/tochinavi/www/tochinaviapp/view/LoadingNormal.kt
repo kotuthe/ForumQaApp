@@ -117,9 +117,26 @@ class LoadingNormal : DialogFragmentFullScreen() {
         progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
     }
 
+    /**
+     * プログレスのレイアウト更新
+     */
     fun updateLayout(_message: String?, _isProgress: Boolean) {
         message = _message
         isProgress = _isProgress
+        setLayout()
+    }
+
+    /**
+     * プログレスのレイアウト更新
+     * _message: フォーマット
+     * readNum: 現状(Double)
+     * totalNum: 総数(Double)
+     */
+    fun updateLayout(_message: String, readNum: Double, totalNum: Double) {
+        val decimal = readNum / totalNum
+        val status = ("%,.2f".format(decimal)).toDouble() * 100
+        message = _message.format(status.toInt())
+        isProgress = true
         setLayout()
     }
 

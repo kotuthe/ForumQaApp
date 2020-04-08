@@ -109,6 +109,8 @@ class FragmentMyPage : Fragment() {
                 }
                 3 -> {
                     // クチコミ下書き
+                    val intent = Intent(activity, ActivityMyDraftList::class.java)
+                    startActivity(intent)
                 }
                 4 -> {
                     // お気に入り

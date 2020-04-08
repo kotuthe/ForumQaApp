@@ -51,7 +51,11 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityInputReview"></activity>
+        <activity android:name=".ActivitySpotReviewDetail_ImageSearch"></activity>
+        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" />
+        <activity android:name=".ActivityMyDraftList" />
+        <activity android:name=".ActivityInputReviewTag" />
+        <activity android:name=".ActivityInputReview" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -99,7 +103,15 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityInitDescription"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- Android9でのHttp通信対策 -->
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- apiデザイン -->
+        <activity
+            android:name="com.andremion.louvre.home.GalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Louvre.Light.DarkActionBar" />
+        <activity
+            android:name="com.andremion.louvre.preview.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Louvre.Preview" /> <!-- Android9でのHttp通信対策 -->
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- Google Map利用の為のAPIキー -->

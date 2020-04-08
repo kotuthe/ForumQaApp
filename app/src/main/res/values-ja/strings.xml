@@ -11,6 +11,9 @@
     <!-- loading -->
     <string name="loading_normal_message">読み込み中...</string>
 
+    <!-- alert -->
+    <string name="alert_network_error">サーバーに接続できません\n≪対処方法≫\n・時間をおいて更新する\n・電波の届くところに移動する</string>
+
     <!-- activity_init_description -->
     <string name="init_description_title">初めての方</string>
     <string name="init_description_button_close">開始する</string>
@@ -62,8 +65,24 @@
     <string name="spot_info_actions_phone">電話</string>
 
     <!-- activity_input_review -->
+    <string name="input_review_title_date">訪問日</string>
+    <string name="input_review_title_review">クチコミを書く</string>
+    <string name="input_review_title_image">写真を投稿する</string>
+    <string name="input_review_title_tag">タグを追加する</string>
+    <string name="input_review_no_select">選択してください</string>
     <string name="input_review_review_hint">おすすめする理由やポイントなど、具体的に入力してください。（50文字以上）\n※絵文字は正しく反映されないことがありますので、お控えください。</string>
-    <string name="input_review_image_hint">・写真は10枚まで選択できます\n・「メイン」は一覧で表示される写真です\n・「写真を並び替える」を押して、移動したい場所に写真をドラッグすると写真を並び替えることができます</string>
+    <string name="input_review_image_hint">・写真は%d枚まで選択できます\n・「メイン」は一覧で表示される写真です\n・ドラッグでの写真の並び替えができます</string>
+    <string name="input_review_button_close_review">閉じる</string>
+    <string name="input_review_image_add">写真を追加</string>
+    <string name="input_review_image_delete">削除</string>
+    <string name="input_review_image_main">メイン</string>
+    <string name="input_review_button_delete">下書きを削除</string>
+    <string name="input_review_button_save">下書きに保存</string>
+    <string name="input_review_button_post">投稿</string>
+
+    <!-- activity_input_review_tag -->
+    <string name="input_review_tag_button_clear">選択解除</string>
+    <string name="input_review_tag_button_add">追加</string>
 
     <!-- modal_get_badge -->
     <string name="get_badge_title">称号を取得しました！！</string>

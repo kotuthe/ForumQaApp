@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySpotReviewDetail_ImageSearch">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:fillViewport="true">
+            <!-- スクロールの入れ子 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:descendantFocusability="blocksDescendants">
+
+                <!-- 名前 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textViewSpotName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:lineSpacingExtra="@dimen/font_line_spacing_normal"
+                        android:textColor="@android:color/black"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        android:text="title\ntitle"/>
+
+                </LinearLayout>
+
+                <!-- クチコミ　ギャラリー -->
+                <FrameLayout
+                    android:id="@+id/viewReviewImageArea"
+                    android:layout_width="match_parent"
+                    android:layout_marginBottom="8dp"
+                    android:layout_height="300dp">
+
+                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
+                        android:id="@+id/rcvReviewImage"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/layout_transition_white"
+                        android:clipToPadding="false"/>
+
+                </FrameLayout>
+
+                <!-- クチコミ　テキスト -->
+                <FrameLayout
+                    android:id="@+id/viewReviewTextArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginBottom="8dp">
+
+                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
+                        android:id="@+id/rcvReviewText"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/layout_transition_white"
+                        android:clipToPadding="false"/>
+
+                </FrameLayout>
+
+                <!-- 境界線 -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="8dp"
+                    android:background="@color/colorGroupTableViewBackground"/>
+
+
+                <!-- お店の情報 -->
+                <include android:id="@+id/layoutBasic"
+                    layout="@layout/view_info_spot_basic"/>
+
+                <!-- シェア -->
+                <include android:id="@+id/layoutShare"
+                    layout="@layout/view_info_share"/>
+
+                <!-- フッター -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="76dp"/>
+
+            </LinearLayout>
+            <!-- /スクロールの入れ子 -->
+        </ScrollView>
+        <!-- 広告 -->
+        <!--
+        <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+            android:id="@+id/viewAdvtFooter"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/advt_height"/>
+            -->
+    </LinearLayout>
+
+    <include android:id="@+id/layoutActions"
+        layout="@layout/view_info_spot_actions_footer"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

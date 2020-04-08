@@ -15,7 +15,7 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/white"
+            android:background="@color/colorGroupTableViewBackground"
             android:fillViewport="true">
 
             <!-- スクロールの入れ子 -->
@@ -68,14 +68,14 @@
                         <ImageView
                             android:layout_width="27dp"
                             android:layout_height="27dp"
-                            android:src="@drawable/img_spot_info_action_checkin_dis"/>
+                            android:src="@drawable/img_input_review_calendar"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/normal_margin"
                             android:layout_weight="1"
-                            android:text="date"
+                            android:text="@string/input_review_title_date"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/font_size_normal" />
                     </LinearLayout>
@@ -99,7 +99,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginRight="@dimen/normal_margin"
                             android:layout_weight="1"
-                            android:text="title"
+                            android:text="@string/input_review_no_select"
                             android:textColor="@color/colorLinkBlue"
                             android:textSize="@dimen/font_size_normal"
                             android:textStyle="bold" />
@@ -137,14 +137,14 @@
                         <ImageView
                             android:layout_width="27dp"
                             android:layout_height="27dp"
-                            android:src="@drawable/img_spot_info_action_checkin_dis"/>
+                            android:src="@drawable/img_input_review_review"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/normal_margin"
                             android:layout_weight="1"
-                            android:text="input review"
+                            android:text="@string/input_review_title_review"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/font_size_normal" />
 
@@ -152,7 +152,7 @@
                             android:id="@+id/buttonReviewClose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="close"/>
+                            android:text="@string/input_review_button_close_review"/>
 
                     </LinearLayout>
 
@@ -165,7 +165,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="@dimen/normal_safe_area_margin"
                         android:paddingEnd="@dimen/normal_safe_area_margin"
-                        android:paddingTop="@dimen/normal_margin"
+                        android:paddingTop="4dp"
                         android:paddingBottom="@dimen/normal_margin"
                         android:gravity="center"
                         android:orientation="horizontal"
@@ -176,6 +176,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="textMultiLine"
+                            android:textSize="15sp"
+                            android:gravity="top|left"
                             android:hint="@string/input_review_review_hint"
                             android:theme="@style/MyEditText"/>
 
@@ -187,7 +189,6 @@
 
                 <!-- 写真 -->
                 <LinearLayout
-                    android:id="@+id/layoutImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -205,14 +206,14 @@
                         <ImageView
                             android:layout_width="27dp"
                             android:layout_height="27dp"
-                            android:src="@drawable/img_spot_info_action_checkin_dis"/>
+                            android:src="@drawable/img_input_review_camera"/>
 
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="@dimen/normal_margin"
                             android:layout_weight="1"
-                            android:text="input image"
+                            android:text="@string/input_review_title_image"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/font_size_normal" />
                     </LinearLayout>
@@ -221,33 +222,175 @@
 
                     <!-- ヒント -->
                     <TextView
+                        android:id="@+id/textViewImageHint"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@android:color/white"
                         android:padding="@dimen/normal_margin"
                         android:paddingStart="@dimen/normal_safe_area_margin"
                         android:paddingEnd="@dimen/normal_safe_area_margin"
                         android:layout_weight="1"
-                        android:text="@string/input_review_image_hint"
+                        android:text="detail"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/font_size_normal" />
-
-                    <include layout="@layout/merge_line_gray" />
 
                     <!-- 写真選択 -->
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
                         android:id="@+id/rcvImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:paddingTop="@dimen/normal_margin"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"
                         android:background="@android:color/white"/>
 
                     <include layout="@layout/merge_line_gray" />
 
                 </LinearLayout>
 
+                <!-- タグ -->
+                <LinearLayout
+                    android:id="@+id/layoutTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <!-- セクション -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/row_normal_height"
+                        android:paddingStart="@dimen/normal_safe_area_margin"
+                        android:paddingEnd="@dimen/normal_safe_area_margin"
+                        android:background="@color/colorGroupTableViewBackground"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="27dp"
+                            android:layout_height="27dp"
+                            android:src="@drawable/img_input_review_tag"/>
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/normal_margin"
+                            android:layout_weight="1"
+                            android:text="@string/input_review_title_tag"
+                            android:textColor="@color/colorLinkBlue"
+                            android:textSize="@dimen/font_size_normal" />
+                    </LinearLayout>
+
+                    <include layout="@layout/merge_line_gray" />
+
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/white">
+
+                        <TableLayout
+                            android:id="@+id/tableLayoutTag"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:padding="4dp"/>
+
+                        <!-- ヒント -->
+                        <TextView
+                            android:id="@+id/textViewTagHint"
+                            android:layout_width="match_parent"
+                            android:layout_height="46dp"
+                            android:padding="@dimen/normal_margin"
+                            android:paddingStart="@dimen/normal_safe_area_margin"
+                            android:paddingEnd="@dimen/normal_safe_area_margin"
+                            android:text="@string/input_review_no_select"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="@dimen/font_size_normal" />
+                    </FrameLayout>
+
+                    <include layout="@layout/merge_line_gray" />
+
+                </LinearLayout>
+
+                <!-- フッター分のマージン(ボタンheight + 18dp) -->
+                <View
+                    android:id="@+id/layoutFooter"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"/>
+
             </LinearLayout>
 
         </ScrollView>
 
     </LinearLayout>
+
+    <!-- 投稿のボタン -->
+    <LinearLayout
+        android:id="@+id/layoutNormalButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/white"
+        android:padding="@dimen/normal_margin"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+            android:id="@+id/buttonSave"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@string/input_review_button_save"/>
+
+        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+            android:id="@+id/buttonPost"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:text="@string/input_review_button_post"/>
+
+    </LinearLayout>
+
+    <!-- 下書きのボタン -->
+    <LinearLayout
+        android:id="@+id/layoutDraftButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/white"
+        android:padding="@dimen/normal_margin"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="@dimen/normal_margin">
+
+            <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+                android:id="@+id/buttonDraftDelete"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:text="@string/input_review_button_delete"/>
+
+            <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+                android:id="@+id/buttonDraftSave"
+                android:layout_width="0dp"
+                android:layout_height="46dp"
+                android:layout_weight="1"
+                android:text="@string/input_review_button_save"/>
+
+        </LinearLayout>
+
+        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+            android:id="@+id/buttonDraftPost"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:text="@string/input_review_button_post"/>
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

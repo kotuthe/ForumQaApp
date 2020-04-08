@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySpotReviewGallery_ImageSearch">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Header -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:color/black">
+
+            <RelativeLayout
+                android:id="@+id/viewPageClose"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="16dp"
+                android:layout_centerVertical="true">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_centerInParent="true"
+                    android:src="@drawable/ic_x_mark_white"/>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textViewNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:textColor="@android:color/white"
+                android:text="1/1"/>
+
+
+        </RelativeLayout>
+
+        <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@android:color/black"
+            android:clipToPadding="false"/>
+
+        <!-- Footer -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:padding="16dp"
+            android:background="@android:color/black">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="@dimen/normal_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:text="2000/12/31"/>
+
+                <TextView
+                    android:id="@+id/textViewSpotName"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:maxLines="2"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold"
+                    android:textSize="22sp"
+                    android:ellipsize="end"
+                    android:text="Name\nName\nName"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonReviewDetail"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_border_white"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:text="レビュー ＞"/>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityInputReviewTag">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:fillViewport="true">
+
+            <!-- スクロールの入れ子 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:descendantFocusability="beforeDescendants"
+                android:focusableInTouchMode="true">
+
+                <TableLayout
+                    android:id="@+id/tableLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="4dp"/>
+
+                <!-- フッター分のマージン(ボタンheight + 8dp) -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"/>
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- 投稿のボタン -->
+    <LinearLayout
+        android:id="@+id/layoutNormalButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@android:color/white"
+        android:padding="@dimen/normal_margin"
+        android:orientation="horizontal">
+
+        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+            android:id="@+id/buttonClear"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:text="@string/input_review_tag_button_clear"/>
+
+        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+            android:id="@+id/buttonAdd"
+            android:layout_width="0dp"
+            android:layout_height="46dp"
+            android:layout_weight="1"
+            android:text="@string/input_review_tag_button_add"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -67,6 +67,8 @@ dependencies {
     implementation 'io.coil-kt:coil:0.8.0'
     // Blur
     implementation 'jp.wasabeef:blurry:3.+'
+    // image picker
+    implementation 'com.github.andremion:louvre:1.2.3'
 }
 
 
