@@ -9,6 +9,7 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
 import android.graphics.Typeface
+import android.graphics.drawable.AnimationDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -37,6 +38,7 @@ import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.entities.DataTopSelection
 import net.tochinavi.www.tochinaviapp.network.TaskDownloadImage
+import net.tochinavi.www.tochinaviapp.network.TaskWebImageAnime
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
 import net.tochinavi.www.tochinaviapp.storage.DBTableArea2

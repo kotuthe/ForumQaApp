@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
+import net.tochinavi.www.tochinaviapp.entities.DataISReviewDetailImage
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 
-// AdapterImageSearchReviewImagesを参考にする
-class RecyclerISReviewImagesAdapter(private val context: Context, val items: ArrayList<DataSpotReview>):
+class RecyclerISReviewDetailImagesAdapter(private val context: Context, val items: ArrayList<DataISReviewDetailImage>):
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     // 定数 //
@@ -122,34 +122,36 @@ class RecyclerISReviewImagesAdapter(private val context: Context, val items: Arr
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
         // セルサイズ
-        val cell_height = 300f.convertDpToPx(context).toInt()
         var width: Int = 0
         var height: Int = 0
 
         // spaceと同じ値にする
         val margin = 4f.convertDpToPx(context).toInt()
+        val side_margin = 8f.convertDpToPx(context).toInt()
+        val cell_height = 250f.convertDpToPx(context).toInt() - margin
 
         when (itemCount) {
             1 -> {
                 // 1つのときは横いっぱい //
-                width = disp_size.x - (16 + margin * 2)
-                height = cell_height - margin
+                width = disp_size.x - (side_margin * 2)
+                height = cell_height
             }
             2 -> {
-                // 次のがちょっと見える //
-                width = disp_size.x / 3 * 2
-                height = cell_height - margin
+                // 半分 //
+                width = (disp_size.x - (side_margin * 3)) / 2
+                height = cell_height
             }
             else -> {
                 // 3以上
+                val one_width = (disp_size.x - (side_margin * 3)) / 3
                 if (viewType == ITEM_TYPE_FULL) {
                     // 1列(index 0,5,10 ...)
-                    width = disp_size.x / 3 * 2
-                    height = cell_height - margin
+                    width = one_width * 2
+                    height = cell_height
                 } else {
                     // 2列(1~4, 6~9 ...)
-                    width = disp_size.x / 3
-                    height = (cell_height - margin * 2) / 2
+                    width = one_width
+                    height = (cell_height - margin) / 2
                 }
             }
         }
@@ -175,15 +177,14 @@ class RecyclerISReviewImagesAdapter(private val context: Context, val items: Arr
         }
 
         val holder: ViewHolderItem = p0 as ViewHolderItem
-        holder.imageView.load(item.reviewImageUrls[0]) {
+        holder.imageView.load(item.url) {
             placeholder(R.drawable.ic_image_placeholder)
         }
 
         // その他の枚数
-        val number = item.reviewImageUrls.size - 1
-        if (number > 0) {
-            holder.textViewNumber.visibility = View.VISIBLE;
-            holder.textViewNumber.text = "他%d枚".format(number)
+        if (item.number > 0) {
+            holder.textViewNumber.visibility = View.VISIBLE
+            holder.textViewNumber.text = "他%d枚".format(item.number)
         } else {
             holder.textViewNumber.visibility = View.GONE;
         }

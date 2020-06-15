@@ -3,27 +3,40 @@ package net.tochinavi.www.tochinaviapp.network
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.net.Uri
+import android.graphics.drawable.AnimationDrawable
+import android.graphics.drawable.BitmapDrawable
 import android.os.AsyncTask
 import android.util.Log
-import java.io.File
-import java.io.FileOutputStream
+import net.tochinavi.www.tochinaviapp.value.ifNotNull
 import java.io.IOException
 import java.net.HttpURLConnection
 import java.net.URL
 
 
-class TaskDownloadImage(context: Context) : AsyncTask<String?, Void?, Uri?>() {
+/**
+ * input: Strin Array 複数URL
+ * output: AnimationDrawable
+ */
+class TaskWebImageAnime(context: Context) : AsyncTask<ArrayList<String>?, Void?, AnimationDrawable?>() {
     private var listener: Listener? = null
     private val mContext: Context = context
 
     // 非同期処理
-    override fun doInBackground(vararg params: String?): Uri? {
-        val uri = params[0]!!
-        val bitmap = downloadImage(uri) ?: return null
-        val ext = File(uri).absoluteFile.extension
-        Log.i(">> TaskDownloadImage", "doInBackground: 拡張子 $ext")
-        return insertCacheDir(bitmap, ext)
+    override fun doInBackground(vararg params: ArrayList<String>?): AnimationDrawable? {
+        val urls = params[0]!!
+
+        // アニメーション
+        val anim = AnimationDrawable()
+        for (i in 0..urls.size - 1) {
+            // Log.i(">> web image", "download: $i")
+            ifNotNull(downloadImage(urls[i])) {
+                anim.addFrame(BitmapDrawable(mContext.resources, it), 6000)
+            }
+        }
+        anim.setExitFadeDuration(2000)
+        anim.setEnterFadeDuration(1500)
+        anim.isOneShot = false
+        return anim
     }
 
     // 途中経過をメインスレッドに返す
@@ -46,9 +59,9 @@ class TaskDownloadImage(context: Context) : AsyncTask<String?, Void?, Uri?>() {
     */
 
     // 非同期処理が終了後、結果をメインスレッドに返す
-    override fun onPostExecute(uri: Uri?) {
+    override fun onPostExecute(anime: AnimationDrawable?) {
         if (listener != null) {
-            listener!!.onSuccess(uri)
+            listener!!.onSuccess(anime)
         }
     }
 
@@ -57,38 +70,35 @@ class TaskDownloadImage(context: Context) : AsyncTask<String?, Void?, Uri?>() {
     }
 
     interface Listener {
-        fun onSuccess(uri: Uri?)
+        fun onSuccess(anime: AnimationDrawable?)
     }
 
-    private fun downloadImage(address: String): Bitmap? {
+    private fun downloadImage(address: String, inSampleSize: Int = 0): Bitmap? {
         var bmp: Bitmap? = null
         var urlConnection: HttpURLConnection? = null
         try {
             val url = URL(address)
-
-            // HttpURLConnection インスタンス生成
             urlConnection = url.openConnection() as HttpURLConnection
-
             // タイムアウト設定
             urlConnection.readTimeout = 10000
             urlConnection.connectTimeout = 20000
-
             // リクエストメソッド
             urlConnection.requestMethod = "GET"
-
             // リダイレクトを自動で許可しない設定
             urlConnection.instanceFollowRedirects = false
-
             // ヘッダーの設定(複数設定可能)
             urlConnection.setRequestProperty("Accept-Language", "jp")
-
             // 接続
             urlConnection.connect()
             val resp: Int = urlConnection.responseCode
             when (resp) {
                 HttpURLConnection.HTTP_OK -> try {
                     urlConnection.inputStream.use { `is` ->
-                        bmp = BitmapFactory.decodeStream(`is`)
+                        val options: BitmapFactory.Options = BitmapFactory.Options()
+                        if (inSampleSize > 0) {
+                            options.inSampleSize = inSampleSize
+                        }
+                        bmp = BitmapFactory.decodeStream(`is`, null, options);
                         `is`.close()
                     }
                 } catch (e: IOException) {
@@ -102,36 +112,14 @@ class TaskDownloadImage(context: Context) : AsyncTask<String?, Void?, Uri?>() {
         } catch (e: Exception) {
             Log.d("debug", "downloadImage error")
             e.printStackTrace()
+        } catch (e: OutOfMemoryError) {
+            // メモリ不足時は画像を縮小する　
+            // Log.i(">> web image", "OutOfMemoryError: $address")
+            bmp = downloadImage(
+                address, if (inSampleSize == 0) 2 else inSampleSize * 2)
         } finally {
             urlConnection?.disconnect()
         }
         return bmp
-    }
-
-    private fun insertCacheDir(bitmap: Bitmap, ext: String): Uri? {
-        var path = ""
-        try {
-            // アプリ内キャッシュディレクトリ（キャッシュクリアやアプリ削除で消えるらしい）
-            val root: File = mContext.cacheDir
-            val fileName =
-                System.currentTimeMillis().toString() + "." + ext
-            var format = Bitmap.CompressFormat.JPEG
-            if (ext == "png" || ext == "PNG") {
-                format = Bitmap.CompressFormat.PNG
-            }
-            val fos = FileOutputStream(File(root, fileName))
-            bitmap.compress(format, 100, fos)
-            fos.close()
-            path = root.path + "/" + fileName
-        } catch (e: java.lang.Exception) {
-            Log.e("Error", "" + e.toString())
-        } finally {
-        }
-
-        if (path.isEmpty()) {
-            return null
-        }
-
-        return Uri.parse("file://%s".format(path))
     }
 }

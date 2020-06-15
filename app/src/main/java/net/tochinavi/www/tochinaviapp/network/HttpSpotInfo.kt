@@ -1,23 +1,27 @@
 package net.tochinavi.www.tochinaviapp.network
 
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.location.Location
 import android.util.Log
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import net.tochinavi.www.tochinaviapp.entities.DataBadge
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
+import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
-import net.tochinavi.www.tochinaviapp.value.Constants
-import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
-import net.tochinavi.www.tochinaviapp.value.MyString
-import net.tochinavi.www.tochinaviapp.value.ifNotNull
+import net.tochinavi.www.tochinaviapp.value.*
 import org.json.JSONObject
 
 /**
- * お店の情報ページで使用する通信処理
+ * お店の情報ページで使用する通信処理 + 共通で使える処理も
  */
 class HttpSpotInfo(context: Context) {
 
@@ -397,6 +401,61 @@ class HttpSpotInfo(context: Context) {
             })
         }
     }
+
+
+    /**
+     * 以下共通レイアウトの設定
+     */
+    fun init_map_position(googleMap: GoogleMap) {
+        val sydney = LatLng(-34.0, 151.0) // 宇都宮駅
+        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
+
+    /**
+     * 地図の描画更新
+     */
+    fun update_map_position(googleMap: GoogleMap, lat_lng: LatLng, category_id: Int) {
+        var bmpPin = BitmapFactory.decodeResource(
+            mContext.resources, MyImage().icon_category_pin(1))
+        if (category_id > 0) {
+            bmpPin = BitmapFactory.decodeResource(
+                mContext.resources,
+                MyImage().icon_category_pin(category_id)
+            )
+        }
+        googleMap.addMarker(
+            MarkerOptions()
+                .position(lat_lng)
+                .title("Spot")
+                .icon(BitmapDescriptorFactory.fromBitmap(bmpPin))
+        )
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat_lng, 15f))
+    }
+
+    /**
+     * ImageSearch　基本情報アイテム
+     */
+    fun get_is_basic_list_data(dataSpot: DataSpotInfo): ArrayList<DataSpotInfoBasic> {
+        val array: ArrayList<DataSpotInfoBasic> = arrayListOf()
+        if (!dataSpot.address.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.address, dataSpot.address))
+        }
+        if (!dataSpot.phone.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.phone, dataSpot.phone))
+        }
+        if (!dataSpot.hour.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.hour, dataSpot.hour))
+        }
+        if (!dataSpot.holiday.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.holiday, dataSpot.holiday))
+        }
+        if (dataSpot.coupon_enable) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.coupon, "クーポン情報はこちら"))
+        }
+        return array
+    }
+
 
 
 }

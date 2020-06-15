@@ -24,60 +24,149 @@
                 android:orientation="vertical"
                 android:descendantFocusability="blocksDescendants">
 
-                <!-- 名前 -->
+                <!-- ヘッダー -->
+                <FrameLayout
+                    android:id="@+id/viewTopArea"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorGroupTableViewBackground">
+
+                    <ImageView
+                        android:id="@+id/imageViewTop"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:layout_gravity="center"
+                        android:scaleType="centerCrop"
+                        android:visibility="visible"/>
+
+                    <RelativeLayout
+                        android:id="@+id/viewSpotNameArea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="16dp"
+                        android:background="@color/colorOtherImageNumber"
+                        android:layout_gravity="bottom">
+
+                        <TextView
+                            android:id="@+id/textViewSpotName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="20dp"
+                            android:textStyle="bold"
+                            android:textColor="@android:color/white"
+                            android:text="SpotName"/>
+
+                    </RelativeLayout>
+
+                </FrameLayout>
+
+                <!-- クチコミ詳細 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingTop="16dp"
+                    android:paddingTop="10dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
                     android:paddingBottom="16dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
+
+                    <!-- ユーザー情報 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:id="@+id/imageViewUserIcon"
+                            android:layout_width="46dp"
+                            android:layout_height="46dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp">
+
+                            <TextView
+                                android:id="@+id/textViewUserName"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp"
+                                android:text="UserName"/>
+
+                            <TextView
+                                android:id="@+id/textViewReviewDate"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp"
+                                android:ellipsize="end"
+                                android:text="2000/12/31"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
 
                     <TextView
-                        android:id="@+id/textViewSpotName"
+                        android:id="@+id/textViewReview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:lineSpacingExtra="@dimen/font_line_spacing_normal"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center|left"
                         android:textColor="@android:color/black"
-                        android:textSize="20sp"
-                        android:textStyle="bold"
-                        android:text="title\ntitle"/>
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        android:text="review"/>
+
+                    <TextView
+                        android:id="@+id/textViewReviewInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center|left"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp"
+                        android:visibility="visible"
+                        android:text="グッときた　100件"/>
 
                 </LinearLayout>
 
-                <!-- クチコミ　ギャラリー -->
+
+                <!-- ギャラリー -->
                 <FrameLayout
-                    android:id="@+id/viewReviewImageArea"
+                    android:id="@+id/viewGalleryArea"
                     android:layout_width="match_parent"
-                    android:layout_marginBottom="8dp"
-                    android:layout_height="300dp">
+                    android:layout_height="250dp"
+                    android:layout_marginBottom="16dp"
+                    android:visibility="visible">
 
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
-                        android:id="@+id/rcvReviewImage"
+                        android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@drawable/layout_transition_white"
                         android:clipToPadding="false"/>
 
                 </FrameLayout>
 
-                <!-- クチコミ　テキスト -->
-                <FrameLayout
-                    android:id="@+id/viewReviewTextArea"
+                <!-- 境界線 -->
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="80dp"
-                    android:layout_marginBottom="8dp">
+                    android:layout_height="8dp"
+                    android:background="@color/colorGroupTableViewBackground"/>
 
-                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
-                        android:id="@+id/rcvReviewText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/layout_transition_white"
-                        android:clipToPadding="false"/>
-
-                </FrameLayout>
+                <!-- シェア -->
+                <include android:id="@+id/layoutShare"
+                    layout="@layout/view_info_share"/>
 
                 <!-- 境界線 -->
                 <View
@@ -90,14 +179,10 @@
                 <include android:id="@+id/layoutBasic"
                     layout="@layout/view_info_spot_basic"/>
 
-                <!-- シェア -->
-                <include android:id="@+id/layoutShare"
-                    layout="@layout/view_info_share"/>
-
                 <!-- フッター -->
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="76dp"/>
+                    android:layout_height="16dp"/>
 
             </LinearLayout>
             <!-- /スクロールの入れ子 -->
@@ -110,8 +195,5 @@
             android:layout_height="@dimen/advt_height"/>
             -->
     </LinearLayout>
-
-    <include android:id="@+id/layoutActions"
-        layout="@layout/view_info_spot_actions_footer"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

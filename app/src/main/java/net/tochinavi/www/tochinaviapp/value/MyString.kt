@@ -13,7 +13,7 @@ class MyString() {
 
     /** [注意] 公開: false, テスト: true **/
     fun isTest(): Boolean {
-        return true
+        return false
     }
 
     /*  */
@@ -53,6 +53,11 @@ class MyString() {
     // スポットページ
     fun my_http_url_spot_info(id: Int): String {
         return returnURL( "/spot/home/?id=%d".format(id), true) }
+
+    // クチコミ詳細ページ
+    fun my_http_url_spot_review_detail(member_id: Int, kuchikomi_id: Int): String {
+        return returnURL("/member/grapevine/home/?id=%d&k_id=%d".format(member_id, kuchikomi_id), true)
+    }
 
 
 }

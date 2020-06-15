@@ -85,6 +85,7 @@ class ActivitySpotInfo_ImageSearch :
     private val REQUEST_ALERT_NO_LOGIN: Int = 0x5
     private val REQUEST_ALERT_FAVORITE: Int = 0x6
     private val REQUEST_ALERT_MEMBER_MORE_ENTRY: Int = 0x7
+    private val REQUEST_ALERT_PHONE: Int = 0x8
 
     // UI //
     private var loading: LoadingNormal? = null
@@ -223,12 +224,12 @@ class ActivitySpotInfo_ImageSearch :
                 doFavorite()
             }
             REQUEST_ALERT_MEMBER_MORE_ENTRY -> {
-                Log.i(">> $TAG_SHORT", "会員情報を完璧にする")
-                /*
-                Uri uri = Uri.parse(new TochinaviURL().my_http_url_member_info_update());
-                Intent intent = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(intent);
-                */
+                // 会員情報で不足分を入力する
+                startActivity(MyIntent().web_browser(MyString().my_http_url_member_info_update()))
+            }
+            REQUEST_ALERT_PHONE -> {
+                // 電話をする
+                startActivity(MyIntent().phone(dataSpot!!.phone))
             }
 
         }
@@ -333,6 +334,11 @@ class ActivitySpotInfo_ImageSearch :
             // クチコミ詳細へ
             val index = view.id
             Log.i(">> $TAG_SHORT", "クチコミ詳細へ : ${textListData[index].id}")
+
+            val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            intent.putExtra("dataReview", textListData[index])
+            startActivity(intent)
         })
 
         // 基本情報 //
@@ -357,13 +363,15 @@ class ActivitySpotInfo_ImageSearch :
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                         // 電話
-                        startActivity(
-                            MyIntent().phone(dataSpot!!.phone))
+                        showPhoneAlert()
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
                         // クーポンへ
                         startActivity(MyIntent().web_browser(
                             MyString().my_http_url_coupon(dataSpot!!.id)))
+                    }
+                    else -> {
+
                     }
                 }
             }
@@ -498,8 +506,23 @@ class ActivitySpotInfo_ImageSearch :
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
-            startActivity(MyIntent().phone(dataSpot!!.phone))
+            // startActivity(MyIntent().phone(dataSpot!!.phone))
+            showPhoneAlert()
         }
+    }
+
+    /**
+     * 電話をしますかアラート
+     */
+    private fun showPhoneAlert() {
+        val alert = AlertNormal.newInstance(
+            requestCode = REQUEST_ALERT_PHONE,
+            title = dataSpot!!.name,
+            msg = "%sに電話をする".format(dataSpot!!.phone),
+            positiveLabel = "電話をする",
+            negativeLabel = "キャンセル"
+        )
+        alert.show(supportFragmentManager, AlertNormal.TAG)
     }
 
     /**
@@ -530,34 +553,9 @@ class ActivitySpotInfo_ImageSearch :
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        Log.i(">> $TAG_SHORT", "onMapReady")
         mGoogleMap = googleMap
-        val sydney = LatLng(-34.0, 151.0) // 宇都宮駅
-        mGoogleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        HttpSpotInfo(mContext!!).init_map_position(googleMap)
     }
-
-    /** 地図の描画更新  */
-    private fun updateMapPosition() {
-        if (dataSpot != null) {
-            var bmpPin = BitmapFactory.decodeResource(resources, MyImage().icon_category_pin(1))
-            val lat_lng = LatLng(dataSpot!!.latitude, dataSpot!!.longitude)
-            if (dataSpot!!.category_large_id > 0) {
-                bmpPin = BitmapFactory.decodeResource(
-                    resources,
-                    MyImage().icon_category_pin(dataSpot!!.category_large_id)
-                )
-            }
-            mGoogleMap.addMarker(
-                MarkerOptions()
-                    .position(lat_lng)
-                    .title("Spot")
-                    .icon(BitmapDescriptorFactory.fromBitmap(bmpPin))
-            )
-            mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lat_lng, 15f))
-        }
-    }
-
 
     /** 位置情報取得 -> スポット取得 or チェックイン **/
     private fun setLocation() {
@@ -877,25 +875,15 @@ class ActivitySpotInfo_ImageSearch :
     private fun setLayoutDataSpot() {
         if (dataSpot != null) {
             // 地図更新
-            updateMapPosition()
+            HttpSpotInfo(mContext!!).update_map_position(
+                mGoogleMap,
+                LatLng(dataSpot!!.latitude, dataSpot!!.longitude),
+                dataSpot!!.category_large_id
+            )
 
             // 基本情報
-            basicListData.clear()
-            if (!dataSpot!!.address.isEmpty()) {
-                basicListData.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.address, dataSpot!!.address))
-            }
-            if (!dataSpot!!.phone.isEmpty()) {
-                basicListData.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.phone, dataSpot!!.phone))
-            }
-            if (!dataSpot!!.hour.isEmpty()) {
-                basicListData.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.hour, dataSpot!!.hour))
-            }
-            if (!dataSpot!!.holiday.isEmpty()) {
-                basicListData.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.holiday, dataSpot!!.holiday))
-            }
-            if (dataSpot!!.coupon_enable) {
-                basicListData.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.coupon, "クーポン情報はこちら"))
-            }
+            basicListData.addAll(
+                HttpSpotInfo(mContext!!).get_is_basic_list_data(dataSpot!!))
             basicAdapter!!.notifyDataSetChanged()
 
             // シェア

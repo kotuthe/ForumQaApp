@@ -1,6 +1,7 @@
 package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.drawable.TransitionDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -105,6 +106,12 @@ class ActivitySpotReviewGallery_ImageSearch :
                     startActivity(intent);
                 }
              */
+
+            val item = imageListData[selectIndex]
+            val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            intent.putExtra("dataReview", item)
+            startActivity(intent)
         }
 
         textViewSpotName.text = dataSpot.name
