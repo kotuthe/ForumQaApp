@@ -33,7 +33,8 @@ import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
 import org.json.JSONObject
 
 // 検討すること
-// 周辺検索の地図はいらないのではないか？
+// 周辺検索以外での「位置情報取得のダイアログ」は出さない
+// 警告のみにする
 class FragmentSpotNeighborList : Fragment() {
 
     companion object {

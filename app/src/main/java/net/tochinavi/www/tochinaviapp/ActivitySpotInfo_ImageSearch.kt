@@ -4,6 +4,8 @@ package net.tochinavi.www.tochinaviapp
 
 import android.Manifest
 import android.app.Activity
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -18,6 +20,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -91,6 +94,7 @@ class ActivitySpotInfo_ImageSearch :
     private var loading: LoadingNormal? = null
 
     // 変数 //
+    private var functions: Functions? = null
     private var mContext: Context? = null
     private var mySP: MySharedPreferences? = null
     private var dataSpot: DataSpotInfo? = null
@@ -123,11 +127,13 @@ class ActivitySpotInfo_ImageSearch :
         Log.i(">> $TAG_SHORT", "onCreate")
         mContext = applicationContext
         mySP = MySharedPreferences(mContext!!)
+        functions = Functions(mContext!!)
 
         // スポット名取得
         val spot_id: Int = intent.getIntExtra("id", 0)
         dataSpot = DataSpotInfo(
             spot_id,
+            1,
             "",
             false,
             "",
@@ -345,6 +351,13 @@ class ActivitySpotInfo_ImageSearch :
         val mapFragment = supportFragmentManager.findFragmentById(R.id.fragmentMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        layoutBasic.buttonMap.setOnClickListener {
+            // 地図へ
+            val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            startActivity(intent)
+        }
+
         layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
             startActivity(MyIntent().web_browser(
@@ -360,6 +373,9 @@ class ActivitySpotInfo_ImageSearch :
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {
                         // 地図へ
+                        val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
+                        intent.putExtra("dataSpot", dataSpot)
+                        startActivity(intent)
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                         // 電話
@@ -381,6 +397,20 @@ class ActivitySpotInfo_ImageSearch :
         layoutShare.textViewTitle.text = "お店の情報をシェアする"
         layoutShare.textViewCopyTitle.text = "URLをコピーする"
         layoutShare.textViewCopy.text = ""
+        layoutShare.textViewCopy.setOnClickListener {
+            // クリップボードにコピー
+            functions!!.clipboardText(this, (it as TextView).text.toString())
+
+            val alert = AlertNormal.newInstance(
+                requestCode = 0,
+                title = "お店の情報をコピーしました。\n貼り付けることができます。",
+                msg = null,
+                positiveLabel = "OK",
+                negativeLabel = null
+            )
+            alert.show(supportFragmentManager, AlertNormal.TAG)
+
+        }
         layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
         layoutShare.buttonMail.setOnClickListener {
             // メールのシェア
@@ -412,7 +442,12 @@ class ActivitySpotInfo_ImageSearch :
                 return@setOnClickListener
             }
             // Firebase
-            doInputReview()
+            if (mySP!!.get_status_login()) {
+                doInputReview()
+            } else {
+                // ログインしてください
+                showNoLoginAlert(LoginType.review)
+            }
         }
         layoutActions.viewFavorite.setOnClickListener {
             // お気に入り
@@ -495,10 +530,13 @@ class ActivitySpotInfo_ImageSearch :
 
         }
         layoutActions.viewMap.setOnClickListener {
-            // Map
+            // 地図
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
+            val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            startActivity(intent)
 
         }
         layoutActions.viewPhone.setOnClickListener {
@@ -986,7 +1024,6 @@ class ActivitySpotInfo_ImageSearch :
      */
     private fun doInputReview() {
         Log.i(">> $TAG_SHORT", "doInputReview")
-        // ※ログイン確認を入れること
         HttpSpotInfo(mContext!!).check_input_review(
             {
                 // クチコミ投稿へ

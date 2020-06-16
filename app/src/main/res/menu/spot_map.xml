@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_show_route"
+        android:orderInCategory="100"
+        android:title="@string/spot_map_show_route"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_cancel_route"
+        android:orderInCategory="100"
+        android:title="@string/spot_map_cancel_route"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_return_current"
+        android:orderInCategory="100"
+        android:title="@string/spot_map_return_current"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_show_all"
+        android:orderInCategory="100"
+        android:title="@string/spot_map_show_all"
+        app:showAsAction="never" />
+</menu>

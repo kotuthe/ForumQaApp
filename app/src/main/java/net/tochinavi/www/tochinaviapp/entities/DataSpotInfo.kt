@@ -4,6 +4,7 @@ import java.io.Serializable
 
 class DataSpotInfo(
     id: Int,
+    type: Int, // 1:スポット, それ以外:病院
     imageUrl: String,
     moreImage: Boolean,
     name: String,
@@ -27,10 +28,11 @@ class DataSpotInfo(
 ): Serializable {
 
     companion object {
-        val TAG = "DataSpotList"
+        val TAG = "DataSpotInfo"
     }
 
     var id: Int = 0
+    var type: Int = 0
     var imageUrl: String = ""
     var moreImage: Boolean = false
     var name: String = ""
@@ -54,6 +56,7 @@ class DataSpotInfo(
 
     init {
         this.id = id
+        this.type = type
         this.imageUrl = imageUrl
         this.moreImage = moreImage
         this.name = name

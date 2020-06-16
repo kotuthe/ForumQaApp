@@ -118,7 +118,7 @@ class ActivityInputReview :
                 // 下書き
                 dataReview = intent.getSerializableExtra("dataReview") as DataMyReview
                 dataSpot = DataSpotInfo(
-                    dataReview!!.spotId, "", false,
+                    dataReview!!.spotId, 1,"", false,
                     dataReview!!.spotName, "", "", "",
                     "", "", "", 0.0,
                     0.0, 0, false,

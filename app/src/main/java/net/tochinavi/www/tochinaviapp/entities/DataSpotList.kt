@@ -2,7 +2,7 @@ package net.tochinavi.www.tochinaviapp.entities
 
 class DataSpotList(
     id: Int,
-    type: Int,
+    type: Int, // 1:スポット, それ以外:病院
     name: String,
     address: String,
     parent_category_id: Int,

@@ -1,6 +1,9 @@
 package net.tochinavi.www.tochinaviapp.value
 
+import android.app.Activity
 import android.app.ActivityManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -9,6 +12,7 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
+import android.widget.TextView
 import net.tochinavi.www.tochinaviapp.R
 import java.io.File
 import java.io.FileNotFoundException
@@ -364,6 +368,17 @@ class Functions(private val context: Context) {
             return null
         }
         return bitmap
+    }
+
+    /**
+     * クリップボード：テキスト
+     * 参考：
+     * https://developer.android.com/guide/topics/text/copy-paste#PastePlainText
+     */
+    fun clipboardText(activity: Activity, text: String) {
+        val clipboard = activity.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip: ClipData = ClipData.newPlainText("simple text", text)
+        clipboard.setPrimaryClip(clip)
     }
 
 }

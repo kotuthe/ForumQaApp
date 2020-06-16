@@ -1,6 +1,7 @@
 package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.drawable.AnimationDrawable
@@ -11,6 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.api.load
@@ -53,7 +55,8 @@ class ActivitySpotReviewDetail_ImageSearch :
     // リクエスト
     private val REQUEST_ALERT_PHONE: Int = 0x1
 
-    // データ
+    // データ //
+    private lateinit var functions: Functions
     private lateinit var mContext: Context
     private lateinit var dataSpot: DataSpotInfo
     private lateinit var dataReview: DataSpotReview
@@ -69,6 +72,7 @@ class ActivitySpotReviewDetail_ImageSearch :
         setContentView(R.layout.activity_spot_review_detail_image_search)
 
         mContext = applicationContext
+        functions = Functions(mContext)
 
         // データの取得
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
@@ -148,18 +152,12 @@ class ActivitySpotReviewDetail_ImageSearch :
             }
             imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
                 // ギャラリーへ
-                /*
                 val index = view.id
-                Log.i(">> $TAG_SHORT", "ギャラリーへ : ${imageListData[index].id}")
-
-                val intent = Intent(this, ActivitySpotReviewGallery_ImageSearch::class.java)
+                val intent = Intent(this@ActivitySpotReviewDetail_ImageSearch, ActivitySpotReviewGalleryPreview_ImageSearch::class.java)
                 intent.putExtra("selectIndex", index)
-                intent.putExtra("allNumber", reviewImagesNumber)
-                intent.putExtra("condPage", condReviewImagePage)
                 intent.putExtra("dataSpot", dataSpot)
-                intent.putExtra("imageListData", imageListData)
+                intent.putExtra("dataReview", dataReview)
                 startActivity(intent)
-                */
             })
         }
 
@@ -231,6 +229,20 @@ class ActivitySpotReviewDetail_ImageSearch :
         layoutShare.textViewTitle.text = "クチコミをシェアする"
         layoutShare.textViewCopyTitle.text = "URLをコピーする"
         layoutShare.textViewCopy.text = getShareText()
+        layoutShare.textViewCopy.setOnClickListener {
+            // クリップボードにコピー
+            functions.clipboardText(this, (it as TextView).text.toString())
+
+            val alert = AlertNormal.newInstance(
+                requestCode = 0,
+                title = "クチコミをコピーしました。\n貼り付けることができます。",
+                msg = null,
+                positiveLabel = "OK",
+                negativeLabel = null
+            )
+            alert.show(supportFragmentManager, AlertNormal.TAG)
+
+        }
         layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
         layoutShare.buttonMail.setOnClickListener {
             // メールのシェア

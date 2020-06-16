@@ -72,6 +72,7 @@ class HttpSpotInfo(context: Context) {
                     val obj = datas.getJSONObject("info")
                     val dataSpot = DataSpotInfo(
                         id,
+                        1,
                         obj.getString("image"),
                         obj.getBoolean("more_image"),
                         obj.getString("name"),

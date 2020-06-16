@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="net.tochinavi.www.tochinaviapp">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- Release：複数画面をサポート -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Release：複数画面をサポート -->
     <supports-screens
         android:anyDensity="true"
         android:largeScreens="true"
@@ -51,11 +54,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivitySpotReviewDetail_ImageSearch"></activity>
-        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" />
-        <activity android:name=".ActivityMyDraftList" />
-        <activity android:name=".ActivityInputReviewTag" />
-        <activity android:name=".ActivityInputReview" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -68,6 +67,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".ActivitySpotMap"
+            android:label="@string/title_activity_spot_map"></activity>
+        <activity android:name=".ActivitySpotReviewDetail_ImageSearch" />
+        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" />
+        <activity android:name=".ActivityMyDraftList" />
+        <activity android:name=".ActivityInputReviewTag" />
+        <activity android:name=".ActivityInputReview" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -103,7 +110,11 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ActivityInitDescription"
-            android:theme="@style/AppTheme.NoActionBar" /> <!-- apiデザイン -->
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <!-- apiデザイン -->
         <activity
             android:name="com.andremion.louvre.home.GalleryActivity"
             android:screenOrientation="portrait"

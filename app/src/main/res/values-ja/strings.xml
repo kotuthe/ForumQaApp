@@ -64,6 +64,13 @@
     <string name="spot_info_actions_map">地図</string>
     <string name="spot_info_actions_phone">電話</string>
 
+    <!-- activity_spot_map -->
+    <string name="spot_map_show_route">経路を表示</string>
+    <string name="spot_map_cancel_route">経路を解除</string>
+    <string name="spot_map_return_current">現在地に戻る</string>
+    <string name="spot_map_show_all">全体を表示</string>
+    <string name="spot_map_app_route">"    目的地まで案内    "</string>
+
     <!-- activity_input_review -->
     <string name="input_review_title_date">訪問日</string>
     <string name="input_review_title_review">クチコミを書く</string>

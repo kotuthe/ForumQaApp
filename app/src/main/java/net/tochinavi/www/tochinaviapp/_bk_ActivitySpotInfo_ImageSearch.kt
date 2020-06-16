@@ -113,6 +113,7 @@ class _bk_ActivitySpotInfo_ImageSearch :
         val spot_id: Int = intent.getIntExtra("id", 0)
         dataSpot = DataSpotInfo(
             spot_id,
+            1,
             "",
             false,
             "",
@@ -702,6 +703,7 @@ class _bk_ActivitySpotInfo_ImageSearch :
                     val obj = datas.getJSONObject("info")
                     dataSpot = DataSpotInfo(
                         dataSpot!!.id,
+                        1,
                         obj.getString("image"),
                         obj.getBoolean("more_image"),
                         obj.getString("name"),
