@@ -23,7 +23,14 @@ import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tochinavi.www.tochinaviapp.entities.DataCategory1
+import net.tochinavi.www.tochinaviapp.entities.DataCategory2
+import net.tochinavi.www.tochinaviapp.entities.DataCategory3
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
+import net.tochinavi.www.tochinaviapp.storage.DBHelper
+import net.tochinavi.www.tochinaviapp.storage.DBTableCategory1
+import net.tochinavi.www.tochinaviapp.storage.DBTableCategory2
+import net.tochinavi.www.tochinaviapp.storage.DBTableCategory3
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
@@ -35,6 +42,7 @@ import org.json.JSONObject
 // 検討すること
 // 周辺検索以外での「位置情報取得のダイアログ」は出さない
 // 警告のみにする
+// setTextViewHeaderを参考にパラメーターを追加する
 class FragmentSpotNeighborList : Fragment() {
 
     companion object {
@@ -92,6 +100,8 @@ class FragmentSpotNeighborList : Fragment() {
         condDistance = ActivitySpotNeighborNarrow.dataDistanceArray[0]
         condCoupon = false
         isEndScroll = false
+        setTextViewParams()
+
         if (listData.count() > 0) {
             listData.clear()
             if (mAdapter != null) mAdapter!!.notifyDataSetChanged()
@@ -103,6 +113,13 @@ class FragmentSpotNeighborList : Fragment() {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 Log.i(">> $TAG", "position: $pos")
+
+                // スポット情報へ
+                val item = listData.get(pos)
+                val intent = Intent(activity, ActivitySpotInfo::class.java)
+                intent.putExtra("id", item.id)
+                intent.putExtra("name", item.name)
+                startActivity(intent)
             }
 
             // スクロール
@@ -229,6 +246,7 @@ class FragmentSpotNeighborList : Fragment() {
                     if (listData.size > 0) {
                         listView.setSelection(0)
                     }
+                    setTextViewParams()
                     // 次にonResumeが呼ばれる
                 }
             }
@@ -242,6 +260,43 @@ class FragmentSpotNeighborList : Fragment() {
 
     private fun hideListViewEmpty() {
         layoutEmpty.visibility = View.GONE
+    }
+
+    private fun setTextViewParams() {
+        var category = ""
+        if (condCategory > 0) {
+            val db = DBHelper(context!!)
+            try {
+                when (condCategoryType) {
+                    1 -> {
+                        val data1: DataCategory1 =
+                            DBTableCategory1(context!!).getData(db, condCategory)
+                        category = data1.name
+                    }
+                    2 -> {
+                        val data2: DataCategory2 =
+                            DBTableCategory2(context!!).getData(db, condCategory)
+                        category = data2.name
+                    }
+                    3 -> {
+                        val data3: DataCategory3 =
+                            DBTableCategory3(context!!).getData(db, condCategory)
+                        category = data3.name
+                    }
+                    else -> {
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+        }
+
+        // 範囲
+        val distance: String = "%skm".format(condDistance)
+        textViewParams.setText(if (category.isEmpty()) distance else "$category/$distance")
+
     }
 
     /** 位置情報取得 -> 周辺検索への流れ　（周辺検索する場合はこの関数を読めばOK） **/

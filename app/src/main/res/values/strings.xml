@@ -91,6 +91,19 @@
     <string name="input_review_tag_button_clear">選択解除</string>
     <string name="input_review_tag_button_add">追加</string>
 
+    <!-- activity_spot_info -->
+    <string name="spot_info_tel">電話する</string>
+    <string name="spot_info_map">地図をみる</string>
+    <string name="spot_info_checkin">チェックイン</string>
+    <string name="spot_info_review">クチコミをする</string>
+    <string name="spot_info_image_only">写真を投稿する</string>
+    <string name="spot_info_favorite">お気に入り中</string>
+    <string name="spot_info_favorite_dis">お気に入り</string>
+    <string name="spot_info_mail">メール</string>
+    <string name="spot_info_facebook">Facebook</string>
+    <string name="spot_info_line">LINE</string>
+    <string name="spot_info_twitter">Twitter</string>
+
     <!-- modal_get_badge -->
     <string name="get_badge_title">称号を取得しました！！</string>
     <string name="get_badge_button">OK</string>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.TypedValue
 import android.widget.Button
 import androidx.core.content.ContextCompat
+import com.google.android.material.button.MaterialButton
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -72,6 +73,24 @@ fun Button.setLeftIcon(icon: Int) {
     }*/
     drawable!!.setBounds(0, 0, size, size)
     this.setCompoundDrawables(drawable, null, null, null)
+}
+
+/**
+ * SpotInfoのアイコン付きボタン
+ */
+fun Button.setSpotInfoLeftIcon(icon: Int) {
+    val drawable = ContextCompat.getDrawable(this.context, icon)
+    drawable!!.setBounds(0,0,20f.convertDpToPx(this.context).toInt(),20f.convertDpToPx(this.context).toInt())
+    this.setCompoundDrawablesRelativeWithIntrinsicBounds(drawable,null,null,null)
+
+}
+
+
+fun MaterialButton.setSpotInfoTopIcon(icon: Int) {
+    val drawable = ContextCompat.getDrawable(this.context, icon)
+    val iconSize = 20f.convertDpToPx(this.context).toInt()
+    drawable!!.setBounds(0, 0, iconSize, iconSize)
+    this.setCompoundDrawables(null, drawable, null, null)
 }
 
 

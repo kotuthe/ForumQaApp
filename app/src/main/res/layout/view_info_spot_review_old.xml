@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorGroupTableViewBackground"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:gravity="bottom"
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textColor="#555"
+        android:textSize="@dimen/font_size_caption"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/textViewNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textColor="#555"
+            android:textSize="@dimen/font_size_caption"
+            android:text="0"/>
+    </LinearLayout>
+
+    <include layout="@layout/merge_line_gray" />
+
+    <!-- 住所、電話番号など -->
+    <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:divider="@color/colorListDivider"
+        android:dividerHeight="@dimen/list_divider_height" />
+
+    <include layout="@layout/merge_line_gray" />
+
+    <!-- More -->
+    <LinearLayout
+        android:id="@+id/layoutMore"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/row_normal_height"
+        android:orientation="horizontal"
+        android:gravity="right"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/normal_safe_area_margin"
+            android:layout_marginLeft="@dimen/normal_safe_area_margin"
+            android:text="all view"
+            android:textSize="@dimen/font_size_normal"
+            android:textColor="@color/colorLinkBlue"
+            android:layout_gravity="center" />
+
+        <!-- アンカー -->
+        <ImageView
+            android:layout_width="@dimen/row_anchor_size"
+            android:layout_height="@dimen/row_left_anchor_height"
+            android:layout_marginEnd="@dimen/normal_margin"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_left_arrow_gray"
+            android:scaleType="fitCenter"/>
+
+    </LinearLayout>
+
+    <include layout="@layout/merge_line_gray" />
+
+</LinearLayout>

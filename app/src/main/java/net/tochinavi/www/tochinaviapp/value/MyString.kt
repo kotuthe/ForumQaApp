@@ -13,7 +13,7 @@ class MyString() {
 
     /** [注意] 公開: false, テスト: true **/
     fun isTest(): Boolean {
-        return false
+        return true
     }
 
     /*  */

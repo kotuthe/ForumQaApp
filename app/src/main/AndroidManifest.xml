@@ -114,6 +114,8 @@
         <activity
             android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivitySpotInfo" />
         <!-- apiデザイン -->
         <activity
             android:name="com.andremion.louvre.home.GalleryActivity"

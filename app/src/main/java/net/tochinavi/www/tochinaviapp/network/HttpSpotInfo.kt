@@ -108,6 +108,68 @@ class HttpSpotInfo(context: Context) {
     }
 
     /**
+     * クチコミ5件を取得
+     */
+    fun get_review_min(
+        spot: DataSpotInfo,
+        thenPart: (ArrayList<DataSpotReview>, Int) -> Unit,
+        elsePart: (Constants.HTTP_STATUS) -> Unit) {
+
+        val params: ArrayList<Pair<String, Any>> = ArrayList()
+        params.add("id" to spot.id)
+        params.add("page" to 1)
+        val url = MyString().my_http_url_app() + "/spot/get_spot_review_min.php"
+        url.httpGet(params).responseJson { request, response, result ->
+            result.fold(success = { json ->
+                val datas = json.obj().get("datas") as JSONObject
+                if (datas.get("result") as Boolean) {
+                    val rArray: ArrayList<DataSpotReview> = ArrayList()
+                    val json_array = datas.getJSONArray("review")
+                    val all_number = datas.getInt("count")
+
+                    for (i in 0..json_array.length() - 1) {
+                        val obj = json_array.getJSONObject(i)
+                        val js_review_images = obj.getJSONArray("review_images")
+                        val review_image_array: ArrayList<String> = arrayListOf()
+                        if (js_review_images.length() > 0) {
+                            for (j in 0..js_review_images.length() - 1) {
+                                review_image_array.add(js_review_images.getString(j))
+                            }
+                        }
+
+                        val dataReview = DataSpotReview(
+                            obj.getInt("id"),
+                            spot.id,
+                            spot.name,
+                            obj.getInt("user_id"),
+                            obj.getString("user_name"),
+                            obj.getString("user_image"),
+                            obj.getString("user_info"),
+                            obj.getString("review_date"),
+                            obj.getString("review"),
+                            review_image_array,
+                            "",
+                            obj.getInt("good_num"),
+                            obj.getBoolean("enable_good")
+                        )
+                        rArray.add(dataReview)
+
+                    }
+                    thenPart(rArray, all_number)
+
+                } else {
+                    // データなし
+                    elsePart(Constants.HTTP_STATUS.nodata)
+                }
+            }, failure = { error ->
+                // 通信エラー
+                Log.e(TAG, error.toString())
+                elsePart(Constants.HTTP_STATUS.network)
+            })
+        }
+    }
+
+    /**
      * クチコミ画像を取得
      */
     fun get_review_images(
@@ -454,6 +516,31 @@ class HttpSpotInfo(context: Context) {
         if (dataSpot.coupon_enable) {
             array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.coupon, "クーポン情報はこちら"))
         }
+        return array
+    }
+
+    /**
+     * 基本情報アイテム
+     */
+    fun get_basic_list_data(dataSpot: DataSpotInfo): ArrayList<DataSpotInfoBasic> {
+        val array: ArrayList<DataSpotInfoBasic> = arrayListOf()
+        if (!dataSpot.address.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.address, dataSpot.address))
+        }
+        if (!dataSpot.phone.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.phone, dataSpot.phone))
+        }
+        if (!dataSpot.hour.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.hour, dataSpot.hour))
+        }
+        if (!dataSpot.holiday.isEmpty()) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.holiday, dataSpot.holiday))
+        }
+        if (dataSpot.coupon_enable) {
+            array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.coupon, "クーポン情報はこちら"))
+        }
+        array.add(DataSpotInfoBasic(Constants.SPOT_BASIC_INFO_TYPE.more_detail, "詳細情報を見る"))
+
         return array
     }
 

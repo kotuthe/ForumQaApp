@@ -15,7 +15,7 @@ import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
 import net.tochinavi.www.tochinaviapp.value.Constants
 
 
-class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBasic>) : BaseAdapter() {
+class ListSpotInfoBasicOldAdapter(context: Context, datas: ArrayList<DataSpotInfoBasic>) : BaseAdapter() {
 
     private var mContext: Context
     private var inflater: LayoutInflater? = null
@@ -48,7 +48,7 @@ class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBa
         var view: View? = convertView
         val holder: ViewHolder
         if (convertView == null) {
-            view = inflater!!.inflate(R.layout.cell_spot_info_basic, null)
+            view = inflater!!.inflate(R.layout.cell_spot_info_basic_old, null)
             holder = ViewHolder()
             holder.icon = view.findViewById(R.id.imageViewIcon)
             holder.title = view.findViewById(R.id.textViewTitle)
@@ -61,6 +61,7 @@ class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBa
         val item = arrayData[position]
         var icon: Int = 0
         var color: Int = Color.BLACK
+        var textAlign = View.TEXT_ALIGNMENT_TEXT_START
         when (item.type) {
             Constants.SPOT_BASIC_INFO_TYPE.address -> {
                 icon = R.drawable.img_spot_info_map
@@ -77,7 +78,11 @@ class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBa
                 icon = R.drawable.img_spot_info_holiday
             }
             Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
-                icon = R.drawable.img_spot_info_coupon_blue
+                icon = R.drawable.img_spot_info_coupon_red
+                color = ContextCompat.getColor(mContext, R.color.colorCoupon)
+            }
+            Constants.SPOT_BASIC_INFO_TYPE.more_detail -> {
+                textAlign = View.TEXT_ALIGNMENT_TEXT_END
                 color = ContextCompat.getColor(mContext, R.color.colorLinkBlue)
             }
             else -> {
@@ -85,6 +90,7 @@ class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBa
         }
 
         holder.title!!.apply {
+            textAlignment = textAlign
             text = item.title
             setTextColor(color)
         }
@@ -94,9 +100,11 @@ class ListSpotInfoBasicAdapter(context: Context, datas: ArrayList<DataSpotInfoBa
                 visibility = View.VISIBLE
                 setImageDrawable(ContextCompat.getDrawable(mContext, icon))
             } else {
-                visibility = View.GONE
+                visibility = View.INVISIBLE
             }
         }
+
+
         return view!!
     }
 

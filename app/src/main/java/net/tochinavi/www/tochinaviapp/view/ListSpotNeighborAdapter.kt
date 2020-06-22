@@ -2,6 +2,7 @@ package net.tochinavi.www.tochinaviapp.view
 
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -84,6 +85,7 @@ class ListSpotNeighborAdapter(context: Context, datas: ArrayList<DataSpotList>) 
         holder.imageSpot!!.tag = data.id // キャッシュ制御の為※これほんとに必要か検討する
         holder.imageSpot!!.load(data.image_url) {
             placeholder(R.drawable.ic_image_placeholder)
+            holder.imageSpot!!.setBackgroundColor(Color.TRANSPARENT)
         }
 
         // チェックイン数、クチコミ数
