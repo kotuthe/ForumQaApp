@@ -1,10 +1,14 @@
 package net.tochinavi.www.tochinaviapp.value
 
 import android.content.Context
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.os.Build
 import android.util.TypedValue
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton
+import net.tochinavi.www.tochinaviapp.R
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -91,6 +95,25 @@ fun MaterialButton.setSpotInfoTopIcon(icon: Int) {
     val iconSize = 20f.convertDpToPx(this.context).toInt()
     drawable!!.setBounds(0, 0, iconSize, iconSize)
     this.setCompoundDrawables(null, drawable, null, null)
+}
+
+
+/**
+ * isEnableで設定するとdisable時にクリックができなくなるのを防ぐため
+ */
+fun MaterialButton.setSpotInfoTintColor(enable: Boolean) {
+    val color = if (enable)
+        ContextCompat.getColor(this.context, R.color.spot_info_btn_tint_color) else Color.LTGRAY
+
+    this.setTextColor(color)
+    if (this.icon != null) {
+        this.iconTint = ColorStateList.valueOf(color)
+    }
+    if (this.compoundDrawables.size > 0 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        // API23以上
+        this.compoundDrawableTintList = ColorStateList.valueOf(color)
+    }
+
 }
 
 

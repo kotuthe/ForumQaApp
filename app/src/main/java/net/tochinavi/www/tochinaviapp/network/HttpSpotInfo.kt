@@ -11,13 +11,11 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import net.tochinavi.www.tochinaviapp.entities.DataBadge
-import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
-import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
-import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.entities.*
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.*
+import org.json.JSONArray
 import org.json.JSONObject
 
 /**
@@ -544,6 +542,69 @@ class HttpSpotInfo(context: Context) {
         return array
     }
 
+
+    /**
+     * スポット詳細情報を取得
+     */
+    fun get_spot_info_detail(
+        id: Int,
+        thenPart: (ArrayList<DataSpotInfoDetail>) -> Unit,
+        elsePart: (Constants.HTTP_STATUS) -> Unit) {
+
+        val params: ArrayList<Pair<String, Any>> = ArrayList()
+        params.add("id" to id)
+
+        val url = MyString().my_http_url_app() + "/spot/get_spot_info_detail.php"
+        url.httpGet(params).responseJson { request, response, result ->
+            result.fold(success = { json ->
+                val datas = json.obj().get("datas") as JSONObject
+                if (datas.get("result") as Boolean) {
+                    val obj = datas.getJSONObject("info")
+                    val basic_info: JSONArray = datas.getJSONArray("basic_info")
+                    val dataDetails: ArrayList<DataSpotInfoDetail> = arrayListOf()
+                    for (i in 0..basic_info.length() - 1) {
+                        val item: JSONArray = basic_info.getJSONArray(i)
+                        val tag = item.get(0) as String
+                        var title = item.get(1) as String
+                        val value = item.get(2) as String
+                        var type: Constants.SPOT_BASIC_INFO_TYPE = Constants.SPOT_BASIC_INFO_TYPE.none
+
+                        when (tag) {
+                            "address" -> {
+                                type = Constants.SPOT_BASIC_INFO_TYPE.address
+                            }
+                            "tel" -> {
+                                type = Constants.SPOT_BASIC_INFO_TYPE.phone
+                            }
+                            "hp_url" -> {
+                                type = Constants.SPOT_BASIC_INFO_TYPE.more_detail
+                            }
+                            "locomill_url" -> {
+                                type = Constants.SPOT_BASIC_INFO_TYPE.more_detail
+                                title = "栃ナビ！サイトでみる"
+                            }
+                            else -> {
+
+                            }
+                        }
+
+                        dataDetails.add(
+                            DataSpotInfoDetail(type, title, value))
+
+                    }
+
+                    thenPart(dataDetails)
+                } else {
+                    // データなし
+                    elsePart(Constants.HTTP_STATUS.nodata)
+                }
+            }, failure = { error ->
+                // 通信エラー
+                Log.e(TAG, error.toString())
+                elsePart(Constants.HTTP_STATUS.network)
+            })
+        }
+    }
 
 
 }

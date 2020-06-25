@@ -99,6 +99,7 @@
     <string name="spot_info_image_only">写真を投稿する</string>
     <string name="spot_info_favorite">お気に入り中</string>
     <string name="spot_info_favorite_dis">お気に入り</string>
+    <string name="spot_info_review_more">すべてのクチコミをみる</string>
     <string name="spot_info_mail">メール</string>
     <string name="spot_info_facebook">Facebook</string>
     <string name="spot_info_line">LINE</string>

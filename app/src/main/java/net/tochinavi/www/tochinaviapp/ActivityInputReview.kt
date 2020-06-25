@@ -364,6 +364,8 @@ class ActivityInputReview :
         }
 
         // クチコミ
+        layoutReview.visibility =
+            if (reviewType == 1) View.VISIBLE else View.GONE
         buttonReviewClose.visibility = View.INVISIBLE
         editTextReview.apply {
             setOnFocusChangeListener { view, hasFocus ->

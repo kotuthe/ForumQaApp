@@ -38,7 +38,6 @@
                         android:layout_weight="1"
                         android:text="@string/spot_info_tel"
                         android:textSize="14sp"
-                        android:textColor="@color/spot_info_btn_tint_color"
                         android:textAppearance="@style/Widget.MaterialComponents.Button"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
@@ -50,7 +49,6 @@
                         app:icon="@drawable/img_spot_info_phone"
                         app:iconSize="18dp"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/spot_info_btn_tint_color"
                         android:gravity="center"/>
 
                     <com.google.android.material.button.MaterialButton
@@ -60,7 +58,6 @@
                         android:layout_weight="1"
                         android:text="@string/spot_info_map"
                         android:textSize="14sp"
-                        android:textColor="@color/spot_info_btn_tint_color"
                         android:textAppearance="@style/Widget.MaterialComponents.Button"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
@@ -72,7 +69,6 @@
                         app:icon="@drawable/img_spot_info_map"
                         app:iconSize="18dp"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/spot_info_btn_tint_color"
                         android:gravity="center"/>
 
                 </LinearLayout>
@@ -171,7 +167,6 @@
                         android:layout_height="60dp"
                         android:text="@string/spot_info_checkin"
                         android:textSize="14sp"
-                        android:textColor="@color/spot_info_btn_tint_color"
                         android:textAppearance="@style/Widget.MaterialComponents.Button"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
@@ -183,7 +178,6 @@
                         app:icon="@drawable/img_spot_info_btn_checkin"
                         app:iconSize="18dp"
                         app:iconGravity="textStart"
-                        app:iconTint="@color/spot_info_btn_tint_color"
                         android:gravity="center"/>
 
 
@@ -199,8 +193,6 @@
                             android:layout_weight="1"
                             android:text="@string/spot_info_review"
                             android:textSize="13sp"
-                            android:textColor="@color/spot_info_btn_tint_color"
-                            android:drawableTint="@color/spot_info_btn_tint_color"
                             android:textAppearance="@style/Widget.MaterialComponents.Button"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
@@ -220,7 +212,6 @@
                             android:layout_weight="1"
                             android:text="@string/spot_info_image_only"
                             android:textSize="13sp"
-                            android:textColor="@color/spot_info_btn_tint_color"
                             android:textAppearance="@style/Widget.MaterialComponents.Button"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"
@@ -241,7 +232,6 @@
                             android:layout_weight="1"
                             android:text="@string/spot_info_favorite"
                             android:textSize="13sp"
-                            android:textColor="@color/spot_info_btn_tint_color"
                             android:textAppearance="@style/Widget.MaterialComponents.Button"
                             android:insetTop="0dp"
                             android:insetBottom="0dp"

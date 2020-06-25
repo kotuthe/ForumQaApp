@@ -41,18 +41,6 @@ import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.*
 
-
-/*
-
-クチコミのアダプターは作成した
-次やるのは基本情報を取得後のレイアウト更新＋クチコミ取得とレイアウト更新
-ボタンのアイコンがテキストのすぐ横に行かないので下記のURLを参考に
-作ってみる（マテリアルボタンというものを使う）
-https://qiita.com/Reyurnible/items/20457d2ef9572b0eee94
-https://qiita.com/teco_sano/items/d64caaa5d2646228178f
- */
-// 続きはここから
-// もとに戻るボタンの実装
 class ActivitySpotInfo :
     AppCompatActivity(),
     OnMapReadyCallback,
@@ -90,10 +78,10 @@ class ActivitySpotInfo :
     private var loading: LoadingNormal? = null
 
     // 変数 //
-    private var functions: Functions? = null
-    private var mContext: Context? = null
-    private var mySP: MySharedPreferences? = null
-    private var dataSpot: DataSpotInfo? = null
+    private lateinit var functions: Functions
+    private lateinit var mContext: Context
+    private lateinit var mySP: MySharedPreferences
+    private lateinit var dataSpot: DataSpotInfo
     private lateinit var mGoogleMap: GoogleMap
     private var reviewNumber: Int = 0
     private var isGetSpotInfo = false
@@ -118,8 +106,8 @@ class ActivitySpotInfo :
 
         Log.i(">> $TAG_SHORT", "onCreate")
         mContext = applicationContext
-        mySP = MySharedPreferences(mContext!!)
-        functions = Functions(mContext!!)
+        mySP = MySharedPreferences(mContext)
+        functions = Functions(mContext)
 
         // スポット名取得
         val spot_id: Int = intent.getIntExtra("id", 0)
@@ -148,11 +136,11 @@ class ActivitySpotInfo :
             false
         )
         ifNotNull(intent.getStringExtra("name"), {
-            dataSpot!!.name = it
+            dataSpot.name = it
         })
 
         if (supportActionBar != null) {
-            supportActionBar!!.title = dataSpot!!.name
+            supportActionBar!!.title = dataSpot.name
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
@@ -220,7 +208,7 @@ class ActivitySpotInfo :
             REQUEST_ALERT_FAVORITE -> {
                 // お気に入り
                 loading!!.updateLayout(
-                    if (dataSpot!!.bookMarkEnable)
+                    if (dataSpot.bookMarkEnable)
                         "お気に入りを解除します..." else "お気に入りに登録します...", true
                 )
                 loading!!.show(supportFragmentManager, LoadingNormal.TAG)
@@ -234,7 +222,7 @@ class ActivitySpotInfo :
             }
             REQUEST_ALERT_PHONE -> {
                 // 電話をする
-                startActivity(MyIntent().phone(dataSpot!!.phone))
+                startActivity(MyIntent().phone(dataSpot.phone))
             }
 
         }
@@ -258,14 +246,12 @@ class ActivitySpotInfo :
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
 
         // 上部 //
-        // buttonPhone.setSpotInfoLeftIcon(R.drawable.img_spot_info_phone)
-        buttonMap.setSpotInfoLeftIcon(R.drawable.img_spot_info_map)
+        buttonPhone.setSpotInfoTintColor(true)
+        buttonMap.setSpotInfoTintColor(true)
         buttonReview.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_review)
         buttonReviewImage.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_camera)
         buttonFavorite.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_favorite)
-
         buttonPhone.setOnClickListener {
-            buttonPhone.isEnabled = false
             // 電話
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -285,10 +271,10 @@ class ActivitySpotInfo :
 
         // スポットの写真をクリックしたらギャラリー or プレビュー（one image）
         imageViewMoreGallery.setOnClickListener {
-
+            showReviewImageList()
         }
         imageViewSpotImage.setOnClickListener {
-
+            showReviewImageList()
         }
 
         buttonCheckin.setOnClickListener {
@@ -305,9 +291,9 @@ class ActivitySpotInfo :
                         "チェックイン"
                 );
              */
-            if (mySP!!.get_status_login()) {
+            if (mySP.get_status_login()) {
                 // チェックイン
-                if (dataSpot!!.checkinEnable) {
+                if (dataSpot.checkinEnable) {
                     // できる
                     val alert = AlertNormal.newInstance(
                         requestCode = REQUEST_ALERT_CHECKIN,
@@ -335,14 +321,13 @@ class ActivitySpotInfo :
         }
 
         buttonReview.setOnClickListener {
-            buttonReview.isEnabled = false
             // クチコミ
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
             // Firebase
-            if (mySP!!.get_status_login()) {
-                doInputReview()
+            if (mySP.get_status_login()) {
+                doInputReview(1)
             } else {
                 // ログインしてください
                 showNoLoginAlert(LoginType.review)
@@ -351,6 +336,16 @@ class ActivitySpotInfo :
 
         buttonReviewImage.setOnClickListener {
             // クチコミ　画像のみ
+            if (!isGetSpotInfo) {
+                return@setOnClickListener
+            }
+            // Firebase
+            if (mySP.get_status_login()) {
+                doInputReview(2)
+            } else {
+                // ログインしてください
+                showNoLoginAlert(LoginType.review)
+            }
         }
 
         buttonFavorite.setOnClickListener {
@@ -367,11 +362,11 @@ class ActivitySpotInfo :
                 "IS:お気に入り")
             */
 
-            if (mySP!!.get_status_login()) {
-                val message = if (dataSpot!!.bookMarkEnable)
+            if (mySP.get_status_login()) {
+                val message = if (dataSpot.bookMarkEnable)
                     "お気に入りを解除しますか？" else "お気に入りに登録しますか？"
 
-                val positive_label = if (dataSpot!!.bookMarkEnable)
+                val positive_label = if (dataSpot.bookMarkEnable)
                     "解除する" else "登録する"
 
                 val alert = AlertNormal.newInstance(
@@ -394,7 +389,7 @@ class ActivitySpotInfo :
         // 基本情報 //
         layoutBasic.apply {
             textViewTitle.text = "基本情報"
-            textViewSpotName.text = dataSpot!!.name
+            textViewSpotName.text = dataSpot.name
 
             val mapFragment = supportFragmentManager.findFragmentById(R.id.fragmentMap) as SupportMapFragment
             mapFragment.getMapAsync(activity)
@@ -405,7 +400,7 @@ class ActivitySpotInfo :
                 startActivity(intent)
             }
 
-            basicAdapter = ListSpotInfoBasicOldAdapter(mContext!!, basicListData)
+            basicAdapter = ListSpotInfoBasicOldAdapter(mContext, basicListData)
             listView.apply {
                 adapter = basicAdapter
                 onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
@@ -425,10 +420,15 @@ class ActivitySpotInfo :
                         Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
                             // クーポンへ
                             startActivity(MyIntent().web_browser(
-                                MyString().my_http_url_coupon(dataSpot!!.id)))
+                                MyString().my_http_url_coupon(dataSpot.id)))
                         }
                         Constants.SPOT_BASIC_INFO_TYPE.more_detail -> {
                             // 詳細へ
+
+                            val intent = Intent(this@ActivitySpotInfo,
+                                ActivitySpotInfoDetail::class.java)
+                            intent.putExtra("dataSpot", dataSpot)
+                            startActivity(intent)
                         }
                         else -> {
 
@@ -439,7 +439,7 @@ class ActivitySpotInfo :
         }
 
         // クチコミ //
-        reviewAdapter = ListSpotReviewAdapter(mContext!!, reviewListData)
+        reviewAdapter = ListSpotReviewAdapter(mContext, reviewListData)
         layoutReview.listView.apply {
             adapter = reviewAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
@@ -454,7 +454,7 @@ class ActivitySpotInfo :
             textViewCopy.text = ""
             textViewCopy.setOnClickListener {
                 // クリップボードにコピー
-                functions!!.clipboardText(activity, (it as TextView).text.toString())
+                functions.clipboardText(activity, (it as TextView).text.toString())
 
                 val alert = AlertNormal.newInstance(
                     requestCode = 0,
@@ -467,17 +467,17 @@ class ActivitySpotInfo :
 
             }
             buttonMail.setLeftIcon(R.drawable.img_share_mail)
-            buttonMail.setTextColor(ContextCompat.getColor(mContext!!, R.color.colorLinkBlue))
+            buttonMail.setTextColor(ContextCompat.getColor(mContext, R.color.colorLinkBlue))
             buttonMail.setOnClickListener {
                 // メールのシェア
                 startActivity(
-                    MyIntent().mail(dataSpot!!.snsShareTextLong))
+                    MyIntent().mail(dataSpot.snsShareTextLong))
             }
             buttonLine.setLeftIcon(R.drawable.img_share_line)
-            buttonLine.setTextColor(ContextCompat.getColor(mContext!!, R.color.colorLinkBlue))
+            buttonLine.setTextColor(ContextCompat.getColor(mContext, R.color.colorLinkBlue))
             buttonLine.setOnClickListener {
                 // ラインのシェア
-                MyIntent().line(dataSpot!!.snsShareText, {
+                MyIntent().line(dataSpot.snsShareText, {
                     startActivity(it)
                 }, {
                     val alert = AlertNormal.newInstance(
@@ -493,14 +493,25 @@ class ActivitySpotInfo :
         }
     }
 
+    private fun showReviewImageList() {
+        if (dataSpot.moreImage) {
+            // クチコミ写真一覧の表示
+            val intent = Intent(this, ActivitySpotReviewImageList::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            startActivity(intent)
+        } else {
+            // 店舗写真の表示
+        }
+    }
+
     /**
      * 電話をしますかアラート
      */
     private fun showPhoneAlert() {
         val alert = AlertNormal.newInstance(
             requestCode = REQUEST_ALERT_PHONE,
-            title = dataSpot!!.name,
-            msg = "%sに電話をする".format(dataSpot!!.phone),
+            title = dataSpot.name,
+            msg = "%sに電話をする".format(dataSpot.phone),
             positiveLabel = "電話をする",
             negativeLabel = "キャンセル"
         )
@@ -536,13 +547,13 @@ class ActivitySpotInfo :
 
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
-        HttpSpotInfo(mContext!!).init_map_position(googleMap)
+        HttpSpotInfo(mContext).init_map_position(googleMap)
     }
 
     /** 位置情報取得 -> スポット取得 or チェックイン **/
     private fun setLocation() {
         // 端末の位置情報サービスをチェック
-        val manager = mContext!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val manager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // パーミッションのチェックが必要か確認
             if (Build.VERSION.SDK_INT >= 23) {
@@ -561,7 +572,7 @@ class ActivitySpotInfo :
      * Permissionのチェック
      */
     private fun checkPermission() {
-        if (ActivityCompat.checkSelfPermission(mContext!!,
+        if (ActivityCompat.checkSelfPermission(mContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //Log.i(">> $TAG", "checkPermission ok")
             // アプリの権限が許可してる
@@ -741,8 +752,8 @@ class ActivitySpotInfo :
      */
     private fun getSpotData() {
         Log.i(">> $TAG_SHORT", "getSpotData")
-        HttpSpotInfo(mContext!!).get_spot_info(
-            dataSpot!!.id,
+        HttpSpotInfo(mContext).get_spot_info(
+            dataSpot.id,
             mLocation,
             {
                 isGetSpotInfo = true
@@ -770,44 +781,49 @@ class ActivitySpotInfo :
      * dataSpotで設定できるレイアウト
      */
     private fun setLayoutDataSpot() {
-        if (dataSpot != null) {
-            // 上部 //
-            imageViewCategory.setImageDrawable(
-                ContextCompat.getDrawable(this, MyImage().icon_category_mini(dataSpot!!.category_large_id)))
-            // textViewInfo.text = dataSpot!!.simple_detail
-            imageViewSpotImage.load(dataSpot!!.imageUrl) {
-                placeholder(R.drawable.ic_image_placeholder)
-            }
-            if (!dataSpot!!.simple_caption.isEmpty()) {
-                layoutSpotMessage.visibility = View.VISIBLE
-                textViewSpotMessage.text = dataSpot!!.simple_caption
-            } else {
-                layoutSpotMessage.visibility = View.GONE
-            }
-            imageViewMoreGallery.visibility =
-                if (dataSpot!!.moreImage) View.VISIBLE else View.GONE
-
-            // 基本情報 //
-            layoutBasic.textViewTitle.text = "基本情報"
-            layoutBasic.textViewSpotName.text = dataSpot!!.name
-            // 地図更新
-            HttpSpotInfo(mContext!!).update_map_position(
-                mGoogleMap,
-                LatLng(dataSpot!!.latitude, dataSpot!!.longitude),
-                dataSpot!!.category_large_id
-            )
-            basicListData.addAll(
-                HttpSpotInfo(mContext!!).get_basic_list_data(dataSpot!!))
-            basicAdapter!!.notifyDataSetChanged()
-
-            // シェア
-            layoutShare.textViewCopy.text = dataSpot!!.snsShareText
-
-            // 上部の項目を表示することで下にスライドしなくなる
-            textViewInfo.text = dataSpot!!.simple_detail
-
+        // 上部 //
+        imageViewCategory.setImageDrawable(
+            ContextCompat.getDrawable(this, MyImage().icon_category_mini(dataSpot.category_large_id)))
+        // textViewInfo.text = dataSpot!!.simple_detail
+        imageViewSpotImage.load(dataSpot.imageUrl) {
+            placeholder(R.drawable.ic_image_placeholder)
         }
+        if (!dataSpot.simple_caption.isEmpty()) {
+            layoutSpotMessage.visibility = View.VISIBLE
+            textViewSpotMessage.text = dataSpot.simple_caption
+        } else {
+            layoutSpotMessage.visibility = View.GONE
+        }
+        imageViewMoreGallery.visibility =
+            if (dataSpot.moreImage) View.VISIBLE else View.GONE
 
+        buttonCheckin.setSpotInfoTintColor(dataSpot.checkinEnable)
+        buttonReview.setSpotInfoTintColor(dataSpot.reviewEnable)
+        buttonReviewImage.setSpotInfoTintColor(dataSpot.imageEnable)
+        buttonFavorite.setSpotInfoTintColor(true)
+
+        buttonFavorite.text = getString(
+            if (dataSpot.bookMarkEnable) R.string.spot_info_favorite else R.string.spot_info_favorite_dis)
+
+        // 基本情報 //
+        layoutBasic.textViewTitle.text = "基本情報"
+        layoutBasic.textViewSpotName.text = dataSpot.name
+        // 地図更新
+        HttpSpotInfo(mContext).update_map_position(
+            mGoogleMap,
+            LatLng(dataSpot.latitude, dataSpot.longitude),
+            dataSpot.category_large_id
+        )
+        basicListData.clear()
+        basicListData.addAll(
+            HttpSpotInfo(mContext).get_basic_list_data(dataSpot))
+        basicAdapter!!.notifyDataSetChanged()
+
+        // シェア
+        layoutShare.textViewCopy.text = dataSpot.snsShareText
+
+        // 上部の項目を表示することで下にスライドしなくなる
+        textViewInfo.text = dataSpot.simple_detail
     }
 
     /**
@@ -816,10 +832,11 @@ class ActivitySpotInfo :
     // layoutReview.listView
     private fun getReviewMin() {
         Log.i(">> $TAG_SHORT", "getReviewMin")
-        HttpSpotInfo(mContext!!).get_review_min(
-            dataSpot!!,
+        HttpSpotInfo(mContext).get_review_min(
+            dataSpot,
             { datas, all_number ->
                 reviewNumber = all_number
+                reviewListData.clear()
                 reviewListData.addAll(datas)
                 // レイアウトの更新
                 setLayoutDataSpotReview()
@@ -871,8 +888,8 @@ class ActivitySpotInfo :
     private fun doCheckin() {
 
         Log.i(">> $TAG_SHORT", "doCheckin")
-        HttpSpotInfo(mContext!!).do_checkin(
-            dataSpot!!.id,
+        HttpSpotInfo(mContext).do_checkin(
+            dataSpot.id,
             mLocation,
             {
                 loading!!.onDismiss()
@@ -917,8 +934,8 @@ class ActivitySpotInfo :
      */
     private fun doFavorite() {
         Log.i(">> $TAG_SHORT", "doFavorite")
-        HttpSpotInfo(mContext!!).do_favorite(
-            dataSpot!!.id,
+        HttpSpotInfo(mContext).do_favorite(
+            dataSpot.id,
             {
                 loading!!.onDismiss(800)
                 // スポットを更新
@@ -945,14 +962,14 @@ class ActivitySpotInfo :
     /**
      * クチコミをする
      */
-    private fun doInputReview() {
+    private fun doInputReview(type: Int) {
         Log.i(">> $TAG_SHORT", "doInputReview")
-        HttpSpotInfo(mContext!!).check_input_review(
+        HttpSpotInfo(mContext).check_input_review(
             {
                 // クチコミ投稿へ
                 val intent = Intent(this, ActivityInputReview::class.java)
                 intent.putExtra("dataSpot", dataSpot)
-                // intent.putExtra("type", "all")
+                intent.putExtra("type", type)
                 startActivity(intent)
             },
             {
