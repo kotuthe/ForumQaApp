@@ -51,7 +51,8 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivitySpotInfoDetail"/>
+        <activity android:name=".ActivitySpotReviewDetail"></activity>
+        <activity android:name=".ActivitySpotInfoDetail" />
         <activity android:name=".ActivitySpotReviewImageList" />
         <activity android:name=".ActivitySpotReviewList" />
         <!--

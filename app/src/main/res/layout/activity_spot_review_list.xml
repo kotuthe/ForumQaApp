@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivitySpotReviewList">
+    tools:context=".ActivitySpotReviewList"
+    android:background="@color/colorGroupTableViewBackground">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <!-- 条件 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_margin"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="title"/>
+
+        <TextView
+            android:id="@+id/textViewNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="@dimen/font_size_caption"
+            android:text="0"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+
+        <include
+            android:id="@+id/layoutEmpty"
+            layout="@layout/listview_empty"/>
+
+        <!-- リスト -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginTop="1dp">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/colorListDivider"
+                android:dividerHeight="@dimen/list_divider_height"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- 上部シャドー -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/layout_shadow_under"/>
+
+    </FrameLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

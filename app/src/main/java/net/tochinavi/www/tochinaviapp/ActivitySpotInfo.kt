@@ -424,7 +424,6 @@ class ActivitySpotInfo :
                         }
                         Constants.SPOT_BASIC_INFO_TYPE.more_detail -> {
                             // 詳細へ
-
                             val intent = Intent(this@ActivitySpotInfo,
                                 ActivitySpotInfoDetail::class.java)
                             intent.putExtra("dataSpot", dataSpot)
@@ -444,7 +443,19 @@ class ActivitySpotInfo :
             adapter = reviewAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 Log.i(">> reviewAdapter", "position: $pos")
+
+                val intent = Intent(this@ActivitySpotInfo, ActivitySpotReviewDetail::class.java)
+                intent.putExtra("dataSpot", dataSpot)
+                intent.putExtra("dataReview", reviewListData[pos])
+                startActivityForResult(intent, 0)
             }
+        }
+        // もっとみる
+        layoutReview.layoutMore.setOnClickListener {
+            val intent = Intent(this@ActivitySpotInfo,
+                ActivitySpotReviewList::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            startActivity(intent)
         }
 
         // お店のシェア //

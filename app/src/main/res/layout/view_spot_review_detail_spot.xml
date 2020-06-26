@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/normal_margin"
+    android:paddingBottom="@dimen/normal_margin"
+    android:paddingStart="@dimen/normal_safe_area_margin"
+    android:background="@drawable/bg_pattern_dot"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageViewSpot"
+        android:layout_width="@dimen/row_spot_image_size"
+        android:layout_height="@dimen/row_spot_image_size"
+        android:layout_marginEnd="@dimen/normal_margin"
+        android:background="@color/colorImageViewBg"
+        android:scaleType="centerCrop"/>
+
+    <!-- 右側：詳細 -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollHorizontally="true"
+            android:text="name"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="@dimen/font_size_row_title"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+        <TextView
+            android:id="@+id/textViewDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="4dp"
+            android:scrollHorizontally="true"
+            android:text="info"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_row_sub" />
+
+        <!--
+        <TextView
+            android:id="@+id/textViewCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="category"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="@dimen/font_size_row_sub"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="18dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/layoutDistance"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img_cmn_distance" />
+
+                <TextView
+                    android:id="@+id/textViewDistance"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:scrollHorizontally="true"
+                    android:text="12345km"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_row_sub"
+                    android:ellipsize="end"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/layoutReviewNum"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img_cmn_review_yellow" />
+
+                <TextView
+                    android:id="@+id/textReviewNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:scrollHorizontally="true"
+                    android:text="1234"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_row_sub"
+                    android:ellipsize="end"
+                    android:singleLine="true" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutCoupon"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginLeft="8dp">
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/img_cmn_coupon" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="4dp"
+                    android:scrollHorizontally="true"
+                    android:text="クーポン"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/font_size_row_sub"
+                    android:ellipsize="end"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+        -->
+
+    </LinearLayout>
+
+    <!-- アンカー -->
+    <ImageView
+        android:layout_width="@dimen/row_anchor_size"
+        android:layout_height="@dimen/row_left_anchor_height"
+        android:paddingEnd="@dimen/normal_margin"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_left_arrow_gray"
+        android:scaleType="fitCenter"/>
+
+</LinearLayout>

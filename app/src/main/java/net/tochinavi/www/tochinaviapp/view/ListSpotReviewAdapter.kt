@@ -109,6 +109,7 @@ class ListSpotReviewAdapter(context: Context, datas: ArrayList<DataSpotReview>) 
 
         holder.otherNumber!!.visibility =
             if (data.reviewImageUrls.size >= 2) View.VISIBLE else View.GONE
+        holder.otherNumber!!.text = "他%d件".format(data.reviewImageUrls.size - 1)
 
         return view!!
     }

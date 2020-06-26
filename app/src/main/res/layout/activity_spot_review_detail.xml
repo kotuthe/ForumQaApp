@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGroupTableViewBackground"
+    tools:context=".ActivitySpotReviewDetail">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+            <!-- スクロールの入れ子 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:descendantFocusability="blocksDescendants">
+
+                <include
+                    android:id="@+id/layoutSpot"
+                    layout="@layout/view_spot_review_detail_spot"/>
+
+                <include
+                    android:id="@+id/layoutOther"
+                    layout="@layout/view_spot_review_detail_other"/>
+
+                <include layout="@layout/merge_line_gray" />
+
+                <!-- クチコミ詳細 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:paddingTop="10dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="16dp"
+                    android:orientation="vertical">
+                    
+                    <TextView
+                        android:id="@+id/textViewDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center|left"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp"
+                        android:ellipsize="end"
+                        android:text="2000/12/31"/>
+
+                    <!-- ユーザー情報 -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:orientation="horizontal">
+
+
+                        <ImageView
+                            android:id="@+id/imageViewUserIcon"
+                            android:layout_width="38dp"
+                            android:layout_height="38dp"
+                            android:layout_gravity="center"
+                            android:scaleType="centerCrop" />
+
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:layout_weight="1"
+                            android:layout_marginLeft="16dp">
+
+                            <TextView
+                                android:id="@+id/textViewUserName"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:textStyle="bold"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp"
+                                android:text="UserName"/>
+
+                            <TextView
+                                android:id="@+id/textViewUserDetail"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:gravity="center|left"
+                                android:textColor="@android:color/black"
+                                android:textSize="13sp"
+                                android:ellipsize="end"
+                                android:text="info"/>
+
+                        </LinearLayout>
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textViewReview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:gravity="center|left"
+                        android:textColor="@android:color/black"
+                        android:textSize="14sp"
+                        android:visibility="visible"
+                        android:text="review"/>
+
+                    <TextView
+                        android:id="@+id/textViewReviewInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:gravity="center|left"
+                        android:textColor="@android:color/black"
+                        android:textSize="13sp"
+                        android:visibility="visible"
+                        android:text="グッときた　100件"/>
+
+                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
+                        android:id="@+id/recyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/normal_margin"
+                        android:paddingTop="@dimen/normal_margin"
+                        android:paddingStart="4dp"
+                        android:paddingEnd="4dp"/>
+
+                </LinearLayout>
+
+                <include layout="@layout/merge_line_gray" />
+
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

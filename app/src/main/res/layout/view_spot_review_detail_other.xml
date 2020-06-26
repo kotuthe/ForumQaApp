@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="115dp"
+    android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:paddingTop="@dimen/normal_margin"
+    android:paddingBottom="@dimen/normal_margin"
+    android:paddingLeft="@dimen/normal_safe_area_margin"
+    android:background="@drawable/bg_pattern_dot"
+    tools:context=".MainActivity">
+
+    <!-- 右側：詳細 -->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/textViewType"
+            android:layout_width="@dimen/row_my_review_type_width"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textViewName"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/font_size_small"
+            android:text="type" />
+
+        <TextView
+            android:id="@+id/textViewName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:scrollHorizontally="true"
+            android:text="name"
+            android:textColor="@color/colorLinkBlue"
+            android:textSize="@dimen/font_size_row_title"
+            android:textStyle="bold"
+            android:ellipsize="end"
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+    <!-- アンカー -->
+    <ImageView
+        android:layout_width="@dimen/row_anchor_size"
+        android:layout_height="@dimen/row_left_anchor_height"
+        android:paddingRight="@dimen/normal_margin"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_left_arrow_gray"
+        android:scaleType="fitCenter"/>
+
+</LinearLayout>
