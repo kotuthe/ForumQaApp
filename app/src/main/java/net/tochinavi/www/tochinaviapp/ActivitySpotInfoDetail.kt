@@ -53,7 +53,7 @@ class ActivitySpotInfoDetail :
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        mAdapter = ListSpotInfoDetailAdapter(mContext, listData)
+        mAdapter = ListSpotInfoDetailAdapter(mContext, listData, true)
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->

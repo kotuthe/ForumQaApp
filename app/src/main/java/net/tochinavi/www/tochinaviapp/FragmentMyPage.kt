@@ -99,16 +99,18 @@ class FragmentMyPage : Fragment() {
             when(pos) {
                 0 -> {
                     // 称号
-                    /*
-                    Intent intent = new Intent(getActivity(), ActivityMyBadgeList.class);
-                    startActivity(intent);
-                     */
+                    val intent = Intent(activity, ActivityMyBadgeList::class.java)
+                    startActivity(intent)
                 }
                 1 -> {
                     // チェックイン履歴
+                    val intent = Intent(activity, ActivityMyCheckinList::class.java)
+                    startActivity(intent)
                 }
                 2 -> {
                     // クチコミ一覧
+                    val intent = Intent(activity, ActivityMyReviewList::class.java)
+                    startActivity(intent)
                 }
                 3 -> {
                     // クチコミ下書き
@@ -117,6 +119,8 @@ class FragmentMyPage : Fragment() {
                 }
                 4 -> {
                     // お気に入り
+                    val intent = Intent(activity, ActivityMyWishList::class.java)
+                    startActivity(intent)
                 }
             }
         }

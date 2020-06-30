@@ -13,11 +13,15 @@ class MySharedPreferences(context: Context) {
     enum class Keys(val rawValue: String) {
         // ログインの有無
         status_login("status_login"),
+
         // 初回説明
         init_description_count("init_description_count"),
+
         // アプリ起動したときに1度実行される（起動時に初期化される）
         top_location_first_alert("top_location_first_alert"),
         spot_neighbor_location_first_alert("spot_neighbor_location_first_alert"),
+        spot_search_location_first_alert("spot_search_location_first_alert"),
+
         // AppDataの更新時間
         app_data_update_time("app_data_update_time")
     }
@@ -53,6 +57,10 @@ class MySharedPreferences(context: Context) {
                 val v: Boolean = value as Boolean
                 sh.putBoolean(Keys.spot_neighbor_location_first_alert.rawValue, v)
             }
+            Keys.spot_search_location_first_alert -> {
+                val v: Boolean = value as Boolean
+                sh.putBoolean(Keys.spot_search_location_first_alert.rawValue, v)
+            }
             Keys.app_data_update_time -> {
                 // 現在時刻をいれる
                 if (value == 0) {
@@ -83,6 +91,9 @@ class MySharedPreferences(context: Context) {
             }
             Keys.spot_neighbor_location_first_alert -> {
                 return prefs.getBoolean(Keys.spot_neighbor_location_first_alert.rawValue, false)
+            }
+            Keys.spot_search_location_first_alert -> {
+                return prefs.getBoolean(Keys.spot_search_location_first_alert.rawValue, false)
             }
             Keys.app_data_update_time -> {
                 return prefs.getLong(Keys.app_data_update_time.rawValue, 0)

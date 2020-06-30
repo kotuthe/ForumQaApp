@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_ranking.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import kotlinx.android.synthetic.main.tab_item_ranking.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataRanking
+import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.ListRankingAdapter
 import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
@@ -107,8 +108,10 @@ class FragmentRanking : Fragment() {
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                // ※後でユーザーページに遷移するプログラムをする
-                Log.i(">> $TAG", "position: $pos")
+                // ユーザー詳細へ
+                startActivity(
+                    MyIntent().web_browser(
+                    MyString().my_http_url_member_detail(listData[pos].id)))
             }
 
             // タッチ速度設定

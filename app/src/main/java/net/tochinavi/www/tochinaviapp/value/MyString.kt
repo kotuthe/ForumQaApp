@@ -44,7 +44,7 @@ class MyString() {
     // サイトTOP
     fun my_http_url_partner_top_web(): String { return returnURL("", true); }
     // 会員ページ
-    fun my_http_url_member_detail(): String { return returnURL("/mypage/home/show.shtml?id=", true); }
+    fun my_http_url_member_detail(id: Int): String { return returnURL("/mypage/home/show.shtml?id=%d".format(id), true); }
 
     // クーポンページ
     fun my_http_url_coupon(id: Int): String {

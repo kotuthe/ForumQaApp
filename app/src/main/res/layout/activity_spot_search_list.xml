@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGroupTableViewBackground">
+
+    <!-- 条件 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/normal_margin"
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+        <TextView
+            android:id="@+id/textViewParams"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="param"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_weight="1">
+
+        <include
+            android:id="@+id/layoutEmpty"
+            layout="@layout/listview_empty"/>
+
+        <!-- リスト -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_marginTop="1dp">
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@color/colorListDivider"
+                android:dividerHeight="@dimen/list_divider_height"/>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+        <!-- 上部シャドー -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@drawable/layout_shadow_under"/>
+
+    </FrameLayout>
+
+    <!-- 広告 -->
+    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+        android:id="@+id/viewAdvtFooter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/advt_height"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -19,11 +19,12 @@ import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 
-class ListSpotInfoDetailAdapter(context: Context, datas: ArrayList<DataSpotInfoDetail>) : BaseAdapter() {
+class ListSpotInfoDetailAdapter(context: Context, datas: ArrayList<DataSpotInfoDetail>, isMargin: Boolean = false) : BaseAdapter() {
 
     private var mContext: Context
     private var inflater: LayoutInflater? = null
     private var arrayData: ArrayList<DataSpotInfoDetail> = ArrayList()
+    private var mIsMargin: Boolean
 
     internal class ViewHolder {
         var contentView: LinearLayout? = null
@@ -36,6 +37,7 @@ class ListSpotInfoDetailAdapter(context: Context, datas: ArrayList<DataSpotInfoD
         this.mContext = context
         inflater = LayoutInflater.from(context)
         arrayData = datas
+        this.mIsMargin = isMargin
     }
 
     override fun getCount(): Int {
@@ -102,19 +104,21 @@ class ListSpotInfoDetailAdapter(context: Context, datas: ArrayList<DataSpotInfoD
 
         holder.arrow!!.visibility = if (isArrow) View.VISIBLE else View.GONE
 
-        // ※まだ上の境界線がない、下のマージン後に境界線が入るなどある
-        // 上下にマージンをいれる
-        var marginTop: Int = 0
-        var marginBottom: Int = 0
-        if (position == 0) {
-            marginTop = 20f.convertDpToPx(mContext).toInt()
+        if (this.mIsMargin) {
+            // ※まだ上の境界線がない、下のマージン後に境界線が入るなどある
+            // 上下にマージンをいれる
+            var marginTop: Int = 0
+            var marginBottom: Int = 0
+            if (position == 0) {
+                marginTop = 20f.convertDpToPx(mContext).toInt()
+            }
+            if (position == (arrayData.size - 1)) {
+                marginBottom = 20f.convertDpToPx(mContext).toInt()
+            }
+            val mlp = holder.contentView!!.layoutParams as MarginLayoutParams
+            mlp.setMargins(mlp.leftMargin, marginTop, mlp.rightMargin, marginBottom)
+            holder.contentView!!.layoutParams = mlp
         }
-        if (position == (arrayData.size - 1)) {
-            marginBottom = 20f.convertDpToPx(mContext).toInt()
-        }
-        val mlp = holder.contentView!!.layoutParams as MarginLayoutParams
-        mlp.setMargins(mlp.leftMargin, marginTop, mlp.rightMargin, marginBottom)
-        holder.contentView!!.layoutParams = mlp
 
         return view!!
     }

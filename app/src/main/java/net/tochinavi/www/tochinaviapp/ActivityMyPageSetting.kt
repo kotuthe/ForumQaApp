@@ -13,7 +13,9 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_my_page_setting.*
 import net.tochinavi.www.tochinaviapp.entities.DataListSimple
+import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
+import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertActionSheet
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListSimpleAdapter
@@ -97,19 +99,6 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         }
     }
 
-    /*
-    override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        // Log.i(">> alert", "Positive: " + requestCode)
-        when (requestCode) {
-            // ログアウト処理
-            REQUEST_ALERT_LOGOUT -> {
-                mySP!!.set_status_login(false)
-                updateStatusLogin()
-            }
-        }
-    }
-    */
-
     /**
      * 初回レイアウト設定
      */
@@ -126,20 +115,24 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         adapter.add(setListData("プライバシーポリシー"))
         listView.adapter = adapter
         listView.setOnItemClickListener { parent, view, position, id ->
+            var url: String = ""
             when(position) {
                 0 -> {
-                    Log.i(">> ", "tochinavi web")
+                    url = MyString().my_http_url_partner_top_web()
                 }
                 1 -> {
-                    Log.i(">> ", "use info")
+                    url = MyString().my_http_url_how_to_app()
                 }
                 2 -> {
-                    Log.i(">> ", "company")
+                    url = MyString().my_http_url_company_top()
                 }
                 3 -> {
-                    Log.i(">> ", "privacy")
+                    url = MyString().my_http_url_privacy_policy()
                 }
             }
+
+            startActivity(
+                MyIntent().web_browser(url))
         }
 
         // アプリ通知の設定へ
@@ -152,8 +145,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY)
             intent.addFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-            startActivity(intent)
-            */
+            startActivity(intent) */
             startActivityForResult(intent, REQUEST_DEVICE_SETTING)
         }
 

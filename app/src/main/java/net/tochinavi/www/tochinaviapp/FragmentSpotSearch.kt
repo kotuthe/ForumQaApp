@@ -2,6 +2,7 @@ package net.tochinavi.www.tochinaviapp
 
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -114,7 +115,7 @@ class FragmentSpotSearch : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // テキスト検索へ
                 hideKeyboard()
-                onSearch(query, null)
+                onSearch(query, 0)
                 return true
             }
 
@@ -142,14 +143,12 @@ class FragmentSpotSearch : Fragment() {
     }
 
     /** 検索へ **/
-    private fun onSearch(word: String?, category: Int?) {
+    private fun onSearch(word: String?, category: Int) {
         Log.i("$TAG", "w: $word, c: $category")
-        /*
-        val intent = Intent(activity, ActivitySpotSearch::class.java)
-        intent.putExtra("word", word)
+        val intent = Intent(activity, ActivitySpotSearchList::class.java)
+        intent.putExtra("word", if (word == null) "" else word)
         intent.putExtra("category", category)
-        startActivityForResult(intent, REQUEST_LOGIN)
-        */
+        startActivity(intent)
 
     }
 

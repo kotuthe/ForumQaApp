@@ -121,44 +121,8 @@ class HttpSpotInfo(context: Context) {
             result.fold(success = { json ->
                 val datas = json.obj().get("datas") as JSONObject
                 if (datas.get("result") as Boolean) {
-                    /*
-                    val rArray: ArrayList<DataSpotReview> = ArrayList()
-                    val json_array = datas.getJSONArray("review")
-                    val all_number = datas.getInt("count")
-
-                    for (i in 0..json_array.length() - 1) {
-                        val obj = json_array.getJSONObject(i)
-                        val js_review_images = obj.getJSONArray("review_images")
-                        val review_image_array: ArrayList<String> = arrayListOf()
-                        if (js_review_images.length() > 0) {
-                            for (j in 0..js_review_images.length() - 1) {
-                                review_image_array.add(js_review_images.getString(j))
-                            }
-                        }
-
-                        val dataReview = DataSpotReview(
-                            obj.getInt("id"),
-                            spot.id,
-                            spot.name,
-                            obj.getInt("user_id"),
-                            obj.getString("user_name"),
-                            obj.getString("user_image"),
-                            obj.getString("user_info"),
-                            obj.getString("review_date"),
-                            obj.getString("review"),
-                            review_image_array,
-                            "",
-                            obj.getInt("good_num"),
-                            obj.getBoolean("enable_good")
-                        )
-                        rArray.add(dataReview)
-
-                    }
-                    */
-
                     val rPair = get_review_array(spot, datas)
                     thenPart(rPair.first, rPair.second)
-
                 } else {
                     // データなし
                     elsePart(Constants.HTTP_STATUS.nodata)
