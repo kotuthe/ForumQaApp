@@ -18,12 +18,14 @@ import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableCategory1
 import net.tochinavi.www.tochinaviapp.value.MyImage
 import net.tochinavi.www.tochinaviapp.view.ListSearchAdapter
+import net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
 
 
 class FragmentSpotSearch : Fragment() {
 
     companion object {
-        val TAG = "SpotSearch"
+        val TAG = "FragmentSpotSearch"
+        val TAG_SHORT = "SpotSearch"
     }
 
     private var dataCategory: ArrayList<DataCategory1> = ArrayList()
@@ -43,7 +45,7 @@ class FragmentSpotSearch : Fragment() {
         try {
             dataCategory = DBTableCategory1(context!!).getAll(db)
         } catch (e: Exception) {
-            Log.e(TAG, "" + e.message)
+            Log.e(TAG_SHORT, "" + e.message)
         } finally {
             db.cleanup()
         }
@@ -71,11 +73,17 @@ class FragmentSpotSearch : Fragment() {
                 }
             }
         }
+
+        // 広告
+        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearch, resources)
     }
 
     override fun onResume() {
         super.onResume()
         Log.i(">> $TAG", "onResume")
+        if (activity != null) {
+            activity!!.title = getString(R.string.spot_search_title)
+        }
     }
 
     override fun onPause() {

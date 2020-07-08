@@ -5,22 +5,18 @@ package net.tochinavi.www.tochinaviapp
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.graphics.drawable.AnimationDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.AdapterView
-import android.widget.AdapterView.OnItemClickListener
 import android.widget.BaseAdapter
 import androidx.fragment.app.Fragment
-import coil.api.load
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.android.synthetic.main.fragment_my_page_no_login.*
 import kotlinx.android.synthetic.main.layout_my_page_number.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataUsers
-import net.tochinavi.www.tochinaviapp.network.TaskWebImageAnime
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -132,6 +128,10 @@ class FragmentMyPage : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.i(">> $TAG", "onResume")
+
+        if (activity != null) {
+            activity!!.title = getString(R.string.mypage_title)
+        }
     }
 
     override fun onPause() {
@@ -211,10 +211,12 @@ class FragmentMyPage : Fragment() {
      * MyPageの初期データ設定
      */
     private fun initMyPageLayout() {
+
         if (userData!!.image != null) {
             imageViewUser.setImageBitmap(userData!!.image)
         }
         textViewUserName.text = userData!!.name
+
         textViewUserDetail.text = ""
         layoutNumberBadge.textViewTitle.text = "称号獲得数"
         layoutNumberCheckin.textViewTitle.text = "チェックイン数"
@@ -243,6 +245,8 @@ class FragmentMyPage : Fragment() {
                     layoutNumberBadge.textViewNumber.text = info.getInt("badge_num").toString()
                     layoutNumberCheckin.textViewNumber.text = info.getInt("checkin_num").toString()
                     layoutNumberReview.textViewNumber.text = info.getInt("review_num").toString()
+
+                    scrollView.post(Runnable { scrollView.fullScroll(View.FOCUS_UP) })
                 }
 
             }, failure = { error ->

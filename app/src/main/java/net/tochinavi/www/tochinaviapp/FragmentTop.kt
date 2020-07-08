@@ -237,7 +237,7 @@ class FragmentTop : Fragment() {
             if (loading != null && !loading!!.isVisible) { enable = true }
             if (enable) {
                 loading = LoadingNormal.newInstance(
-                    message = "読み込み中...",
+                    message = getString(R.string.loading_normal_message),
                     isProgress = true
                 )
                 loading!!.show(fragmentManager!!, LoadingNormal.TAG)
@@ -696,7 +696,7 @@ class FragmentTop : Fragment() {
         })
 
         loading!!.show(fragmentManager!!, LoadingNormal.TAG)
-        loading!!.updateLayout("読み込み中...", true)
+        loading!!.updateLayout(getString(R.string.loading_normal_message), true)
 
         if (condArea == 0) {
             // 位置情報を更新してから検索
@@ -713,7 +713,7 @@ class FragmentTop : Fragment() {
         Log.i(">> $TAG", "onSearch")
         if (loading != null) {
             Log.i(">> $TAG", "onSearch loading not null")
-            loading!!.updateLayout("データの読み込み中...", true)
+            loading!!.updateLayout(getString(R.string.loading_normal_message), true)
             loading!!.onDismiss(1000)
         }
 

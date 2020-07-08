@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivitySpotSearchNarrowCategoryMulti">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorGroupTableViewBackground"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants">
+
+            <!-- カテゴリー -->
+            <LinearLayout
+                android:id="@+id/layoutCategory1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+                <include layout="@layout/merge_line_gray"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/row_normal_height"
+                    android:background="@android:color/white"
+                    android:paddingLeft="@dimen/normal_safe_area_margin"
+                    android:paddingRight="@dimen/normal_safe_area_margin"
+                    android:orientation="horizontal"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/textViewCategory1Title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:layout_marginEnd="8dp"
+                        android:textSize="@dimen/font_size_row_title"
+                        android:textColor="@android:color/black"
+                        android:text="title"/>
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/ic_left_arrow_gray"
+                        android:scaleType="fitCenter"/>
+
+                </LinearLayout>
+                <include layout="@layout/merge_line_gray"/>
+            </LinearLayout>
+
+            <net.tochinavi.www.tochinaviapp.view.ExpandableListViewDyamicFit
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="24dp"
+                android:divider="@null"
+                android:groupIndicator="@null"/>
+
+            <!-- Button分のマージン -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/cmn_btn_ok_cancel_height"
+                android:layout_marginBottom="30dp"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <!-- Footerボタン -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorGroupTableViewBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:padding="10dp">
+
+        <!-- 条件をクリア -->
+        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+            android:id="@+id/buttonClear"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/cmn_btn_ok_cancel_height"
+            android:layout_weight="1"
+            android:layout_marginEnd="5dp"
+            android:text="clear"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
+        <!-- 検索 -->
+        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+            android:id="@+id/buttonSearch"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/cmn_btn_ok_cancel_height"
+            android:layout_weight="1"
+            android:layout_marginStart="5dp"
+            android:text="search"
+            android:textSize="13sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

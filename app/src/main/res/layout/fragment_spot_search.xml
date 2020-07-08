@@ -7,7 +7,6 @@
     tools:context=".FragmentSpotSearch">
 
     <LinearLayout
-        android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -93,5 +92,12 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!-- 広告 -->
+    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+        android:id="@+id/viewAdvtFooter"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/advt_height"
+        android:layout_gravity="bottom"/>
 
 </FrameLayout>

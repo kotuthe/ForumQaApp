@@ -35,11 +35,23 @@
     <string name="login_forget_link">ID、パスワードを忘れてしまった方はこちら ></string>
     <string name="login_new_member_msg">栃ナビ！の新規会員登録はPCまたは\nスマートフォンWEBから行えます</string>
 
+    <!-- fragment_spot_neighbor_list -->
+    <string name="spot_neighbor_list_title">周辺を探す</string>
+    <string name="spot_neighbor_list_coupon">クーポン</string>
+    <string name="spot_neighbor_list_checkin">チェックインが可能です</string>
+
     <!-- fragment_spot_search -->
+    <string name="spot_search_title">検索する</string>
     <string name="spot_search_sv_hint">検索ワードを入力</string>
     <string name="spot_search_sv_cancel">キャンセル</string>
 
+    <!-- fragment_ranking -->
+    <string name="ranking_title">ランキング</string>
+    <string name="ranking_tag_review">クチコミ数</string>
+    <string name="ranking_tag_checkin">チェックイン数</string>
+
     <!-- fragment_mypage -->
+    <string name="mypage_title">Myページ</string>
     <string name="mypage_no_login_msg">ご利用するにはログインが必要です</string>
     <string name="mypage_button_login">ログイン</string>
 
@@ -117,6 +129,6 @@
     <string name="menu_setting">設定</string>
     <string name="menu_search_narrow">絞込み</string>
     <string name="title_activity_maps">Map</string>
-
+    <string name="title_activity_spot_map">Map</string>
 
 </resources>

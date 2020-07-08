@@ -32,6 +32,9 @@
     <color name="colorLinkBlue">#7a8bd0</color>
     <color name="colorCoupon">#FF998B</color>
 
+    <!-- Topアイテム -->
+    <color name="colorTopItem">#503C4350</color>
+
     <!-- 写真のotherカラー -->
     <color name="colorOtherImageNumber">#3C3C4350</color>
 

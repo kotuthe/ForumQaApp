@@ -27,16 +27,12 @@ import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataCategory2
 import net.tochinavi.www.tochinaviapp.entities.DataCategory3
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
-import net.tochinavi.www.tochinaviapp.storage.DBHelper
-import net.tochinavi.www.tochinaviapp.storage.DBTableCategory1
-import net.tochinavi.www.tochinaviapp.storage.DBTableCategory2
-import net.tochinavi.www.tochinaviapp.storage.DBTableCategory3
+import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
+import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
-import net.tochinavi.www.tochinaviapp.view.AlertNormal
-import net.tochinavi.www.tochinaviapp.view.ListSpotNeighborAdapter
-import net.tochinavi.www.tochinaviapp.view.LoadingNormal
-import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
+import net.tochinavi.www.tochinaviapp.value.ifNotNull
+import net.tochinavi.www.tochinaviapp.view.*
 import org.json.JSONObject
 
 // 検討すること
@@ -46,7 +42,8 @@ import org.json.JSONObject
 class FragmentSpotNeighborList : Fragment() {
 
     companion object {
-        val TAG = "SpotNeighborList"
+        val TAG = "FragmentSpotNeighborList"
+        val TAG_SHORT = "SpotNeighborList"
     }
 
     // リクエスト
@@ -54,7 +51,7 @@ class FragmentSpotNeighborList : Fragment() {
     private val REQUEST_CODE_ALERT_LOCATION: Int = 0x2
     private val REQUEST_NARROW: Int = 0x3
 
-    private var mySP: MySharedPreferences? = null
+    private lateinit var mySP: MySharedPreferences
 
     // UI //
     private var loading: LoadingNormal? = null
@@ -112,7 +109,7 @@ class FragmentSpotNeighborList : Fragment() {
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> $TAG", "position: $pos")
+                Log.i(">> $TAG_SHORT", "position: $pos")
                 // スポット情報へ
                 val item = listData[pos]
                 if (item.type == 1) {
@@ -174,12 +171,19 @@ class FragmentSpotNeighborList : Fragment() {
             }
         }
 
+        // 広告
+        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppNeighbor, resources)
+
     }
 
     // フラグメント　オンスクリーン
     override fun onResume() {
         super.onResume()
-        Log.i(">> $TAG", "onResume")
+        Log.i(">> $TAG_SHORT", "onResume")
+
+        if (activity != null) {
+            activity!!.title = getString(R.string.spot_neighbor_list_title)
+        }
 
         // Loadingの設定
         if (fragmentManager != null) {
@@ -202,7 +206,7 @@ class FragmentSpotNeighborList : Fragment() {
     // フラグメント　オフスクリーン
     override fun onPause() {
         super.onPause()
-        Log.i(">> $TAG", "onPause")
+        Log.i(">> $TAG_SHORT", "onPause")
 
         // getLocationHighQualityの取得に時間がかかるため
         if (mLocationClient != null && mLocationCallback != null) {
@@ -220,7 +224,7 @@ class FragmentSpotNeighborList : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.search_narrow) {
             // 絞り込みへ
-            Log.i(">> $TAG", "絞り込みへ")
+            Log.i(">> $TAG_SHORT", "絞り込みへ")
             val intent = Intent(activity, ActivitySpotNeighborNarrow::class.java)
             intent.putExtra("category_id", condCategory)
             intent.putExtra("category_type", condCategoryType)
@@ -236,7 +240,7 @@ class FragmentSpotNeighborList : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i(">> $TAG", "onActivityResult: $requestCode, $resultCode, $data")
+        Log.i(">> $TAG_SHORT", "onActivityResult: $requestCode, $resultCode, $data")
         when(requestCode) {
             REQUEST_NARROW -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
@@ -293,7 +297,7 @@ class FragmentSpotNeighborList : Fragment() {
                     }
                 }
             } catch (e: Exception) {
-                Log.e(TAG, "" + e.message)
+                Log.e(TAG_SHORT, "" + e.message)
             } finally {
                 db.cleanup()
             }
@@ -397,16 +401,16 @@ class FragmentSpotNeighborList : Fragment() {
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> $TAG", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                        Log.i(">> $TAG_SHORT", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         // この後周辺検索へ
                         onSearch()
                     } else {
                         // last location is null
-                        Log.i(">> $TAG", "getLatLon: last location is null")
+                        Log.i(">> $TAG_SHORT", "getLatLon: last location is null")
                         getLocationHighQuality()
                     }
                 } else {
-                    Log.i(">> $TAG", "getLatLon: error")
+                    Log.i(">> $TAG_SHORT", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -431,7 +435,7 @@ class FragmentSpotNeighborList : Fragment() {
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> $TAG", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                Log.i(">> $TAG_SHORT", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 // この後周辺検索へ
                 onSearch()
             }
@@ -444,10 +448,10 @@ class FragmentSpotNeighborList : Fragment() {
      */
     private fun errorLocation() {
 
-        Log.i(">> $TAG", "errorLocation")
-        if (!(mySP!!.get(MySharedPreferences.Keys.spot_neighbor_location_first_alert) as Boolean)) {
+        Log.i(">> $TAG_SHORT", "errorLocation")
+        if (!(mySP.get(MySharedPreferences.Keys.spot_neighbor_location_first_alert) as Boolean)) {
             // アラート（1回のみ）
-            mySP!!.put(MySharedPreferences.Keys.spot_neighbor_location_first_alert, true)
+            mySP.put(MySharedPreferences.Keys.spot_neighbor_location_first_alert, true)
 
             if (fragmentManager != null) {
                 val alert = AlertNormal.newInstance(
@@ -519,8 +523,19 @@ class FragmentSpotNeighborList : Fragment() {
         }
 
         // ログインID
-
-        println(params)
+        if (mySP.get_status_login()) {
+            val db = DBHelper(context!!)
+            try {
+                val tableUsers = DBTableUsers(context!!)
+                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
+                    params.add("user_id" to it.user_id)
+                })
+            } catch (e: Exception) {
+                Log.e(HttpSpotInfo.TAG, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+        }
 
         val url = MyString().my_http_url_app() + "/spot/get_neighbor_list.php"
         url.httpGet(params).responseJson { request, response, result ->
@@ -536,8 +551,7 @@ class FragmentSpotNeighborList : Fragment() {
                 }
 
                 val datas = json.obj().get("datas") as JSONObject
-                val result = datas.get("result") as Boolean
-                if (result) {
+                if (datas.get("result") as Boolean) {
                     val spot_array = datas.getJSONArray("spot_array")
                     for (i in 0..spot_array.length() - 1) {
                         val obj = spot_array.getJSONObject(i)

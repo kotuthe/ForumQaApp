@@ -101,7 +101,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> ${FragmentSpotNeighborList.TAG}", "position: $pos")
+                Log.i(">> ${TAG_SHORT}", "position: $pos")
                 // スポット情報へ
                 val item = listData[pos]
                 if (item.type == 1) {
@@ -164,7 +164,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
         }
 
         setTextViewParams()
-        setLocation()
     }
 
     override fun onPause() {
@@ -174,6 +173,11 @@ class ActivitySpotSearchList : AppCompatActivity() {
         if (mLocationClient != null && mLocationCallback != null) {
             mLocationClient!!.removeLocationUpdates(mLocationCallback)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setLocation()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -188,6 +192,12 @@ class ActivitySpotSearchList : AppCompatActivity() {
             }
             R.id.search_narrow -> {
                 // 絞り込みへ
+                val intent = Intent(this@ActivitySpotSearchList, ActivitySpotSearchNarrow::class.java)
+                intent.putExtra("word", condWord)
+                intent.putExtra("category", condCategoryArray)
+                intent.putExtra("area", condAreaArray)
+                intent.putExtra("coupon", condCoupon)
+                startActivityForResult(intent, REQUEST_NARROW)
             }
         }
         return super.onOptionsItemSelected(item)
@@ -199,9 +209,9 @@ class ActivitySpotSearchList : AppCompatActivity() {
         when(requestCode) {
             REQUEST_NARROW -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
-                    // condCategory = data.getIntExtra("category_id", 0)
-                    // condCategoryType = data.getIntExtra("category_type", 0)
-                    // condDistance = data.getDoubleExtra("distance", 0.0)
+                    condWord = data.getStringExtra("word")!!
+                    condCategoryArray = data.getSerializableExtra("category") as ArrayList<Pair<Int, Int>>
+                    condAreaArray = data.getIntegerArrayListExtra("area")!!
                     condCoupon = data.getBooleanExtra("coupon", false)
 
                     // データの初期化
@@ -212,7 +222,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
                         listView.setSelection(0)
                     }
                     setTextViewParams()
-                    // 次にonResumeが呼ばれる
+                    // このあと onResumeへ
                 }
             }
         }
@@ -239,7 +249,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         var area: String? = null
         val db = DBHelper(mContext)
         try {
-            // カテゴリー
+            // カテゴリー(※調整必要)
             if (condCategoryArray.size > 0) {
                 val id = condCategoryArray[0].second
                 when (condCategoryArray[0].first) {
@@ -271,7 +281,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
             }
 
         } catch (e: Exception) {
-            Log.e(FragmentSpotNeighborList.TAG, "" + e.message)
+            Log.e(TAG_SHORT, "" + e.message)
         } finally {
             db.cleanup()
         }
@@ -336,16 +346,13 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> ${FragmentSpotNeighborList.TAG}", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         // この後周辺検索へ
                         onSearch()
                     } else {
                         // last location is null
-                        Log.i(">> ${FragmentSpotNeighborList.TAG}", "getLatLon: last location is null")
                         getLocationHighQuality()
                     }
                 } else {
-                    Log.i(">> ${FragmentSpotNeighborList.TAG}", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -369,7 +376,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> ${FragmentSpotNeighborList.TAG}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                Log.i(">> ${TAG_SHORT}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 // この後周辺検索へ
                 onSearch()
             }
@@ -382,7 +389,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
      */
     private fun errorLocation() {
 
-        Log.i(">> ${FragmentSpotNeighborList.TAG}", "errorLocation")
+        Log.i(">> ${TAG_SHORT}", "errorLocation")
         if (!(mySP.get(MySharedPreferences.Keys.spot_search_location_first_alert) as Boolean)) {
             // アラート（1回のみ）
             mySP.put(MySharedPreferences.Keys.spot_search_location_first_alert, true)
@@ -437,9 +444,15 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
         // カテゴリー
         if (condCategoryArray.size > 0) {
-            for (i in 0..condCategoryArray.size - 1) {
-                val item = condCategoryArray[i]
-                params.add("cond_category[]" to item.second)
+            if (condCategoryArray.size > 1) {
+                // 第２、３
+                for (i in 1..condCategoryArray.size - 1) {
+                    val item = condCategoryArray[i]
+                    params.add("cond_category[]" to item.second)
+                }
+            } else {
+                // 第１
+                params.add("cond_category[]" to condCategoryArray[0].second)
             }
         }
 
@@ -456,8 +469,19 @@ class ActivitySpotSearchList : AppCompatActivity() {
         }
 
         // ログインID
-
-        println(params)
+        if (mySP.get_status_login()) {
+            val db = DBHelper(mContext)
+            try {
+                val tableUsers = DBTableUsers(mContext)
+                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
+                    params.add("user_id" to it.user_id)
+                })
+            } catch (e: Exception) {
+                Log.e(TAG_SHORT, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+        }
 
         val url = MyString().my_http_url_app() + "/spot/search.php"
         url.httpGet(params).responseJson { request, response, result ->

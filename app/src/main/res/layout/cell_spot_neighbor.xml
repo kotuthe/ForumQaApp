@@ -49,7 +49,7 @@
                 android:id="@+id/textViewAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="4dp"
+                android:paddingTop="3dp"
                 android:scrollHorizontally="true"
                 android:text="address"
                 android:textColor="@android:color/black"
@@ -61,6 +61,7 @@
                 android:id="@+id/textViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingTop="3dp"
                 android:text="category"
                 android:textColor="@android:color/darker_gray"
                 android:textSize="@dimen/font_size_row_sub"
@@ -71,7 +72,8 @@
             <!-- Distance & Review Num -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="18dp"
+                android:layout_height="22dp"
+                android:paddingTop="3dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -91,7 +93,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
                         android:scrollHorizontally="true"
                         android:text="12345km"
                         android:textColor="@android:color/black"
@@ -106,7 +108,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="8dp">
+                    android:layout_marginStart="8dp">
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="match_parent"
@@ -118,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
                         android:scrollHorizontally="true"
                         android:text="1234"
                         android:textColor="@android:color/black"
@@ -132,7 +134,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_marginLeft="8dp">
+                    android:layout_marginStart="8dp">
                     <ImageView
                         android:layout_width="18dp"
                         android:layout_height="match_parent"
@@ -143,9 +145,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:gravity="center"
-                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
                         android:scrollHorizontally="true"
-                        android:text="クーポン"
+                        android:text="@string/spot_neighbor_list_coupon"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/font_size_row_sub"
                         android:ellipsize="end"
@@ -160,7 +162,8 @@
             <LinearLayout
                 android:id="@+id/layoutCheckinEnable"
                 android:layout_width="match_parent"
-                android:layout_height="20dp"
+                android:layout_height="24dp"
+                android:paddingTop="2dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -174,8 +177,8 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:gravity="center|left"
-                    android:layout_marginLeft="10dp"
-                    android:text="checkin enable"
+                    android:layout_marginStart="10dp"
+                    android:text="@string/spot_neighbor_list_checkin"
                     android:textColor="@android:color/darker_gray"
                     android:textSize="@dimen/font_size_small"
                     android:ellipsize="end"
@@ -189,7 +192,7 @@
         <ImageView
             android:layout_width="@dimen/row_anchor_size"
             android:layout_height="@dimen/row_left_anchor_height"
-            android:paddingRight="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
             android:layout_gravity="center"
             android:src="@drawable/ic_left_arrow_gray"
             android:scaleType="fitCenter"/>

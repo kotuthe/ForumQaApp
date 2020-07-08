@@ -62,10 +62,10 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_top_icon_gps"/>
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     android:orientation="horizontal">
                     <TextView
                         android:id="@+id/textViewArea"
@@ -76,9 +76,9 @@
                         android:textColor="@android:color/black"
                         android:text="那須烏山市"/>
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="8dp"
                         android:src="@drawable/ic_under_triangle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -89,7 +89,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:gravity="center|right"
-                android:layout_marginLeft="16dp"
+                android:layout_marginStart="16dp"
                 android:layout_weight="1">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -104,9 +104,9 @@
                         android:textColor="@android:color/black"
                         android:text="グッときたが多い順"/>
                     <ImageView
-                        android:layout_width="8dp"
-                        android:layout_height="8dp"
-                        android:layout_marginLeft="8dp"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:layout_marginStart="8dp"
                         android:src="@drawable/ic_under_triangle"/>
                 </LinearLayout>
             </LinearLayout>
@@ -117,7 +117,7 @@
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:layout_marginRight="8dp"

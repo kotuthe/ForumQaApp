@@ -24,21 +24,21 @@
             android:id="@+id/viewReviewInfo"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:paddingStart="12dp"
+            android:paddingEnd="6dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@color/colorOtherImageNumber">
+            android:background="@color/colorTopItem">
 
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginStart="12dp"
                 android:src="@drawable/img_icon_review_image_white"/>
             <TextView
                 android:id="@+id/textViewReviewCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginRight="6dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="17sp"
@@ -51,19 +51,19 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center"
-            android:background="@color/colorOtherImageNumber">
+            android:paddingStart="6dp"
+            android:paddingEnd="6dp"
+            android:background="@color/colorTopItem">
 
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginLeft="6dp"
                 android:src="@drawable/img_icon_top_distance"/>
             <TextView
                 android:id="@+id/textViewDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginStart="8dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -79,7 +79,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:orientation="vertical"
-        android:background="@color/colorOtherImageNumber">
+        android:background="@color/colorTopItem">
 
         <TextView
             android:id="@+id/textViewSpotName"

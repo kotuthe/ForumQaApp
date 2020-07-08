@@ -190,6 +190,9 @@ class ActivitySpotReviewDetail_ImageSearch :
                 as SupportMapFragment
         mapFragment.getMapAsync(this)
 
+        layoutBasic.buttonMap.setOnClickListener {
+            showMap()
+        }
         layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
             startActivity(
@@ -208,6 +211,7 @@ class ActivitySpotReviewDetail_ImageSearch :
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {
                         // 地図へ
+                        showMap()
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                         // 電話
@@ -303,6 +307,13 @@ class ActivitySpotReviewDetail_ImageSearch :
             negativeLabel = "キャンセル"
         )
         alert.show(supportFragmentManager, AlertNormal.TAG)
+    }
+
+    private fun showMap() {
+        // 地図へ
+        val intent = Intent(this@ActivitySpotReviewDetail_ImageSearch, ActivitySpotMap::class.java)
+        intent.putExtra("dataSpot", dataSpot)
+        startActivity(intent)
     }
 
     private fun getShareText(): String {

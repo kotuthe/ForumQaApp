@@ -39,7 +39,6 @@ class ActivitySpotNeighborNarrowCategorySecond : AppCompatActivity() {
         ifNotNull(intent.getStringExtra("name"), {
             parentName = it
         })
-
         val db = DBHelper(this)
         try {
             dataArray = DBTableCategory2(this).getTargetChild(db, parentId)

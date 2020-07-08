@@ -23,6 +23,7 @@ import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.ListRankingAdapter
 import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
+import net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
 import org.json.JSONObject
 
 
@@ -67,7 +68,6 @@ class FragmentRanking : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        Log.i(">> $TAG", "onActivityCreated")
 
         // データの初期化
         selectType = Type.review
@@ -134,12 +134,19 @@ class FragmentRanking : Fragment() {
                 Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
             }
         }
+
+        // 広告
+        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppRanking, resources)
     }
 
     override fun onResume() {
         super.onResume()
         // ランキング > Myページ > ランキング　は　update
         Log.i(">> $TAG", "onResume")
+
+        if (activity != null) {
+            activity!!.title = getString(R.string.ranking_title)
+        }
 
         if (arrayCheckin.isEmpty() && arrayReview.isEmpty()) {
             // データの更新

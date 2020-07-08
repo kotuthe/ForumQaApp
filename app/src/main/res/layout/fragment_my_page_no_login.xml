@@ -21,10 +21,10 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:background="#CCC"
             android:layout_width="@dimen/view_no_login_image_size"
             android:layout_height="@dimen/view_no_login_image_size"
             android:layout_marginBottom="@dimen/normal_margin"
+            android:src="@drawable/img_error_login"
             android:scaleType="fitCenter"/>
 
         <TextView
