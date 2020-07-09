@@ -13,11 +13,11 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_my_page_setting.*
 import net.tochinavi.www.tochinaviapp.entities.DataListSimple
+import net.tochinavi.www.tochinaviapp.entities.ServiceNearWishSpot
 import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertActionSheet
-import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListSimpleAdapter
 
 
@@ -93,8 +93,15 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         when (requestCode) {
             // ログアウト処理
             REQUEST_ALERT_LOGOUT -> {
+                // ※　Firebase
                 mySP!!.set_status_login(false)
                 updateStatusLogin()
+
+                // 周辺スポット通知の停止
+
+                // 周辺スポット通知の停止
+                val intent = Intent(applicationContext, ServiceNearWishSpot::class.java)
+                stopService(intent)
             }
         }
     }

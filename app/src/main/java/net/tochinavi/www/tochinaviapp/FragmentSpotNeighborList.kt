@@ -23,10 +23,7 @@ import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
-import net.tochinavi.www.tochinaviapp.entities.DataCategory1
-import net.tochinavi.www.tochinaviapp.entities.DataCategory2
-import net.tochinavi.www.tochinaviapp.entities.DataCategory3
-import net.tochinavi.www.tochinaviapp.entities.DataSpotList
+import net.tochinavi.www.tochinaviapp.entities.*
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -376,7 +373,12 @@ class FragmentSpotNeighborList : Fragment() {
             REQUEST_PERMISSION_FINE_LOCATION -> {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     // 許可された時
-                    //Log.i(">> $TAG", "onRequestPermissionsResult OK");
+
+                    // 近くにお気に入りしたスポットがあるときの処理 //
+                    val intent = Intent(activity, ServiceNearWishSpot::class.java)
+                    activity!!.stopService(intent)
+                    activity!!.startService(intent)
+
                     getLocation()
                 } else {
                     // 拒否された時

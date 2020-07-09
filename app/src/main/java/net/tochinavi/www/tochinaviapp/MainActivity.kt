@@ -2,25 +2,55 @@ package net.tochinavi.www.tochinaviapp
 
 
 import android.annotation.SuppressLint
-import android.os.Build
+import android.content.ContentValues
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
+import com.github.kittinunf.fuel.android.extension.responseJson
+import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_item_main.view.*
-import net.tochinavi.www.tochinaviapp.value.Constants
+import net.tochinavi.www.tochinaviapp.entities.DataAppData
+import net.tochinavi.www.tochinaviapp.entities.ServiceNearWishSpot
+import net.tochinavi.www.tochinaviapp.storage.DBHelper
+import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
+import net.tochinavi.www.tochinaviapp.storage.DBTableNotificationNearWish
+import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
+import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.TabMainAdapter
+import org.json.JSONObject
 
+
+/*
+ServiceNearWishSpotの停止とかがある
+ */
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        val TAG = "MainActivity"
+    }
+
+    // 変数 //
+    private lateinit var mContext: Context
+    private lateinit var mySP: MySharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        mContext = applicationContext
+        mySP = MySharedPreferences(mContext)
+
+        startServices()
         initLayout()
     }
 
@@ -113,4 +143,87 @@ class MainActivity : AppCompatActivity() {
         itemView.tabText.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleSize)
         return itemView
     }
+
+    /**
+     * サービスの開始
+     */
+    private fun startServices() {
+
+        updateWishData()
+
+        // 周辺のスポットを開始
+        val intent = Intent(application, ServiceNearWishSpot::class.java)
+        stopService(intent)
+        startService(intent)
+    }
+
+
+    // お気に入りデータの更新
+    // 明日はここから設定を行う
+    // ※ログインしていなければ取得しない
+    private fun updateWishData() {
+        // ログインID
+        if (mySP.get_status_login()) {
+
+            val params: ArrayList<Pair<String, Any>> = ArrayList()
+            val db = DBHelper(mContext)
+
+            try {
+                val tableAppData = DBTableAppData(mContext)
+                val tableUsers = DBTableUsers(mContext)
+                ifNotNull(tableAppData.getData(db, DBTableAppData.Ids.wish_update), {
+                    if (it.modified != null) {
+                        params.add("modified_date" to it.modified!!.convertString())
+                    }
+                })
+                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
+                    params.add("user_id" to it.user_id)
+                })
+            } catch (e: Exception) {
+                Log.e(TAG, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+
+
+            val url = MyString().my_http_url_app() + "/app_data/get_wish_data.php"
+            url.httpGet(params).responseJson { request, response, result ->
+                result.fold(success = { json ->
+                    val datas = json.obj().get("datas") as JSONObject
+                    if (datas.get("result") as Boolean) {
+                        val modified_date = datas.getString("modified_date")
+                        val wishlist = datas.getJSONArray("wishlist")
+
+                        // データベースの初回値の設定
+                        val db = DBHelper(this)
+                        try {
+                            db.beginTransaction()
+
+                            // appと更新日とnotificationのスポットを登録
+                            val cv = ContentValues()
+                            cv.put(DataAppData.COL[1], modified_date)
+                            db.db!!.update(
+                                DataAppData.TABLE_NAME, cv, "%s=%d".format(DataAppData.COL[0], DBTableAppData.Ids.wish_update.rawValue), null)
+                            DBTableNotificationNearWish(mContext).setJsonData(db, wishlist)
+
+                            db.setTransactionSuccessful()
+                        } catch (e: Exception) {
+                            Log.e(TAG, e.message.toString())
+                        } finally {
+                            db.endTransaction()
+                            db.cleanup()
+                        }
+                    }
+
+                }, failure = { error ->
+                    // 通信エラー
+                    Log.e(TAG, error.toString())
+                })
+            }
+        }
+
+    }
+
+
+
 }

@@ -134,6 +134,8 @@
             android:name="com.andremion.louvre.preview.PreviewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Louvre.Preview" /> <!-- Android9でのHttp通信対策 -->
+        <!-- service -->
+        <service android:name=".entities.ServiceNearWishSpot" />
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" /> <!-- Google Map利用の為のAPIキー -->
