@@ -10,12 +10,14 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.provider.Settings.SettingNotFoundException
 import android.text.TextUtils
 import android.util.Log
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.common.ConnectionResult
@@ -23,6 +25,7 @@ import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
 import com.google.android.gms.location.*
+import com.google.android.gms.tasks.OnCompleteListener
 import net.tochinavi.www.tochinaviapp.ActivityHospitalInfo
 import net.tochinavi.www.tochinaviapp.ActivitySpotInfo
 import net.tochinavi.www.tochinaviapp.R
@@ -38,161 +41,153 @@ import java.util.*
 /**
  * Created by kotouno on 2018/01/04.
  *
- * Myページの設定に「通知を許可」を用意してアプリの通知許可設定に飛ばす
+ * ここでは位置情報の許可は聞かない
+ * 許可されてなければ通知はしない
  */
 class ServiceNearWishSpot
-    : IntentService(TAG),
-    ConnectionCallbacks,
-    OnConnectionFailedListener,
-    LocationListener {
+    : IntentService(TAG) {
 
-    private var mContext: Context? = null
+    companion object {
+        // 定数 //
+        const val TAG = "ServiceNearWishSpot"
+        const val TAG_SHORT = "SNWishSpot"
+    }
+
+    // 設定値
+    private val NOTIFICATION_MARGIN_TIME = (2 * 60 * 60 * 1000).toLong() // 通知の間隔(ミリ秒)
+    private val NOTIFICATION_RANGE = 100.0 // 検索範囲(m)
+
+    private lateinit var mContext: Context
     private lateinit var mySP: MySharedPreferences
 
     // Location 位置情報 //
-    private var mGoogleApiClient: GoogleApiClient? = null
-    private var mLocationRequest: LocationRequest? = null
-    private var mCurrentLocation: Location? = null
-    protected var mLocationSettingsRequest: LocationSettingsRequest? = null
+    private var mLocationClient: FusedLocationProviderClient? = null
+    private var mLocation: Location? = null
+    private var mLocationCallback: LocationCallback? = null
 
     // データ //
-    private var dataSpotArray: MutableList<DataNotificationNearWish> =
-        ArrayList()
+    private var dataSpotArray: MutableList<DataNotificationNearWish> = arrayListOf()
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         // startServiceで呼び出される
         mContext = applicationContext
-        mySP = MySharedPreferences(mContext!!)
+        mySP = MySharedPreferences(mContext)
 
-        // 現在地を取得
-        buildGoogleApiClient()
-        createLocationRequest()
-        buildLocationSettingsRequest()
-        mGoogleApiClient!!.connect()
+        // 端末の位置情報サービスをチェック
+        val manager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            // パーミッションのチェックが必要か確認
+            if (Build.VERSION.SDK_INT >= 23) {
+                // Android6以上
+                checkPermission()
+            } else {
+                // それ以外
+                getLocation()
+            }
+        }
+
         return super.onStartCommand(intent, flags, startId)
-    }
-
-    /**
-     * The IntentService calls this method from the default worker thread with
-     * the intent that started the service. When this method returns, IntentService
-     * stops the service, as appropriate.
-     */
-    override fun onHandleIntent(intent: Intent?) {
-        // Activityからのintentを受け取る
     }
 
     override fun onDestroy() {
         super.onDestroy()
-    }
 
-
-    /*
-
-    @Nullable
-    override fun onBind(intent: Intent): IBinder? {
-        return super.onBind(intent)
-    }
-
-    */
-
-    private fun viewNotification(data: DataNotificationNearWish) {
-        // 通知の間隔を設定 //
-        // val sdf = SimpleDateFormat("yyyy/MM/dd HH:mm:ss")
-        val dateNow = Date()
-        var dateData = Date()
-        var enable = false
-        if (!data.time.isEmpty()) {
-            try {
-                // dateData = sdf.parse(data.time)
-                dateData = data.time.convertDate()!!
-            } catch (e: ParseException) {
-                e.printStackTrace()
-            }
-            val dataTime = dateData.time
-            // Log.i(TAG, "diff time: " + (dateNow.getTime() - dataTime));
-            if (dateNow.time - dataTime >= NOTIFICATION_MARGIN_TIME) {
-                // 通知
-                enable = true
-            }
-        } else {
-            enable = true
+        if (mLocationClient != null && mLocationCallback != null) {
+            mLocationClient!!.removeLocationUpdates(mLocationCallback)
         }
-        if (!enable) return
+    }
 
-        // Log.i(TAG, "notification!!");
+    /**
+     * Permissionのチェック
+     */
+    private fun checkPermission() {
+        if (ActivityCompat.checkSelfPermission(mContext,
+                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            // アプリの権限が許可してる
+            getLocation()
+        }
+    }
 
-        // 通知するものは時間を更新(データベース) //
-        val dbHelper = DBHelper(mContext!!)
+    /**
+     * 位置情報を取得　Permissionで許可された時
+     */
+    private fun getLocation() {
+        mLocationClient = LocationServices.getFusedLocationProviderClient(this)
+
+        // 省エネを優先(1分に1回の間隔で最速10秒で100mの移動があったとき更新)
+        val request = LocationRequest()
+        request.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        request.interval = 60 * 1000 // 更新間隔(ms)
+        request.fastestInterval = 10 * 1000 // 最短更新間隔(ms)
+        request.smallestDisplacement = 100f // 最小移動距離(m)
+
+        // 単発
+        mLocationClient!!.lastLocation.addOnCompleteListener { task ->
+            if (task.isSuccessful && task.result != null) {
+                mLocation = task.result
+                /*
+                Log.i(">> $TAG_SHORT", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                Toast.makeText(applicationContext, "st:${mLocation!!.latitude}, ${mLocation!!.longitude}", Toast.LENGTH_LONG).show()
+                */
+                getWishData()
+            }
+
+            // 繰り返し
+            mLocationCallback = object : LocationCallback() {
+                override fun onLocationResult(result: LocationResult) {
+                    mLocation = result.lastLocation
+                    /*
+                    Log.i(">> $TAG_SHORT", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                    Toast.makeText(applicationContext, "re:${mLocation!!.latitude}, ${mLocation!!.longitude}", Toast.LENGTH_LONG).show()
+                    */
+                    getWishData()
+                }
+            }
+            mLocationClient!!.requestLocationUpdates(request, mLocationCallback, null)
+        }
+    }
+
+    override fun onHandleIntent(intent: Intent?) {
+        // Activityからのintentを受け取る
+    }
+
+    /**
+     * お気に入りを取得
+     */
+    private fun getWishData() {
+        val db: DBHelper = DBHelper(mContext)
         try {
-            // start transaction
-            dbHelper.beginTransaction()
-            DBTableNotificationNearWish(mContext!!).updateTime(
-                dbHelper, data.id.toString(), data.type.toString(),
-                dateNow.convertString()// sdf.format(dateNow)
-            )
-            // transaction Successful
-            dbHelper.setTransactionSuccessful()
+            dataSpotArray.clear()
+            dataSpotArray = DBTableNotificationNearWish(mContext).getAll(db)
         } catch (e: Exception) {
-            // 登録に失敗 //
-            Log.e(TAG, "" + e.message)
-        } finally {
-            // 登録完了 //
-            dbHelper.endTransaction()
-            dbHelper.cleanup()
-
-            // 通知設定 //
-            // 遷移先のスポットページ //
-            var intent: Intent? = null
-            if (data.type == 1) {
-                // スポット情報へ
-                intent = Intent(application, ActivitySpotInfo::class.java)
-            } else {
-                // 病院
-                intent = Intent(application, ActivityHospitalInfo::class.java)
-            }
-            intent.putExtra("id", data.id)
-            intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP // 起動中のアプリがあってもこちらを優先する
-                    or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED // 起動中のアプリがあってもこちらを優先する
-                    or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
-            // 第2引数が設定されないと情報が更新されないのでとりあえずspotのidを代入
-            val contentIntent = PendingIntent.getActivity(
-                application,
-                data.id,
-                intent,
-                0
+            Log.e(
+                TAG,
+                "error occured!! cause : " + e.message
             )
-
-            // 通知レイアウト //
-            val mBuilder: NotificationCompat.Builder =
-                NotificationCompat.Builder(application, "notification_channel")
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentTitle("近くのお気に入りスポット")
-                .setContentText(data.name)
-            // 振動設定
-            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE)
-            mBuilder.setContentIntent(contentIntent)
-            // val notificationId: Int = functions.joinInt(data.type, data.id)
-            val notificationId: Int = "%d%d".format(data.type, data.id).toInt()
-            val notificationManager =
-                application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.notify(notificationId, mBuilder.build())
+        } finally {
+            db.cleanup()
+            if (dataSpotArray.size > 0) {
+                crossLocationBorder()
+            }
         }
     }
 
+    /**
+     * 通知範囲内であれば通知
+     */
     private fun crossLocationBorder() {
-        if (mCurrentLocation == null) return
+        if (mLocation == null) return
         // Toast.makeText(this, "位置情報を更新", Toast.LENGTH_LONG).show();
         for (i in dataSpotArray.indices) {
             val data = dataSpotArray[i]
             var notification = false
             val diff = distanceToDestination(
-                mCurrentLocation!!.latitude,
-                mCurrentLocation!!.longitude,
+                mLocation!!.latitude,
+                mLocation!!.longitude,
                 data.latitude,
                 data.longitude
             )
 
-            // 本番
             // 範囲内のチェック
             if (diff <= NOTIFICATION_RANGE) {
                 // 営業時間内のチェック
@@ -207,23 +202,82 @@ class ServiceNearWishSpot
         }
     }
 
-    private fun getWishData() {
-        val data: DataNotificationNearWish? = null
-        var dBHelper: DBHelper? = null
-        try {
-            dBHelper = DBHelper(mContext!!)
-            dataSpotArray.clear()
-            dataSpotArray = DBTableNotificationNearWish(mContext!!).getAll(dBHelper)
-        } catch (e: Exception) {
-            Log.e(
-                TAG,
-                "error occured!! cause : " + e.message
-            )
-        } finally {
-            dBHelper?.cleanup()
-            if (dataSpotArray.size > 0) {
-                crossLocationBorder()
+    private fun viewNotification(data: DataNotificationNearWish) {
+        // 通知の間隔を設定 //
+        val dateNow = Date()
+        var dateData = Date()
+        var enable = false
+        if (!data.time.isEmpty()) {
+            /*try {
+                dateData = data.time.convertDate()!!
+            } catch (e: ParseException) {
+                e.printStackTrace()
+            }*/
+
+            ifNotNull(data.time.convertDate(), {
+                dateData = it
+            })
+            val dataTime = dateData.time
+            if (dateNow.time - dataTime >= NOTIFICATION_MARGIN_TIME) {
+                // 通知
+                enable = true
             }
+        } else {
+            enable = true
+        }
+        if (!enable) return
+
+        // 通知するものは時間を更新(データベース) //
+        val db = DBHelper(mContext)
+        try {
+            db.beginTransaction()
+            DBTableNotificationNearWish(mContext).updateTime(
+                db, data.id.toString(), data.type.toString(), dateNow.convertString())
+            db.setTransactionSuccessful()
+        } catch (e: Exception) {
+            // 登録に失敗 //
+            Log.e(TAG, "" + e.message)
+        } finally {
+            // 登録完了 //
+            db.endTransaction()
+            db.cleanup()
+
+            // 通知設定 //
+            // 遷移先のスポットページ //
+            var intent: Intent? = null
+            if (data.type == 1) {
+                // スポット情報へ
+                intent = Intent(application, ActivitySpotInfo::class.java)
+            } else {
+                // 病院
+                intent = Intent(application, ActivityHospitalInfo::class.java)
+            }
+            intent.putExtra("id", data.id)
+            intent.putExtra("name", data.name)
+            intent.flags = (Intent.FLAG_ACTIVITY_CLEAR_TOP // 起動中のアプリがあってもこちらを優先する
+                    or Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED // 起動中のアプリがあってもこちらを優先する
+                    or Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS)
+            // 第2引数が設定されないと情報が更新されないのでとりあえずspotのidを代入
+            val contentIntent = PendingIntent.getActivity(
+                application,
+                data.id,
+                intent,
+                0
+            )
+
+            // 通知レイアウト //
+            val mBuilder: NotificationCompat.Builder =
+                NotificationCompat.Builder(application, "notification_channel")
+                    .setSmallIcon(R.mipmap.ic_launcher)
+                    .setContentTitle("近くのお気に入りスポット")
+                    .setContentText(data.name)
+            // 振動設定
+            mBuilder.setDefaults(Notification.DEFAULT_VIBRATE)
+            mBuilder.setContentIntent(contentIntent)
+            val notificationId: Int = "%d%d".format(data.type, data.id).toInt()
+            val notificationManager =
+                application.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(notificationId, mBuilder.build())
         }
     }
 
@@ -246,13 +300,10 @@ class ServiceNearWishSpot
         val hm_opens: HashMap<Int, IntArray> = data.getGroupOpen()
         if (is_shop_holiday) {
             // 基本営業時間の指定をチェック
-            return if (hm_opens[0] != null) {
-                checkEachOpenTime(hm_opens)
-            } else {
-                true
-            }
+            return if (hm_opens[0] != null)
+                checkEachOpenTime(hm_opens) else true
         }
-        val now_week = nowServerWeekDay
+        val now_week = getNowServerWeekDay()
         // 定休日のチェック //
         if (!data.close_info.isEmpty()) {
             for (i in 0 until data.close_info.size) {
@@ -274,45 +325,32 @@ class ServiceNearWishSpot
                     checkEachOpenTime(hm_sub_opens)
                 } else {
                     // 基本営業時間の指定をチェック
-                    if (hm_opens[0] != null) {
-                        checkEachOpenTime(hm_opens)
-                    } else {
-                        true
-                    }
+                    if (hm_opens[0] != null)
+                        checkEachOpenTime(hm_opens) else true
                 }
             } else {
                 // 基本営業時間の指定をチェック
-                if (hm_opens[0] != null) {
-                    checkEachOpenTime(hm_opens)
-                } else {
-                    true
-                }
+                if (hm_opens[0] != null) checkEachOpenTime(hm_opens) else true
             }
         } else {
             // 基本営業時間の指定をチェック
-            if (hm_opens[0] != null) {
-                checkEachOpenTime(hm_opens)
-            } else {
-                true
-            }
+            if (hm_opens[0] != null) checkEachOpenTime(hm_opens) else true
         }
     }
 
     /** サーバーデータは月曜日1~, androidは日曜日1~なのでサーバー用の現在の曜日を取得する  */
-    private val nowServerWeekDay: Int
-        private get() {
-            val cal = Calendar.getInstance()
-            val now_week = cal[Calendar.DAY_OF_WEEK]
-            var rVal = 0
-            rVal = when (now_week) {
-                1 -> 7
-                else -> now_week - 1
-            }
-            return rVal
+    private fun getNowServerWeekDay(): Int {
+        val cal = Calendar.getInstance()
+        val now_week = cal[Calendar.DAY_OF_WEEK]
+        var rVal = 0
+        rVal = when (now_week) {
+            1 -> 7
+            else -> now_week - 1
         }
+        return rVal
+    }
 
     /** 各時間のチェック  */
-    // ここでえらってる
     private fun checkEachOpenTime(hm_time_data: HashMap<Int, IntArray>): Boolean {
         val nowDate = Calendar.getInstance()
         var index = 0
@@ -323,7 +361,6 @@ class ServiceNearWishSpot
             }
 
             val start = Calendar.getInstance()
-
             start[
                     nowDate[Calendar.YEAR],
                     nowDate[Calendar.MONTH],
@@ -360,183 +397,19 @@ class ServiceNearWishSpot
      * @return メートル単位
      */
     private fun distanceToDestination(
-        lat1: Double,
-        lon1: Double,
-        lat2: Double,
-        lon2: Double
+        latitude1: Double,
+        longitude1: Double,
+        latitude2: Double,
+        longitude2: Double
     ): Double {
         // ラジアン値に変換
-        var lat1 = lat1
-        var lon1 = lon1
-        var lat2 = lat2
-        var lon2 = lon2
-        lat1 = lat1 * (Math.PI / 180)
-        lon1 = lon1 * (Math.PI / 180)
-        lat2 = lat2 * (Math.PI / 180)
-        lon2 = lon2 * (Math.PI / 180)
+        val lat1 = latitude1 * (Math.PI / 180)
+        val lon1 = longitude1 * (Math.PI / 180)
+        val lat2 = latitude2 * (Math.PI / 180)
+        val lon2 = longitude2 * (Math.PI / 180)
         val r = 6378.137 * 1000
         val dif_lon = lon2 - lon1
-        return r * Math.acos(
-            Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(
-                lat2
-            ) * Math.cos(dif_lon)
-        )
+        return r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(dif_lon))
     }
 
-    /**
-     * Builds a GoogleApiClient. Uses the `#addApi` method to request the
-     * LocationServices API.
-     */
-    @Synchronized
-    protected fun buildGoogleApiClient() {
-        mGoogleApiClient = GoogleApiClient.Builder(mContext!!)
-            .addConnectionCallbacks(this)
-            .addOnConnectionFailedListener(this)
-            .addApi(LocationServices.API)
-            .build()
-    }
-
-    /**
-     * Sets up the location request. Android has two location request settings:
-     * `ACCESS_COARSE_LOCATION` and `ACCESS_FINE_LOCATION`. These settings control
-     * the accuracy of the current location. This sample uses ACCESS_FINE_LOCATION, as defined in
-     * the AndroidManifest.xml.
-     *
-     *
-     * When the ACCESS_FINE_LOCATION setting is specified, combined with a fast update
-     * interval (5 seconds), the Fused Location Provider API returns location updates that are
-     * accurate to within a few feet.
-     *
-     *
-     * These settings are appropriate for mapping applications that show real-time location
-     * updates.
-     */
-    private fun createLocationRequest() {
-        // 省エネを優先(1分に1回の間隔で最速10秒で100mの移動があったとき更新)
-        mLocationRequest = LocationRequest()
-        // mLocationRequest.setInterval(10000);
-        mLocationRequest!!.interval = 60000
-        mLocationRequest!!.fastestInterval = 10000
-        mLocationRequest!!.smallestDisplacement = 100f
-        mLocationRequest!!.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-    }
-
-    /**
-     * Uses a [com.google.android.gms.location.LocationSettingsRequest.Builder] to build
-     * a [com.google.android.gms.location.LocationSettingsRequest] that is used for checking
-     * if a device has the needed location settings.
-     */
-    protected fun buildLocationSettingsRequest() {
-        val builder = LocationSettingsRequest.Builder()
-        builder.addLocationRequest(mLocationRequest!!)
-        mLocationSettingsRequest = builder.build()
-    }
-
-    override fun onConnected(bundle: Bundle?) {
-        if (mContext == null) return
-        val result =
-            LocationServices.SettingsApi.checkLocationSettings(
-                mGoogleApiClient,
-                LocationSettingsRequest.Builder().setAlwaysShow(true)
-                    .addLocationRequest(mLocationRequest!!).build()
-            )
-        result.setResultCallback { locationSettingsResult ->
-            val status =
-                locationSettingsResult.status
-            if (status.statusCode == LocationSettingsStatusCodes.SUCCESS) {
-
-                // 位置情報の取得を開始
-                if (isLocationEnabled(mContext!!)) {
-                    if (mGoogleApiClient!!.isConnected) {
-                        startLocationUpdates()
-                    }
-                }
-            } else {
-                // Log.i(TAG, "位置情報が利用できないので通知はキャンセル");
-            }
-        }
-    }
-
-    override fun onConnectionSuspended(i: Int) {
-        // Log.i(TAG_SHORT, "onConnectionSuspended i" + i);
-    }
-
-    override fun onLocationChanged(location: Location) {
-        if (!mySP.get_status_login()) {
-            return
-        }
-        if (mContext == null) return
-        if (ActivityCompat.checkSelfPermission(mContext!!, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (mGoogleApiClient == null) return
-            mCurrentLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient)
-            getWishData()
-
-            // Log.i(TAG, "change location: " + mCurrentLocation.getLatitude() + ", " + mCurrentLocation.getLongitude());
-        } else {
-            // Log.i(TAG, "位置情報が利用できないので通知はキャンセル");
-        }
-    }
-
-    override fun onConnectionFailed(connectionResult: ConnectionResult) {
-        TODO("Not yet implemented")
-    }
-
-    /**
-     * Requests location updates from the FusedLocationApi.
-     * http://qiita.com/daisy1754/items/aa9ad75d1a84b745469b
-     */
-    protected fun startLocationUpdates() {
-        if (mContext == null) return
-        if (ActivityCompat.checkSelfPermission(mContext!!, Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED
-        ) {
-            if (!mGoogleApiClient!!.isConnected) { return }
-            LocationServices.FusedLocationApi.requestLocationUpdates(
-                mGoogleApiClient,
-                mLocationRequest,
-                this
-            ).setResultCallback { status ->
-                if (status.isSuccess) {
-                    // Log.i(TAG_SHORT, "App Indexing API: Recorded recipe view end successfully."+ status.toString());
-                } else {
-                    // Log.i(TAG_SHORT, "App Indexing API: There was an error recording the recipe view." + status.toString());
-                }
-            }
-        } else {
-            // Log.i(TAG, "位置情報が利用できないので通知はキャンセル");
-        }
-    }
-
-    companion object {
-        // 定数 //
-        const val TAG = "ServiceNearWishSpot"
-
-        // 設定値
-        private const val NOTIFICATION_MARGIN_TIME = 2 * 60 * 60 * 1000 // 通知の間隔(ミリ秒)
-            .toLong()
-        private const val NOTIFICATION_RANGE = 500.0 // 100.0 // 検索範囲(m)
-        fun isLocationEnabled(context: Context): Boolean {
-            var locationMode = 0
-            val locationProviders: String
-            return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                try {
-                    locationMode = Settings.Secure.getInt(
-                        context.contentResolver,
-                        Settings.Secure.LOCATION_MODE
-                    )
-                } catch (e: SettingNotFoundException) {
-                    e.printStackTrace()
-                }
-                locationMode != Settings.Secure.LOCATION_MODE_OFF
-            } else {
-                locationProviders = Settings.Secure.getString(
-                    context.contentResolver,
-                    Settings.Secure.LOCATION_PROVIDERS_ALLOWED
-                )
-                !TextUtils.isEmpty(locationProviders)
-            }
-        }
-    }
 }

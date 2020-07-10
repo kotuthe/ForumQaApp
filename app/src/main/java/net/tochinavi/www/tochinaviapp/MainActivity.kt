@@ -157,20 +157,19 @@ class MainActivity : AppCompatActivity() {
         startService(intent)
     }
 
-
-    // お気に入りデータの更新
-    // 明日はここから設定を行う
-    // ※ログインしていなければ取得しない
+    /**
+     * お気に入りの更新
+     */
     private fun updateWishData() {
         // ログインID
         if (mySP.get_status_login()) {
 
             val params: ArrayList<Pair<String, Any>> = ArrayList()
             val db = DBHelper(mContext)
-
             try {
                 val tableAppData = DBTableAppData(mContext)
                 val tableUsers = DBTableUsers(mContext)
+
                 ifNotNull(tableAppData.getData(db, DBTableAppData.Ids.wish_update), {
                     if (it.modified != null) {
                         params.add("modified_date" to it.modified!!.convertString())
@@ -184,7 +183,6 @@ class MainActivity : AppCompatActivity() {
             } finally {
                 db.cleanup()
             }
-
 
             val url = MyString().my_http_url_app() + "/app_data/get_wish_data.php"
             url.httpGet(params).responseJson { request, response, result ->
@@ -202,8 +200,8 @@ class MainActivity : AppCompatActivity() {
                             // appと更新日とnotificationのスポットを登録
                             val cv = ContentValues()
                             cv.put(DataAppData.COL[1], modified_date)
-                            db.db!!.update(
-                                DataAppData.TABLE_NAME, cv, "%s=%d".format(DataAppData.COL[0], DBTableAppData.Ids.wish_update.rawValue), null)
+                            DBTableAppData(mContext).update(
+                                db, DataAppData(DBTableAppData.Ids.wish_update.rawValue, modified_date.convertDate()), "%s=%d".format(DataAppData.COL[0], DBTableAppData.Ids.wish_update.rawValue))
                             DBTableNotificationNearWish(mContext).setJsonData(db, wishlist)
 
                             db.setTransactionSuccessful()
