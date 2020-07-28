@@ -1,5 +1,6 @@
 package net.tochinavi.www.tochinaviapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -73,6 +74,12 @@ class ActivitySpotReviewImageList :
             val index = view.id
             val item: DataSpotReview = listData[index]
             Log.i(">> $TAG_SHORT", "クチコミID : ${item.id}")
+
+            val intent = Intent(this, ActivitySpotReviewImage::class.java)
+            intent.putExtra("dataSpot", dataSpot)
+            intent.putExtra("dataReview", item)
+            startActivity(intent)
+
         })
         getData()
     }

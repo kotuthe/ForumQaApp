@@ -1,5 +1,7 @@
 package net.tochinavi.www.tochinaviapp.entities
 
+import java.io.Serializable
+
 class DataSpotList(
     id: Int,
     type: Int, // 1:スポット, それ以外:病院
@@ -14,8 +16,10 @@ class DataSpotList(
     coupon_enable: Boolean,
     reviewImageNum: Int,
     favoriteNum: Int,
-    reviewImageList: ArrayList<String>
-) {
+    reviewImageList: ArrayList<String>,
+    latitude: Double,
+    longitude: Double
+): Serializable {
 
     companion object {
         val TAG = "DataSpotList"
@@ -35,6 +39,8 @@ class DataSpotList(
     var reviewImageNum: Int = 0
     var favoriteNum: Int = 0
     var reviewImageList: ArrayList<String> = ArrayList()
+    var latitude: Double = 0.0
+    var longitude: Double = 0.0
 
     init {
         this.id = id
@@ -51,5 +57,7 @@ class DataSpotList(
         this.reviewImageNum = reviewImageNum
         this.favoriteNum = favoriteNum
         this.reviewImageList = reviewImageList
+        this.latitude = latitude
+        this.longitude = longitude
     }
 }

@@ -810,7 +810,9 @@ class FragmentTop : Fragment() {
                                 obj.getBoolean("coupon_enable"),
                                 obj.getInt("review_image_num"),
                                 obj.getInt("favorite_num"),
-                                review_image_array
+                                review_image_array,
+                                0.0,
+                                0.0
                             )
                         )
                     }

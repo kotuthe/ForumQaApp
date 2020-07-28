@@ -20,15 +20,6 @@ import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.RecyclerISReviewGalleryAdapter
 import net.tochinavi.www.tochinaviapp.view.RecyclerInfiniteScrollListener
 
-/*
-input
-・DataSpotReview(array)
-・selectIndex
-・condPage
-・DataSpotInfo
-・reviewImagesNumber（総数）
- */
-// 続きはページ更新からする
 class ActivitySpotReviewGallery_ImageSearch :
     AppCompatActivity(),
     AlertNormal.OnSimpleDialogClickListener  {
@@ -96,17 +87,6 @@ class ActivitySpotReviewGallery_ImageSearch :
 
         buttonReviewDetail.setOnClickListener {
             // クチコミ詳細へ
-            /*
-                DataSpotReview item = mAdapter.getItem(selectIndex);
-                if (item.getId() > 0) {
-
-                    Intent intent = new Intent(ActivitySpotReviewGallery_ImageSearch.this, ActivitySpotReviewDetail_ImageSearch.class);
-                    intent.putExtra("dataSpotInfo", dataSpotInfo);
-                    intent.putExtra("dataReview", item);
-                    startActivity(intent);
-                }
-             */
-
             val item = imageListData[selectIndex]
             val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
             intent.putExtra("dataSpot", dataSpot)

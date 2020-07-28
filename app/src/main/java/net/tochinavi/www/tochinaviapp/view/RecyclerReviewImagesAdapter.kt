@@ -105,8 +105,10 @@ class RecyclerReviewImagesAdapter(private val context: Context, val items: Array
         }
 
         val holder: ViewHolderItem = p0 as ViewHolderItem
-        holder.imageView.load(item.reviewImageUrls[0]) {
-            placeholder(R.drawable.ic_image_placeholder)
+        if (item.reviewImageUrls.size > 0) {
+            holder.imageView.load(item.reviewImageUrls[0]) {
+                placeholder(R.drawable.ic_image_placeholder)
+            }
         }
 
         holder.textViewNumber.apply {

@@ -52,6 +52,9 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
             if (Regex(ActivitySpotReviewList.TAG).containsMatchIn(className)) {
                 isClearFinish = true
             }
+            if (Regex(ActivitySpotReviewImage.TAG).containsMatchIn(className)) {
+                isClearFinish = true
+            }
         }
 
         if (supportActionBar != null) {

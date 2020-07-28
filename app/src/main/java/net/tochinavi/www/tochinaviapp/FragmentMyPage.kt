@@ -246,7 +246,11 @@ class FragmentMyPage : Fragment() {
                     layoutNumberCheckin.textViewNumber.text = info.getInt("checkin_num").toString()
                     layoutNumberReview.textViewNumber.text = info.getInt("review_num").toString()
 
-                    scrollView.post(Runnable { scrollView.fullScroll(View.FOCUS_UP) })
+                    scrollView.post(Runnable {
+                        if (scrollView != null) {
+                            scrollView.fullScroll(View.FOCUS_UP)
+                        }
+                    })
                 }
 
             }, failure = { error ->

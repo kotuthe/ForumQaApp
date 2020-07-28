@@ -199,6 +199,8 @@ class FragmentRanking : Fragment() {
      */
     private fun updateListView() {
         Log.i(">> $TAG", "updateListView")
+        if (listView == null) return
+
         // Topへ
         listView.post(Runnable { listView.setSelection(0) })
 

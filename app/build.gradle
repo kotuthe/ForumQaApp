@@ -69,6 +69,7 @@ dependencies {
     implementation 'jp.wasabeef:blurry:3.+'
     // image picker
     implementation 'com.github.andremion:louvre:1.2.3'
+    implementation 'com.google.maps.android:android-maps-utils:0.5+'
 }
 
 

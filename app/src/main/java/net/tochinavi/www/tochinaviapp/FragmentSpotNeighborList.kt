@@ -168,6 +168,19 @@ class FragmentSpotNeighborList : Fragment() {
             }
         }
 
+        // 地図ボタン
+        buttonMap.setOnClickListener {
+            if (listData.size > 0) {
+                val intent = Intent(activity, ActivitySpotNeighborMap::class.java)
+                if (mLocation != null) {
+                    intent.putExtra("latitude", mLocation!!.latitude)
+                    intent.putExtra("longitude", mLocation!!.longitude)
+                }
+                intent.putExtra("spotArray", listData)
+                startActivity(intent)
+            }
+        }
+
         // 広告
         viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppNeighbor, resources)
 
@@ -572,7 +585,9 @@ class FragmentSpotNeighborList : Fragment() {
                                 obj.getBoolean("coupon_enable"),
                                 0,
                                 0,
-                                arrayListOf()
+                                arrayListOf(),
+                                obj.getDouble("latitude"),
+                                obj.getDouble("longitude")
                             )
                         )
                     }

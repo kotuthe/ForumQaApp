@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -512,6 +513,9 @@ class ActivitySpotInfo :
             startActivity(intent)
         } else {
             // 店舗写真の表示
+            val modal = ModalUriImagePreview.newInstance(
+                arrayListOf(Uri.parse(dataSpot.imageUrl)), 0, dataSpot.name)
+            modal.show(supportFragmentManager, ModalUriImagePreview.TAG)
         }
     }
 

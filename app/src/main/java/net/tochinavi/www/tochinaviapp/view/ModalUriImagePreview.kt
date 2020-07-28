@@ -31,11 +31,13 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
         @JvmStatic
         fun newInstance(
             items: ArrayList<Uri>,
-            selectIndex: Int
+            selectIndex: Int,
+            title: String? = null
         ) = ModalUriImagePreview().apply {
             arguments = Bundle().apply {
                 putSerializable(ModalUriImagePreview::items.name, items)
                 putSerializable(ModalUriImagePreview::selectIndex.name, selectIndex)
+                putSerializable(ModalUriImagePreview::fixTitle.name, title)
             }
         }
     }
@@ -67,6 +69,7 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
     private var dismissFlag: Boolean = false
     private var items: ArrayList<Uri> by Arguments()
     private var selectIndex: Int by Arguments()
+    private var fixTitle: String? by Arguments()
     private var isOnStart = false
 
     // その他オプション
@@ -184,6 +187,11 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
             // 2以上
             title += " ( %d / %d )".format(index + 1, items.count())
         }
+        textViewTitle.text = if (fixTitle != null) fixTitle!! else title
+    }
+
+    /** タイトル更新 **/
+    fun setNotChangeTitle(title: String) {
         textViewTitle.text = title
     }
 

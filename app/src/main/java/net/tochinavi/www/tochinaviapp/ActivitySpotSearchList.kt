@@ -514,7 +514,9 @@ class ActivitySpotSearchList : AppCompatActivity() {
                                 obj.getBoolean("coupon_enable"),
                                 0,
                                 0,
-                                arrayListOf()
+                                arrayListOf(),
+                                0.0,
+                                0.0
                             )
                         )
                     }
