@@ -115,19 +115,19 @@ class MainActivity : AppCompatActivity() {
         tabLayout.getTabAt(Constants.TAB_ITEM.TOP.ordinal)!!.customView = itemTop
 
         // 周辺
-        val itemNeighbor: View = createTabItem(R.drawable.ic_tab_top, "周辺")
+        val itemNeighbor: View = createTabItem(R.drawable.ic_tab_neighbor, "周辺")
         tabLayout.getTabAt(Constants.TAB_ITEM.NEIGHBOR.ordinal)!!.customView = itemNeighbor
 
         // カテゴリー
-        val itemSearch: View = createTabItem(R.drawable.ic_tab_top, "カテゴリー", 9f)
+        val itemSearch: View = createTabItem(R.drawable.ic_tab_category, "カテゴリー", 9f)
         tabLayout.getTabAt(Constants.TAB_ITEM.SEARCH.ordinal)!!.customView = itemSearch
 
         // ランキング
-        val itemRanking: View = createTabItem(R.drawable.ic_tab_top, "ランキング", 9f)
+        val itemRanking: View = createTabItem(R.drawable.ic_tab_ranking, "ランキング", 9f)
         tabLayout.getTabAt(Constants.TAB_ITEM.RANKING.ordinal)!!.customView = itemRanking
 
         // マイページ
-        val itemMyPage: View = createTabItem(R.drawable.ic_tab_top, "Myページ", 9f)
+        val itemMyPage: View = createTabItem(R.drawable.ic_tab_mypage, "Myページ", 9f)
         tabLayout.getTabAt(Constants.TAB_ITEM.MY_PAGE.ordinal)!!.customView = itemMyPage
 
     }

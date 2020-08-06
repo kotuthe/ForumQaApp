@@ -1,5 +1,6 @@
 package net.tochinavi.www.tochinaviapp.view
 
+import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -7,6 +8,8 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 
 open class DialogFragmentFullScreen : DialogFragment() {
+
+    private var isOnDestroy: Boolean = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,6 +38,18 @@ open class DialogFragmentFullScreen : DialogFragment() {
             )
             setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isOnDestroy = true
+    }
+
+    override fun onDismiss(dialog: DialogInterface) {
+        // DestroyするまではDismissできる
+        if (!isOnDestroy) {
+            super.onDismiss(dialog)
         }
     }
 }

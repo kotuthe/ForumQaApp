@@ -25,6 +25,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:textColor="@color/tab_ranking_tint_color"
+            android:textStyle="bold"
+            android:textSize="15sp"
             android:text="abcd"/>
 
     </LinearLayout>

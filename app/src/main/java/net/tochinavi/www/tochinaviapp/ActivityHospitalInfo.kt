@@ -7,6 +7,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.net.Uri
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -485,12 +486,16 @@ class ActivityHospitalInfo :
 
     private fun showReviewImageList() {
         if (dataSpot.moreImage) {
-            // クチコミ写真一覧の表示
+            /* // 病院はクチコミ画像はない
             val intent = Intent(this, ActivitySpotReviewImageList::class.java)
             intent.putExtra("dataSpot", dataSpot)
             startActivity(intent)
+            */
         } else {
             // 店舗写真の表示
+            val modal = ModalUriImagePreview.newInstance(
+                arrayListOf(Uri.parse(dataSpot.imageUrl)), 0, dataSpot.name)
+            modal.show(supportFragmentManager, ModalUriImagePreview.TAG)
         }
     }
 

@@ -18,7 +18,8 @@
     <color name="colorTopStatus">#DADADA</color>
 
     <!-- ランキング　タブ -->
-    <color name="colorRankingTabDis">#F1F1F1</color>
+    <color name="colorRankingTabDis">#CDCDCD</color>
+    <color name="colorTabRankingIconActive">#F7C746</color>
 
     <!-- 称号取得モーダル -->
     <color name="colorGetBadgeMain">#FFC52F</color>

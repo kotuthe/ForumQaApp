@@ -61,7 +61,8 @@
             android:layout_margin="16dp"
             android:layout_gravity="bottom|right"
             app:backgroundTint="@color/colorLinkBlue"
-            app:srcCompat="@drawable/img_spot_info_action_map" />
+            app:srcCompat="@drawable/ic_spot_info_action_map"
+            app:maxImageSize="46dp" />
 
     </FrameLayout>
 
