@@ -88,7 +88,7 @@
                         android:id="@+id/imageViewCategory"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:background="#CCC"/>
+                        android:background="@drawable/layout_transition_white"/>
 
                     <TextView
                         android:id="@+id/textViewInfo"
@@ -98,7 +98,7 @@
                         android:gravity="start"
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/font_size_normal"
-                        android:text="title"/>
+                        android:background="@drawable/layout_transition_white"/>
 
                 </LinearLayout>
 
@@ -130,7 +130,6 @@
                             android:layout_marginLeft="@dimen/normal_safe_area_margin"
                             android:layout_marginRight="@dimen/normal_safe_area_margin"
                             android:layout_gravity="center"
-                            android:text="Image"
                             android:textSize="@dimen/font_size_normal"
                             android:textColor="@android:color/white"/>
 

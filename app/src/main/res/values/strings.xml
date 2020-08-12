@@ -62,12 +62,26 @@
     <string name="my_page_setting_login_title">ログイン</string>
 
     <!-- activity_spot_neighbor_narrow -->
+    <string name="spot_neighbor_narrow_title">絞込み</string>
     <string name="spot_neighbor_narrow_category_caption">カテゴリー</string>
     <string name="spot_neighbor_narrow_distance_caption">表示範囲</string>
     <string name="spot_neighbor_narrow_other_caption">その他</string>
     <string name="spot_neighbor_narrow_coupon_title">クーポンあり</string>
     <string name="spot_neighbor_narrow_select">選択してください</string>
     <string name="spot_neighbor_narrow_no_select">指定なし</string>
+    <string name="spot_neighbor_narrow_clear">条件をクリア</string>
+    <string name="spot_neighbor_narrow_search">検索</string>
+
+    <!-- activity_spot_search_narrow -->
+    <string name="spot_search_narrow">絞込み条件</string>
+
+    <!-- activity_spot_search_narrow_category_multi -->
+    <string name="spot_search_narrow_category_multi_clear">選択を解除</string>
+    <string name="spot_search_narrow_category_multi_done">決定</string>
+
+    <!-- activity_spot_search_narrow_area -->
+    <string name="spot_search_narrow_area_clear">選択を解除</string>
+    <string name="spot_search_narrow_area_done">決定</string>
 
     <!-- activity_spot_info_image_search -->
     <string name="spot_info_actions_review">クチコミ</string>
@@ -116,6 +130,9 @@
     <string name="spot_info_facebook">Facebook</string>
     <string name="spot_info_line">LINE</string>
     <string name="spot_info_twitter">Twitter</string>
+
+    <!-- activity_spot_review_list -->
+    <string name="spot_review_list_param_title">クチコミ数</string>
 
     <!-- modal_get_badge -->
     <string name="get_badge_title">称号を取得しました！！</string>

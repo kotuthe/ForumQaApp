@@ -14,8 +14,8 @@
         android:orientation="horizontal"
         android:paddingTop="@dimen/normal_margin"
         android:paddingBottom="@dimen/normal_margin"
-        android:paddingLeft="@dimen/normal_safe_area_margin"
-        android:paddingRight="@dimen/normal_margin"
+        android:paddingStart="@dimen/normal_safe_area_margin"
+        android:paddingEnd="@dimen/normal_margin"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
@@ -23,7 +23,7 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/normal_margin"
+            android:layout_marginEnd="@dimen/normal_margin"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -36,15 +36,15 @@
 
                 <ImageView
                     android:id="@+id/imageViewIcon"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:src="@drawable/img_spot_info_action_checkin_dis"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="@dimen/normal_margin"
                     android:orientation="vertical">
 
                     <TextView
@@ -76,7 +76,7 @@
                         android:id="@+id/textViewInfo"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="1dp"
+                        android:paddingTop="3dp"
                         android:scrollHorizontally="true"
                         android:text="date"
                         android:textColor="@color/colorTextGray"
@@ -88,14 +88,16 @@
 
             </LinearLayout>
 
-            <!-- ※ここあとで高さ固定にする（３行分で） -->
             <TextView
                 android:id="@+id/textViewReview"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_height="50dp"
+                android:layout_marginTop="3dp"
+                android:lineSpacingExtra="2dp"
+                android:maxLines="3"
+                android:ellipsize="end"
                 android:textSize="13sp"
-                android:text="review"/>
+                android:text="review\nreview\nreview"/>
 
         </LinearLayout>
 
@@ -111,8 +113,7 @@
                 android:id="@+id/imageViewMain"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:background="#CCC"/>
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/textViewMainNumber"

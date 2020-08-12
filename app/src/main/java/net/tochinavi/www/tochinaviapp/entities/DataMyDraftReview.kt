@@ -2,57 +2,52 @@ package net.tochinavi.www.tochinaviapp.entities
 
 import java.io.Serializable
 
-class DataMyReview(
+class DataMyDraftReview(
     id: Int,
-    type: Int,
+    isDraft: Boolean, // false: 投稿済み, true: 下書き
     spotId: Int,
     spotName: String,
-    userId: Int,
-    userName: String,
-    userImage: String,
-    userInfo: String,
+    type: Int, // クチコミのタイプ: スポット, エリア, イベント
     reviewDate: String,
     review: String,
     reviewImageUrls: ArrayList<String>,
-    reviewUrl: String,
     goodNum: Int,
-    enableGood: Boolean
+    // 下書き用　
+    photoFlag: Boolean, // 画像投稿の許可フラグ
+    comingFlg: Array<Int>,
+    tagIds: ArrayList<DataReviewTag>
 ): Serializable {
 
     companion object {
-        val TAG = "DataSpotList"
+        val TAG = "DataMyReview"
     }
 
     var id: Int = 0
-    var type: Int = 0
+    var isDraft: Boolean = false
     var spotId: Int = 0
     var spotName: String = ""
-    var userId: Int = 0
-    var userName: String = ""
-    var userImage: String = ""
-    var userInfo: String = ""
+    var type: Int = 0
     var reviewDate: String = ""
     var review: String = ""
     var reviewImageUrls: ArrayList<String> = arrayListOf()
-    var reviewUrl: String = ""
     var goodNum: Int = 0
-    var enableGood: Boolean = false
+    var photoFlag: Boolean = false
+    var comingFlg: Array<Int> = Array(3) {0}
+    var tagIds: ArrayList<DataReviewTag> = arrayListOf()
 
     init {
         this.id = id
-        this.type = type
+        this.isDraft = isDraft
         this.spotId = spotId
         this.spotName = spotName
-        this.userId = userId
-        this.userName = userName
-        this.userImage = userImage
-        this.userInfo = userInfo
+        this.type = type
         this.reviewDate = reviewDate
         this.review = review
         this.reviewImageUrls = reviewImageUrls
-        this.reviewUrl = reviewUrl
         this.goodNum = goodNum
-        this.enableGood = enableGood
+        this.photoFlag = photoFlag
+        this.comingFlg = comingFlg
+        this.tagIds = tagIds
     }
 
 }

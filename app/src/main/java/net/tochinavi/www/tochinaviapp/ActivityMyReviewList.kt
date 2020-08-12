@@ -17,9 +17,11 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_my_review_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMyReview
-import net.tochinavi.www.tochinaviapp.entities.DataReviewTag
+import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
+import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
+import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
@@ -99,7 +101,58 @@ class ActivityMyReviewList : AppCompatActivity() {
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                // スポット（アプリ） or イベント（Web）
+                val item = listData[pos]
+                if (item.type == 1) {
+                    // クチコミ詳細
+                    val dataSpot = DataSpotInfo(
+                        item.spotId,
+                        1,
+                        "",
+                        false,
+                        item.spotName,
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        "",
+                        0.0,
+                        0.0,
+                        0,
+                        false,
+                        false,
+                        false,
+                        false,
+                        "",
+                        "",
+                        0,
+                        false
+                    )
+                    val dataReview = DataSpotReview(
+                        item.id,
+                        item.spotId,
+                        item.spotName,
+                        item.userId,
+                        item.userName,
+                        item.userImage,
+                        item.userInfo,
+                        item.reviewDate,
+                        item.review,
+                        item.reviewImageUrls,
+                        item.reviewUrl,
+                        item.goodNum,
+                        item.enableGood
+                    )
+                    val intent = Intent(this@ActivityMyReviewList, ActivitySpotReviewDetail::class.java)
+                    intent.putExtra("dataSpot", dataSpot)
+                    intent.putExtra("dataReview", dataReview)
+                    startActivityForResult(intent, 0)
+                } else {
+                    // イベントやエリア等はWebへ
+                    startActivity(
+                        MyIntent().web_browser(
+                            MyString().my_http_url_spot_review_detail(item.userId, item.id)))
+                }
             }
 
             // スクロール
@@ -191,7 +244,7 @@ class ActivityMyReviewList : AppCompatActivity() {
 
         println(params)
 
-        val url = MyString().my_http_url_app() + "/mypage/get_review_list.php"
+        val url = MyString().my_http_url_app() + "/mypage/v2/get_review_list.php"
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->
                 if (loading.isVisible) {
@@ -228,18 +281,20 @@ class ActivityMyReviewList : AppCompatActivity() {
                         }
 
                         listData.add(DataMyReview(
-                            obj.getInt("review_id"),
-                            true,
+                            obj.getInt("id"),
+                            obj.getInt("type"),
                             obj.getInt("spot_id"),
                             obj.getString("spot_name"),
-                            obj.getInt("type"),
+                            obj.getInt("user_id"),
+                            obj.getString("user_name"),
+                            obj.getString("user_image"),
+                            obj.getString("user_info"),
                             obj.getString("review_date"),
                             obj.getString("review"),
                             review_image_array,
-                            0,
-                            false,
-                            arrayOf(),
-                            arrayListOf()
+                            "",
+                            obj.getInt("good_num"),
+                            obj.getBoolean("enable_good")
                         ))
                     }
 

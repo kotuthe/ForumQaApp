@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -797,9 +798,9 @@ class ActivitySpotInfo :
      */
     private fun setLayoutDataSpot() {
         // 上部 //
+        (imageViewCategory.background as TransitionDrawable).startTransition(1000)
         imageViewCategory.setImageDrawable(
             ContextCompat.getDrawable(this, MyImage().icon_category_mini(dataSpot.category_large_id)))
-        // textViewInfo.text = dataSpot!!.simple_detail
         imageViewSpotImage.load(dataSpot.imageUrl) {
             placeholder(R.drawable.ic_image_placeholder)
         }
@@ -838,6 +839,7 @@ class ActivitySpotInfo :
         layoutShare.textViewCopy.text = dataSpot.snsShareText
 
         // 上部の項目を表示することで下にスライドしなくなる
+        (textViewInfo.background as TransitionDrawable).startTransition(500)
         textViewInfo.text = dataSpot.simple_detail
     }
 

@@ -12,23 +12,20 @@ import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.isVisible
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_my_draft_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
-import net.tochinavi.www.tochinaviapp.entities.DataMyReview
+import net.tochinavi.www.tochinaviapp.entities.DataMyDraftReview
 import net.tochinavi.www.tochinaviapp.entities.DataReviewTag
-import net.tochinavi.www.tochinaviapp.entities.DataUsers
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
-import net.tochinavi.www.tochinaviapp.view.ListMyReviewAdapter
+import net.tochinavi.www.tochinaviapp.view.ListMyDraftReviewAdapter
 import net.tochinavi.www.tochinaviapp.view.LoadingNormal
 import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
-import org.json.JSONArray
 import org.json.JSONObject
 
 class ActivityMyDraftList : AppCompatActivity() {
@@ -46,7 +43,7 @@ class ActivityMyDraftList : AppCompatActivity() {
     // データ
     private lateinit var mContext: Context
     private lateinit var mySP: MySharedPreferences
-    private var listData: ArrayList<DataMyReview> = ArrayList()
+    private var listData: ArrayList<DataMyDraftReview> = ArrayList()
     private var mAdapter: BaseAdapter? = null
     private var isEndScroll: Boolean = false
 
@@ -97,7 +94,7 @@ class ActivityMyDraftList : AppCompatActivity() {
         textViewParams.text = ""
 
         // listViewの初期化
-        mAdapter = ListMyReviewAdapter(mContext, listData)
+        mAdapter = ListMyDraftReviewAdapter(mContext, listData)
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
@@ -252,7 +249,7 @@ class ActivityMyDraftList : AppCompatActivity() {
                                 obj_item.getInt("id"), obj_item.getString("name"), true))
                         }
 
-                        listData.add(DataMyReview(
+                        listData.add(DataMyDraftReview(
                             obj.getInt("review_id"),
                             true,
                             obj.getInt("spot_id"),

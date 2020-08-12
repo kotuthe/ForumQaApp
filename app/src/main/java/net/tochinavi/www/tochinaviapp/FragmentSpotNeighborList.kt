@@ -169,6 +169,7 @@ class FragmentSpotNeighborList : Fragment() {
         }
 
         // 地図ボタン
+        buttonMap.hide()
         buttonMap.setOnClickListener {
             if (listData.size > 0) {
                 val intent = Intent(activity, ActivitySpotNeighborMap::class.java)
@@ -601,6 +602,14 @@ class FragmentSpotNeighborList : Fragment() {
                     // ページ1の時はエラー文の表示する
                     if (condPage == 1) {
                         showListViewEmpty("対象のスポットが見つかりませんでした")
+                    }
+                }
+
+                buttonMap.apply {
+                    if (listData.size > 0) {
+                        show()
+                    } else {
+                        hide()
                     }
                 }
             }, failure = { error ->

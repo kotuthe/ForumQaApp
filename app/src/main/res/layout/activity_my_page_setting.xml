@@ -59,7 +59,7 @@
                     android:layout_weight="1"
                     android:layout_marginRight="8dp"
                     android:textSize="@dimen/font_size_row_title"
-                    android:textColor="@color/colorLinkBlue"
+                    android:textColor="@android:color/black"
                     android:text="@string/my_page_setting_notice_title"/>
 
                 <TextView

@@ -30,7 +30,7 @@ import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpUpload
 import kotlinx.android.synthetic.main.activity_input_review.*
 import net.tochinavi.www.tochinaviapp.entities.DataBadge
-import net.tochinavi.www.tochinaviapp.entities.DataMyReview
+import net.tochinavi.www.tochinaviapp.entities.DataMyDraftReview
 import net.tochinavi.www.tochinaviapp.entities.DataReviewTag
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.network.TaskDownloadImage
@@ -83,7 +83,7 @@ class ActivityInputReview :
     private var mySP: MySharedPreferences? = null
     private lateinit var dataSpot: DataSpotInfo
     private var isDraft: Boolean = false
-    private var dataReview: DataMyReview? = null
+    private var dataDraftReview: DataMyDraftReview? = null
     private var reviewType: Int = 1 // 1: All, 2: Image Only
     private var imageAdapter: RecyclerInputReviewAdapter? = null
     private var imageListData: ArrayList<Uri?> = arrayListOf(null) // 最初にnullを１つ入れる
@@ -116,10 +116,10 @@ class ActivityInputReview :
                 dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
             } else {
                 // 下書き
-                dataReview = intent.getSerializableExtra("dataReview") as DataMyReview
+                dataDraftReview = intent.getSerializableExtra("dataReview") as DataMyDraftReview
                 dataSpot = DataSpotInfo(
-                    dataReview!!.spotId, 1,"", false,
-                    dataReview!!.spotName, "", "", "",
+                    dataDraftReview!!.spotId, 1,"", false,
+                    dataDraftReview!!.spotName, "", "", "",
                     "", "", "", 0.0,
                     0.0, 0, false,
                     false, true, false,
@@ -188,15 +188,15 @@ class ActivityInputReview :
      * Web画像のダウンロード
      */
     private fun downloadImage() {
-        if (dlImageIndex < dataReview!!.reviewImageUrls.size) {
-            Log.i(">> $TAG", "$dlImageIndex: ${dataReview!!.reviewImageUrls[dlImageIndex]}")
+        if (dlImageIndex < dataDraftReview!!.reviewImageUrls.size) {
+            Log.i(">> $TAG", "$dlImageIndex: ${dataDraftReview!!.reviewImageUrls[dlImageIndex]}")
             runOnUiThread {
                 loading.updateLayout("写真を読み込み中\n%d%%...",
-                    dlImageIndex.toDouble(), dataReview!!.reviewImageUrls.size.toDouble())
+                    dlImageIndex.toDouble(), dataDraftReview!!.reviewImageUrls.size.toDouble())
             }
             taskDLImage = TaskDownloadImage(mContext!!)
             taskDLImage!!.setListener(downloadImageListener())
-            taskDLImage!!.execute(dataReview!!.reviewImageUrls[dlImageIndex])
+            taskDLImage!!.execute(dataDraftReview!!.reviewImageUrls[dlImageIndex])
             dlImageIndex++
         } else {
             loading.onDismiss()
@@ -330,7 +330,7 @@ class ActivityInputReview :
 
         // 条件に下書きデータを挿入
         if (isDraft) {
-            ifNotNull(dataReview) {
+            ifNotNull(dataDraftReview) {
                 // 訪問日
                 if (!it.comingFlg.isEmpty()) {
                     condVisitDate = arrayOf(
@@ -980,8 +980,8 @@ class ActivityInputReview :
         }
 
         //　下書きID
-        if (isDraft && dataReview!!.id > 0) {
-            params.add("draft_id" to dataReview!!.id)
+        if (isDraft && dataDraftReview!!.id > 0) {
+            params.add("draft_id" to dataDraftReview!!.id)
         }
 
         // 写真
@@ -1100,7 +1100,7 @@ class ActivityInputReview :
     private fun deleteDraft() {
         val url = MyString().my_http_url_app() + "/review/v2/delete_draft_review.php"
         val params = arrayListOf(
-            "id" to dataReview!!.id
+            "id" to dataDraftReview!!.id
         )
         // ログインID
         if (mySP!!.get_status_login()) {

@@ -12,16 +12,15 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
-import net.tochinavi.www.tochinaviapp.entities.DataMyReview
-import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.entities.DataMyDraftReview
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
-// Myクチコミ一覧
-class ListMyReviewAdapter(context: Context, datas: ArrayList<DataMyReview>) : BaseAdapter() {
+// 下書きクチコミ一覧
+class ListMyDraftReviewAdapter(context: Context, dataDrafts: ArrayList<DataMyDraftReview>) : BaseAdapter() {
 
     private var mContext: Context
     private var inflater: LayoutInflater? = null
-    private var arrayData: ArrayList<DataMyReview> = ArrayList()
+    private var arrayData: ArrayList<DataMyDraftReview> = ArrayList()
 
     internal class ViewHolder {
         var icon: ImageView? = null
@@ -37,7 +36,7 @@ class ListMyReviewAdapter(context: Context, datas: ArrayList<DataMyReview>) : Ba
     init {
         this.mContext = context
         inflater = LayoutInflater.from(context)
-        arrayData = datas
+        arrayData = dataDrafts
     }
 
     override fun getCount(): Int {
@@ -77,12 +76,13 @@ class ListMyReviewAdapter(context: Context, datas: ArrayList<DataMyReview>) : Ba
         holder.name!!.text = data.spotName
         // クチコミ //
         holder.review!!.apply {
-            setTextColor(Color.BLACK)
+            setTextColor(if (data.isDraft)
+                ContextCompat.getColor(mContext, R.color.colorLinkBlue) else Color.BLACK)
             if (!data.review.isEmpty()) {
                 visibility = View.VISIBLE
                 text = data.review
             } else {
-                visibility = View.GONE
+                visibility = View.INVISIBLE
             }
         }
 
@@ -98,51 +98,20 @@ class ListMyReviewAdapter(context: Context, datas: ArrayList<DataMyReview>) : Ba
                     visibility = View.VISIBLE
                     text = "他%d枚".format(data.reviewImageUrls.size - 1)
                 } else {
-                    visibility = View.GONE
+                    visibility = View.INVISIBLE
                 }
             }
         } else {
             // 写真 GONE
-            holder.layoutMain!!.visibility = View.GONE
+            holder.layoutMain!!.visibility = View.INVISIBLE
         }
 
-        // 投稿済み
-        holder.icon!!.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.img_cmn_review_yellow))
-        holder.type!!.visibility = View.VISIBLE
-        setType(holder.type!!, data.type)
-        holder.info!!.text = "投稿日: %s".format(data.reviewDate)
-        holder.info!!.setTextColor(Color.BLACK)
+        // 下書き
+        holder.icon!!.setImageDrawable(ContextCompat.getDrawable(mContext, R.drawable.img_cmn_draft))
+        holder.type!!.visibility = View.GONE // アプリの下書き一覧には他のタイプは表示されてない
+        holder.info!!.text = "編集日: %s".format(data.reviewDate)
 
         return view!!
     }
 
-    private fun setType(v: TextView, type: Int) {
-        var name = ""
-        var color: Int = Color.rgb(200, 200, 200)
-        when (type) {
-            1 -> {
-                name = "スポット"
-                color = Color.rgb(255, 180, 0)
-            }
-            2 -> {
-                name = "イベント"
-                color = Color.rgb(40, 136, 199)
-            }
-            4 -> {
-                name = "特集"
-                color = Color.rgb(140, 198, 63)
-            }
-            5 -> {
-                name = "エリア"
-                color = Color.rgb(241, 91, 97)
-            }
-        }
-        v.text = name
-
-        val shape = GradientDrawable()
-        shape.shape = GradientDrawable.RECTANGLE
-        shape.setColor(color)
-        shape.cornerRadius = 5f.convertDpToPx(mContext)
-        v.background = shape
-    }
 }

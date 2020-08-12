@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import kotlinx.android.synthetic.main.activity_my_wish_list.*
 import kotlinx.android.synthetic.main.activity_spot_review_list.*
+import kotlinx.android.synthetic.main.activity_spot_review_list.layoutEmpty
+import kotlinx.android.synthetic.main.activity_spot_review_list.listView
+import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
@@ -53,6 +58,7 @@ class ActivitySpotReviewList :
             supportActionBar!!.title = dataSpot.name
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
+        hideListViewEmpty()
 
         mAdapter = ListSpotReviewAdapter(mContext, listData)
         listView.apply {
@@ -115,6 +121,15 @@ class ActivitySpotReviewList :
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
     }
 
+    private fun showListViewEmpty(message: String) {
+        layoutEmpty.visibility = View.VISIBLE
+        layoutEmpty.textViewMsg.text = message
+    }
+
+    private fun hideListViewEmpty() {
+        layoutEmpty.visibility = View.GONE
+    }
+
     /**
      * クチコミの取得
      */
@@ -130,12 +145,13 @@ class ActivitySpotReviewList :
                 mAdapter!!.notifyDataSetChanged()
                 condPage++
                 isEndScroll = false // 成功以外は更新は止めるためにここだけにfalseを設定する
-                // hideListViewEmpty()
+                hideListViewEmpty()
             },
             {
                 // アラートの表示
                 var msg: String? = null
                 if (condPage == 1) {
+                    showListViewEmpty("クチコミが見つかりませんでした")
                     if (it == Constants.HTTP_STATUS.network) {
                         msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"
                     }

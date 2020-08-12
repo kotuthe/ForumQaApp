@@ -28,10 +28,11 @@
                 <ImageView
                     android:id="@+id/imageViewIcon"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="200dp"
                     android:layout_marginTop="40dp"
                     android:layout_marginStart="80dp"
                     android:layout_marginEnd="80dp"
+                    android:scaleType="fitCenter"
                     android:src="@drawable/img_mypage_badge_list_dis"/>
 
                 <TextView

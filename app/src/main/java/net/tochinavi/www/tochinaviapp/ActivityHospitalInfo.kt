@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
@@ -27,7 +28,21 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_hospital_info.*
+import kotlinx.android.synthetic.main.activity_hospital_info.buttonCheckin
+import kotlinx.android.synthetic.main.activity_hospital_info.buttonFavorite
 import kotlinx.android.synthetic.main.activity_hospital_info.buttonMap
+import kotlinx.android.synthetic.main.activity_hospital_info.buttonPhone
+import kotlinx.android.synthetic.main.activity_hospital_info.buttonReview
+import kotlinx.android.synthetic.main.activity_hospital_info.buttonReviewImage
+import kotlinx.android.synthetic.main.activity_hospital_info.imageViewCategory
+import kotlinx.android.synthetic.main.activity_hospital_info.imageViewMoreGallery
+import kotlinx.android.synthetic.main.activity_hospital_info.imageViewSpotImage
+import kotlinx.android.synthetic.main.activity_hospital_info.layoutBasic
+import kotlinx.android.synthetic.main.activity_hospital_info.layoutShare
+import kotlinx.android.synthetic.main.activity_hospital_info.layoutSpotMessage
+import kotlinx.android.synthetic.main.activity_hospital_info.textViewInfo
+import kotlinx.android.synthetic.main.activity_hospital_info.textViewSpotMessage
+import kotlinx.android.synthetic.main.activity_spot_info.*
 import kotlinx.android.synthetic.main.view_info_hospital_basic_old.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_share.view.textViewTitle
@@ -781,6 +796,7 @@ class ActivityHospitalInfo :
      */
     private fun setLayoutDataSpot() {
         // 上部 //
+        (imageViewCategory.background as TransitionDrawable).startTransition(1000)
         imageViewCategory.setImageDrawable(
             ContextCompat.getDrawable(this, MyImage().icon_category_mini(dataSpot.category_large_id)))
         // textViewInfo.text = dataSpot!!.simple_detail
@@ -815,6 +831,7 @@ class ActivityHospitalInfo :
         layoutShare.textViewCopy.text = dataSpot.snsShareText
 
         // 上部の項目を表示することで下にスライドしなくなる
+        (textViewInfo.background as TransitionDrawable).startTransition(500)
         textViewInfo.text = dataSpot.simple_detail
     }
 

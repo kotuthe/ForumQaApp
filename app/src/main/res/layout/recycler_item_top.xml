@@ -31,14 +31,14 @@
             <ImageView
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginLeft="12dp"
+                android:layout_marginStart="10dp"
                 android:src="@drawable/img_icon_top_distance"/>
             <TextView
                 android:id="@+id/textViewDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="12dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="10dp"
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="15sp"
@@ -60,13 +60,10 @@
             android:id="@+id/textViewSpotName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginLeft="12dp"
-            android:layout_marginRight="12dp"
-            android:layout_marginBottom="14dp"
+            android:layout_margin="10dp"
             android:textColor="@android:color/white"
             android:textStyle="bold"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:maxLines="2"
             android:ellipsize="end"
             android:text="Name"/>

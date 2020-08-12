@@ -69,7 +69,7 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         }
 
         if (supportActionBar != null) {
-            supportActionBar!!.title = "Narrow" // getString(R.string.my_page_setting_title)
+            supportActionBar!!.title = getString(R.string.spot_neighbor_narrow_title)
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 

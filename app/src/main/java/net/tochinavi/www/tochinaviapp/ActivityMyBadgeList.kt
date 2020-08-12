@@ -161,8 +161,10 @@ class ActivityMyBadgeList :
                             ))
                     }
                     mAdapter.notifyDataSetChanged()
+                    textViewParams.text = "%d件".format(number)
                     // パラメーターの設定を忘れずに
                 } else {
+                    textViewParams.text = "※後で調整する"
                     showAlertNoData()
                 }
             }, failure = { error ->

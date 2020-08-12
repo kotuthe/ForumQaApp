@@ -33,6 +33,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
     private lateinit var mAdapter: RecyclerReviewDetailImageAdapter
     private var imageData: ArrayList<String> = ArrayList()
     private var isClearFinish: Boolean = false
+    private var isNextSpotInfo: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,9 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
             }
             if (Regex(ActivitySpotReviewImage.TAG).containsMatchIn(className)) {
                 isClearFinish = true
+            }
+            if (Regex(ActivityMyReviewList.TAG).containsMatchIn(className)) {
+                isNextSpotInfo = true
             }
         }
 
@@ -83,13 +87,20 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
             setOnClickListener {
                 // firebase
                 if (isClearFinish) {
+                    // 展開されているActivityをクリア
                     val intent =
                         Intent(this@ActivitySpotReviewDetail, ActivitySpotInfo::class.java)
-                    // 展開されているActivityをクリア
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
                     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP)
                     startActivity(intent)
+                } else if (isNextSpotInfo) {
+                    // スポットページへ
+                    val intent = Intent(this@ActivitySpotReviewDetail, ActivitySpotInfo::class.java)
+                    intent.putExtra("id", dataSpot.id)
+                    intent.putExtra("name", dataSpot.name)
+                    startActivity(intent)
                 } else {
+                    // 戻る
                     finish()
                 }
             }

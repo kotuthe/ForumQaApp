@@ -19,7 +19,6 @@
             android:orientation="vertical"
             android:descendantFocusability="blocksDescendants">
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -27,7 +26,8 @@
                 android:textColor="@color/colorTextGray"
                 android:layout_marginLeft="@dimen/normal_safe_area_margin"
                 android:layout_marginRight="@dimen/normal_safe_area_margin"
-                android:text="title"/>
+                android:layout_marginBottom="4dp"
+                android:text="@string/spot_search_narrow"/>
             <include layout="@layout/merge_line_gray"/>
 
             <!-- カテゴリー -->
@@ -136,6 +136,7 @@
                 android:textColor="@color/colorTextGray"
                 android:layout_marginLeft="@dimen/normal_safe_area_margin"
                 android:layout_marginRight="@dimen/normal_safe_area_margin"
+                android:layout_marginBottom="4dp"
                 android:text="@string/spot_neighbor_narrow_other_caption"/>
             <include layout="@layout/merge_line_gray"/>
             <LinearLayout
@@ -193,7 +194,7 @@
             android:layout_height="@dimen/cmn_btn_ok_cancel_height"
             android:layout_weight="1"
             android:layout_marginEnd="5dp"
-            android:text="clear"
+            android:text="@string/spot_neighbor_narrow_clear"
             android:textSize="13sp"
             android:textStyle="bold"/>
         <!-- 検索 -->
@@ -203,7 +204,7 @@
             android:layout_height="@dimen/cmn_btn_ok_cancel_height"
             android:layout_weight="1"
             android:layout_marginStart="5dp"
-            android:text="search"
+            android:text="@string/spot_neighbor_narrow_search"
             android:textSize="13sp"
             android:textStyle="bold"/>
     </LinearLayout>
