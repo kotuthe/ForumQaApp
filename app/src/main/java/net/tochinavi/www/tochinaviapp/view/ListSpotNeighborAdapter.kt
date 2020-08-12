@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList

@@ -1,8 +1,8 @@
 package net.tochinavi.www.tochinaviapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import coil.api.load
 import kotlinx.android.synthetic.main.activity_my_badge_detail.*
 import net.tochinavi.www.tochinaviapp.entities.DataBadge

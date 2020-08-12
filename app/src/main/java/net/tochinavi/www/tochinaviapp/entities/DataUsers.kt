@@ -1,11 +1,6 @@
 package net.tochinavi.www.tochinaviapp.entities
 
 import android.graphics.Bitmap
-import android.graphics.drawable.Drawable
-import android.util.Log
-import net.tochinavi.www.tochinaviapp.value.convertString
-import net.tochinavi.www.tochinaviapp.value.ifNotNull
-import java.util.*
 
 class DataUsers(
     id: Int,

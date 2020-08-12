@@ -1,10 +1,10 @@
 package net.tochinavi.www.tochinaviapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import coil.api.load
 import kotlinx.android.synthetic.main.activity_spot_review_image.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo

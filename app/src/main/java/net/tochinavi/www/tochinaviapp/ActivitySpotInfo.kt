@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
 import android.view.MenuItem
 import android.view.View
 import android.widget.AdapterView
@@ -28,7 +27,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.activity_spot_info.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_share.view.textViewTitle

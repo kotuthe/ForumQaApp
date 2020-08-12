@@ -2,19 +2,18 @@ package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_spot_info_detail.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoDetail
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.value.MyIntent
-import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListSpotInfoDetailAdapter
 

@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
-import android.util.TypedValue
 import android.widget.Button
 import androidx.core.content.ContextCompat
 import com.google.android.material.button.MaterialButton

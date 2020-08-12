@@ -2,7 +2,6 @@ package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -10,18 +9,13 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_my_wish_list.*
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_spot_review_list.*
-import kotlinx.android.synthetic.main.activity_spot_review_list.layoutEmpty
-import kotlinx.android.synthetic.main.activity_spot_review_list.listView
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.Constants
-import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListSpotReviewAdapter
 import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed

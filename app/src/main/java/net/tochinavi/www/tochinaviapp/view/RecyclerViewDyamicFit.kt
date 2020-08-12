@@ -3,7 +3,6 @@ package net.tochinavi.www.tochinaviapp.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ListView
 import androidx.recyclerview.widget.RecyclerView
 
 /**

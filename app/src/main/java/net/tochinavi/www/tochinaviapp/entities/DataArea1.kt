@@ -3,7 +3,6 @@ package net.tochinavi.www.tochinaviapp.entities
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
-import net.tochinavi.www.tochinaviapp.value.convertString
 
 
 class DataArea1(

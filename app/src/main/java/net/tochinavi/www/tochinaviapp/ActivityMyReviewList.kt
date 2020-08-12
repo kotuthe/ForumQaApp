@@ -3,7 +3,6 @@ package net.tochinavi.www.tochinaviapp
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -12,6 +11,7 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_my_review_list.*

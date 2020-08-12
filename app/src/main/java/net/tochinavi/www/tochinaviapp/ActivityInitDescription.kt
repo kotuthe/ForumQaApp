@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_init_description.*
 import net.tochinavi.www.tochinaviapp.view.RecyclerInitDescriptionAdapter
-import net.tochinavi.www.tochinaviapp.view.RecyclerItemLinePager
 import java.util.*
 
 class ActivityInitDescription : AppCompatActivity() {

@@ -3,22 +3,17 @@ package net.tochinavi.www.tochinaviapp.view
 import android.content.Context
 import android.graphics.Point
 import android.graphics.Rect
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
-import net.tochinavi.www.tochinaviapp.entities.DataBadge
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
-import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 
 class RecyclerISReviewGalleryAdapter(private val context: Context, val items: ArrayList<DataSpotReview>):

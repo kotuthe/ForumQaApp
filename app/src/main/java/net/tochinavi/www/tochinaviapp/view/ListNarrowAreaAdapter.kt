@@ -4,10 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseExpandableListAdapter
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataNarrowMulti
-import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 class ListNarrowAreaAdapter(private val context: Context, val datas1: ArrayList<String>, val datas2: ArrayList<ArrayList<DataNarrowMulti>>):
     BaseExpandableListAdapter() {

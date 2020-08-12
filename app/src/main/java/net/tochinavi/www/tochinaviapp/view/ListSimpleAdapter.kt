@@ -5,7 +5,9 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataListSimple
 

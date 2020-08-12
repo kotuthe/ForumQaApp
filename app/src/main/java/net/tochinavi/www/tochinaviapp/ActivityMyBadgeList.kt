@@ -1,13 +1,12 @@
 package net.tochinavi.www.tochinaviapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_my_badge_list.*
@@ -19,7 +18,6 @@ import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
-import net.tochinavi.www.tochinaviapp.view.RecyclerInfiniteScrollListener
 import net.tochinavi.www.tochinaviapp.view.RecyclerMyBadgeAdapter
 import org.json.JSONObject
 

@@ -1,22 +1,16 @@
 package net.tochinavi.www.tochinaviapp.view
 
 import android.content.Context
-import android.graphics.Color
 import android.graphics.Point
 import android.graphics.Rect
-import android.net.Uri
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import coil.api.load
-import coil.transform.RoundedCornersTransformation
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 

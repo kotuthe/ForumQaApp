@@ -4,12 +4,9 @@ package net.tochinavi.www.tochinaviapp
 
 import android.Manifest
 import android.app.Activity
-import android.content.ClipData
-import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.BitmapFactory
 import android.graphics.drawable.TransitionDrawable
 import android.location.Location
 import android.location.LocationManager
@@ -26,20 +23,13 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
-import com.github.kittinunf.fuel.android.extension.responseJson
-import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
-import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_spot_info_image_search.*
-import kotlinx.android.synthetic.main.fragment_top.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_spot_actions_footer.view.*
 import kotlinx.android.synthetic.main.view_info_spot_basic.view.*
@@ -47,12 +37,8 @@ import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
-import net.tochinavi.www.tochinaviapp.storage.DBHelper
-import net.tochinavi.www.tochinaviapp.storage.DBTableCategory1
-import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.*
-import org.json.JSONObject
 
 
 // 続きはここから

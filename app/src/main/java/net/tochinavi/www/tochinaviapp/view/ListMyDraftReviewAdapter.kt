@@ -2,7 +2,6 @@ package net.tochinavi.www.tochinaviapp.view
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +12,6 @@ import androidx.core.content.ContextCompat
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataMyDraftReview
-import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 // 下書きクチコミ一覧
 class ListMyDraftReviewAdapter(context: Context, dataDrafts: ArrayList<DataMyDraftReview>) : BaseAdapter() {

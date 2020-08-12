@@ -1,12 +1,9 @@
 package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
-import android.content.Intent
-import android.graphics.drawable.TransitionDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
@@ -14,10 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_spot_review_gallery_image_search.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
-import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
-import net.tochinavi.www.tochinaviapp.value.Constants
-import net.tochinavi.www.tochinaviapp.view.AlertNormal
-import net.tochinavi.www.tochinaviapp.view.RecyclerISReviewGalleryAdapter
 import net.tochinavi.www.tochinaviapp.view.RecyclerISReviewGalleryPreviewAdapter
 import net.tochinavi.www.tochinaviapp.view.RecyclerInfiniteScrollListener
 

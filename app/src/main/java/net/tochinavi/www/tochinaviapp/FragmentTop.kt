@@ -5,14 +5,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Bitmap.CompressFormat
 import android.graphics.Color
 import android.graphics.Typeface
-import android.graphics.drawable.AnimationDrawable
 import android.location.Location
 import android.location.LocationManager
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -26,7 +22,6 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import coil.api.load
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
@@ -37,8 +32,6 @@ import kotlinx.android.synthetic.main.view_top_selection.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.entities.DataTopSelection
-import net.tochinavi.www.tochinaviapp.network.TaskDownloadImage
-import net.tochinavi.www.tochinaviapp.network.TaskWebImageAnime
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
 import net.tochinavi.www.tochinaviapp.storage.DBTableArea2
@@ -46,8 +39,6 @@ import net.tochinavi.www.tochinaviapp.storage.DBTableCategory1
 import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.*
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 import kotlin.collections.ArrayList
 

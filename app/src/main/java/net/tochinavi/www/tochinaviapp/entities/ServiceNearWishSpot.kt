@@ -12,20 +12,10 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
-import android.os.Bundle
-import android.provider.Settings
-import android.provider.Settings.SettingNotFoundException
-import android.text.TextUtils
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener
 import com.google.android.gms.location.*
-import com.google.android.gms.tasks.OnCompleteListener
 import net.tochinavi.www.tochinaviapp.ActivityHospitalInfo
 import net.tochinavi.www.tochinaviapp.ActivitySpotInfo
 import net.tochinavi.www.tochinaviapp.R
@@ -35,7 +25,6 @@ import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.convertDate
 import net.tochinavi.www.tochinaviapp.value.convertString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
-import java.text.ParseException
 import java.util.*
 
 /**

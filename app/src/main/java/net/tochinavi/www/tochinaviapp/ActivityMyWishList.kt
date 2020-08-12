@@ -2,7 +2,6 @@ package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -10,6 +9,7 @@ import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_my_wish_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMySpotList

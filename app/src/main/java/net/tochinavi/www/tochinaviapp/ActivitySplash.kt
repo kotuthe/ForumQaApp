@@ -5,14 +5,12 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
-import java.util.*
 
 class ActivitySplash : Activity() {
     private val TAG: String = "ActivitySplash"

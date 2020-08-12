@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ExpandableListView
-import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 class ExpandableListViewDyamicFit @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : ExpandableListView(context, attrs) {
 

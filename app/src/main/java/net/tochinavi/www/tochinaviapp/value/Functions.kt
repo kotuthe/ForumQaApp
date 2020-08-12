@@ -12,13 +12,10 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.ParcelFileDescriptor
-import android.widget.TextView
-import net.tochinavi.www.tochinaviapp.R
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
 
 
 class Functions(private val context: Context) {

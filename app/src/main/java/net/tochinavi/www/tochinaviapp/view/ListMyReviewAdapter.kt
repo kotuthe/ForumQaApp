@@ -13,7 +13,6 @@ import androidx.core.content.ContextCompat
 import coil.api.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataMyReview
-import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 
 // Myクチコミ一覧

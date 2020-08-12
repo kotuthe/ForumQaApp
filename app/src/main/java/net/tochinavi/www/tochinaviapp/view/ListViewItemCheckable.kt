@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Checkable
 import android.widget.FrameLayout
-import android.widget.RadioButton
 import kotlinx.android.synthetic.main.listview_item_checkable.view.*
 import net.tochinavi.www.tochinaviapp.R
 

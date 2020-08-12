@@ -2,10 +2,10 @@ package net.tochinavi.www.tochinaviapp
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_spot_search_narrow_category1.*
 import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataListSimple

@@ -1,11 +1,8 @@
 package net.tochinavi.www.tochinaviapp.view
 
-import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import net.tochinavi.www.tochinaviapp.*
-import net.tochinavi.www.tochinaviapp.value.Constants
 
 // とりあえず使わない方向で
 class TabInitDescriptionAdapter(fm: FragmentManager, objects: List<Int>): FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {

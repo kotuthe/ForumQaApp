@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.util.AttributeSet
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import android.widget.Button
 import net.tochinavi.www.tochinaviapp.R
 
 

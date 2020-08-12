@@ -1,9 +1,5 @@
 package net.tochinavi.www.tochinaviapp.entities
 
-import android.graphics.Color
-import android.graphics.Typeface
-import android.view.Gravity
-import android.view.View
 import net.tochinavi.www.tochinaviapp.value.Constants
 
 // title, value, arrow

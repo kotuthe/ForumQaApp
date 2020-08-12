@@ -2,11 +2,11 @@ package net.tochinavi.www.tochinaviapp
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import android.widget.CheckBox
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_spot_search_narrow_area.*
 import net.tochinavi.www.tochinaviapp.entities.DataNarrowMulti
 import net.tochinavi.www.tochinaviapp.storage.DBHelper

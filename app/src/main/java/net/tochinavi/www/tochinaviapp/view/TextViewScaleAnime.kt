@@ -2,13 +2,10 @@ package net.tochinavi.www.tochinaviapp.view
 
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
-import android.widget.Button
 import android.widget.TextView
-import net.tochinavi.www.tochinaviapp.R
 
 
 class TextViewScaleAnime(context: Context, attr: AttributeSet) : TextView(context, attr) {

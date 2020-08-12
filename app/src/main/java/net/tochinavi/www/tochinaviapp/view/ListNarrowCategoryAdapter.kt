@@ -5,7 +5,10 @@ import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.BaseExpandableListAdapter
+import android.widget.CheckBox
+import android.widget.ImageView
+import android.widget.TextView
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataNarrowMulti
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
