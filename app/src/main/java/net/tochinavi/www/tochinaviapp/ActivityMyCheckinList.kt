@@ -6,10 +6,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import kotlinx.android.synthetic.main.activity_my_checkin_list.*
+import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMySpotList
 import net.tochinavi.www.tochinaviapp.network.HttpMyPage
 import net.tochinavi.www.tochinaviapp.value.Constants
@@ -55,6 +57,9 @@ class ActivityMyCheckinList :
             supportActionBar!!.title = "チェックイン履歴"
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
+
+        textViewParams.text = ""
+        hideListViewEmpty()
 
         mAdapter = ListMySpotAdapter(mContext, listData)
         listView.apply {
@@ -125,6 +130,15 @@ class ActivityMyCheckinList :
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
     }
 
+    private fun showListViewEmpty(message: String) {
+        layoutEmpty.visibility = View.VISIBLE
+        layoutEmpty.textViewMsg.text = message
+    }
+
+    private fun hideListViewEmpty() {
+        layoutEmpty.visibility = View.GONE
+    }
+
     /**
      * クチコミの取得
      */
@@ -134,17 +148,18 @@ class ActivityMyCheckinList :
         HttpMyPage(mContext).get_checkin_list(
             condPage,
             { datas, all_number ->
-                // textViewNumber.text = "%d件".format(all_number)
+                textViewParams.text = "%d件".format(all_number)
                 listData.addAll(datas)
                 mAdapter.notifyDataSetChanged()
                 condPage++
                 isEndScroll = false
-                // hideListViewEmpty()
+                hideListViewEmpty()
             },
             {
                 // アラートの表示
                 var msg: String? = null
                 if (condPage == 1) {
+                    showListViewEmpty("チェックイン履歴が見つかりませんでした")
                     if (it == Constants.HTTP_STATUS.network) {
                         msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"
                     }

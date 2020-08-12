@@ -125,7 +125,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
         textViewReviewInfo.apply {
             if (dataReview.goodNum > 0) {
                 visibility = View.VISIBLE
-                text = "グッときた　%d件".format(dataReview.goodNum)
+                text = getString(R.string.spot_review_detail_good_kita).format(dataReview.goodNum)
             } else {
                 visibility = View.GONE
             }

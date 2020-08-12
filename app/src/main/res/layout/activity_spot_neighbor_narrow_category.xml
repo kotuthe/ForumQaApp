@@ -30,7 +30,9 @@
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
                 android:divider="@color/colorListDivider"
-                android:dividerHeight="@dimen/list_divider_height"/>
+                android:dividerHeight="@dimen/list_divider_height"
+                android:listSelector="@drawable/listview_selector"
+                android:drawSelectorOnTop="true"/>
             <include layout="@layout/merge_line_gray"/>
 
             <!-- Button分のマージン -->

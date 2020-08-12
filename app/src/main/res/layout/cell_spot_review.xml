@@ -58,6 +58,7 @@
                             android:text="name"
                             android:textColor="@color/colorLinkBlue"
                             android:textSize="@dimen/font_size_row_sub"
+                            android:textStyle="bold"
                             android:ellipsize="end"
                             android:singleLine="true" />
 
@@ -89,8 +90,7 @@
                 android:textColor="@android:color/black"
                 android:textSize="@dimen/font_size_row_title"
                 android:scrollHorizontally="true"
-                android:ellipsize="end"
-                android:lineSpacingExtra="@dimen/font_line_spacing_normal" />
+                android:ellipsize="end" />
 
             <TextView
                 android:id="@+id/textViewDate"

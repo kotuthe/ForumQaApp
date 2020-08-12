@@ -126,6 +126,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:visibility="visible"
+                        android:lineSpacingExtra="@dimen/font_line_spacing_normal"
                         android:text="review"/>
 
                     <TextView

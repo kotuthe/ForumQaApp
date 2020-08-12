@@ -1,6 +1,7 @@
 package net.tochinavi.www.tochinaviapp.view
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,8 @@ class ListNarrowCategoryAdapter(private val context: Context, val datas1: ArrayL
 
         holder.groupLine!!.visibility = View.VISIBLE
         holder.iconGroup!!.visibility = View.VISIBLE
-        holder.title!!.text = "%sの全て".format(getGroup(p0).name)
+        holder.title!!.typeface = Typeface.DEFAULT_BOLD
+        holder.title!!.text = "%s の全て".format(getGroup(p0).name)
 
         val fp0 = p0
         holder.checkbox!!.apply {
@@ -124,6 +126,7 @@ class ListNarrowCategoryAdapter(private val context: Context, val datas1: ArrayL
 
         holder.groupLine!!.visibility = View.GONE
         holder.iconGroup!!.visibility = View.GONE
+        holder.title!!.typeface = Typeface.DEFAULT
         holder.title!!.text = getChild(p0, p1).name
 
         val fp0 = p0; val fp1 = p1

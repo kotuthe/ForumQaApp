@@ -65,7 +65,7 @@ class ListNarrowAreaAdapter(private val context: Context, val datas1: ArrayList<
             holder = view!!.tag as ViewHolderGroup
         }
 
-        holder.title!!.text = "%s エリア".format(getGroup(p0))
+        holder.title!!.text = getGroup(p0)
 
         return view!!
     }

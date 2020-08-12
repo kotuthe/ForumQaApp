@@ -134,6 +134,9 @@
     <!-- activity_spot_review_list -->
     <string name="spot_review_list_param_title">クチコミ数</string>
 
+    <!-- activity_spot_review_detail -->
+    <string name="spot_review_detail_good_kita">\"ぐッ\"ときた　%d人</string>
+
     <!-- modal_get_badge -->
     <string name="get_badge_title">称号を取得しました！！</string>
     <string name="get_badge_button">OK</string>

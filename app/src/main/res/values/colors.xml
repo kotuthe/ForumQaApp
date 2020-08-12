@@ -19,7 +19,7 @@
 
     <!-- ランキング　タブ -->
     <color name="colorRankingTabDis">#CDCDCD</color>
-    <color name="colorTabRankingIconActive">#F7C746</color>
+    <color name="colorTabRankingIconActive">#7a8bd0</color>
 
     <!-- 称号取得モーダル -->
     <color name="colorGetBadgeMain">#FFC52F</color>

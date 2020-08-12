@@ -91,7 +91,7 @@ class ActivitySpotSearchNarrowCategoryMulti :
             supportActionBar!!.title = parentName
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
-        textViewCategory1Title.text = parentName
+        textViewCategory1Title.text = "%s の全て".format(parentName)
 
         // カテゴリー１ //
         layoutCategory1.setOnClickListener {

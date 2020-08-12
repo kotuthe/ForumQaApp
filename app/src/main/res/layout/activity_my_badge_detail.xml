@@ -41,7 +41,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginStart="60dp"
-                    android:layout_marginEnd="60dp"/>
+                    android:layout_marginEnd="60dp"
+                    android:textColor="@android:color/black"
+                    android:lineSpacingExtra="@dimen/font_line_spacing_normal"/>
 
                 <!-- フッター -->
                 <View

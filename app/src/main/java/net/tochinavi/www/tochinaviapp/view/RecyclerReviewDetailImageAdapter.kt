@@ -109,7 +109,7 @@ class RecyclerReviewDetailImageAdapter(private val context: Context, val items: 
 
         holder.imageView.load(url) {
             placeholder(R.drawable.ic_image_placeholder)
-            transformations(RoundedCornersTransformation(25f))
+            // transformations(RoundedCornersTransformation(25f))
         }
     }
 }

@@ -251,8 +251,18 @@ class ActivitySpotSearchList : AppCompatActivity() {
         try {
             // カテゴリー(※調整必要)
             if (condCategoryArray.size > 0) {
-                val id = condCategoryArray[0].second
-                when (condCategoryArray[0].first) {
+                var targetIndex = 0
+                var otherNum = 0
+
+                if (condCategoryArray.size > 2) {
+                    targetIndex = (1..(condCategoryArray.size - 1)).random()
+                    otherNum = condCategoryArray.size - 2
+                } else if (condCategoryArray.size > 1) {
+                    targetIndex = 1
+                }
+
+                val id = condCategoryArray[targetIndex].second
+                when (condCategoryArray[targetIndex].first) {
                     1 -> {
                         val data1: DataCategory1 =
                             DBTableCategory1(mContext).getData(db, id)
@@ -271,6 +281,9 @@ class ActivitySpotSearchList : AppCompatActivity() {
                     else -> {
                     }
                 }
+                if (otherNum > 0) {
+                    category = "$category..."
+                }
             }
 
             // エリア
@@ -278,6 +291,9 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 val data: DataArea2 =
                     DBTableArea2(mContext).getData(db, condAreaArray[0])
                 area = data.name
+                if (condAreaArray.size > 1) {
+                    area = "$area..."
+                }
             }
 
         } catch (e: Exception) {

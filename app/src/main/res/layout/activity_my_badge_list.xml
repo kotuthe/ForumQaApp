@@ -17,7 +17,8 @@
             android:id="@+id/textViewParams"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
     <FrameLayout

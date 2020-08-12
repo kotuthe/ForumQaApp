@@ -85,7 +85,6 @@
                                 android:layout_height="0dp"
                                 android:layout_weight="1"
                                 android:gravity="center|left"
-                                android:textStyle="bold"
                                 android:textColor="@android:color/black"
                                 android:textSize="13sp"
                                 android:text="UserName"/>
@@ -114,6 +113,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="14sp"
                         android:visibility="visible"
+                        android:lineSpacingExtra="@dimen/font_line_spacing_normal"
                         android:text="review"/>
 
                     <TextView
@@ -125,7 +125,7 @@
                         android:textColor="@android:color/black"
                         android:textSize="13sp"
                         android:visibility="visible"
-                        android:text="グッときた　100件"/>
+                        android:text="good kita"/>
 
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
                         android:id="@+id/recyclerView"
