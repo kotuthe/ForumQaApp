@@ -66,7 +66,7 @@ class HttpHospitalInfo(context: Context) {
                     val obj = datas.getJSONObject("info")
                     val dataSpot = DataSpotInfo(
                         id,
-                        3, // ※後で病院がtype3かを確認すること
+                        3,
                         obj.getString("image"),
                         false,
                         obj.getString("name"),

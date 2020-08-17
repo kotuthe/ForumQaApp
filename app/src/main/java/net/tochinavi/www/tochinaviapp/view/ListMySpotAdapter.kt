@@ -70,7 +70,7 @@ class ListMySpotAdapter(context: Context, datas: ArrayList<DataMySpotList>) : Ba
         holder.category!!.text = data.category
 
         // 画像
-        holder.imageSpot!!.tag = data.id // キャッシュ制御の為※これほんとに必要か検討する
+        holder.imageSpot!!.tag = data.id // キャッシュ制御の為
         holder.imageSpot!!.load(data.image_url) {
             placeholder(R.drawable.ic_image_placeholder)
             holder.imageSpot!!.setBackgroundColor(Color.TRANSPARENT)

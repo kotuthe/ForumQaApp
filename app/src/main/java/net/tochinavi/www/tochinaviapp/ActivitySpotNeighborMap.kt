@@ -156,7 +156,7 @@ class ActivitySpotNeighborMap :
     class MyItem(private val data: DataSpotList) : ClusterItem {
         override fun getTitle(): String = data.name
         override fun getPosition(): LatLng = LatLng(data.latitude, data.longitude)
-        override fun getSnippet(): String = data.address // ※ここは後で考える
+        override fun getSnippet(): String = data.address
         fun getData(): DataSpotList = data
     }
 

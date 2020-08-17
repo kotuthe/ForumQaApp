@@ -329,9 +329,9 @@ class ActivitySpotMap :
         mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, width, height, 0))
     }
 
-    // ※GoogleのAPIキーが必要になり、
-    // それには月額クレジットの購入が必要なため
-    // 今は使用しない
+    /**
+     * Googleの経路取得のAPIが有料化したため、使わない
+     */
     private fun setRoute() {
         val params: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("origin" to "%f,%f".format(mLocation!!.latitude, mLocation!!.longitude)) // 現在地

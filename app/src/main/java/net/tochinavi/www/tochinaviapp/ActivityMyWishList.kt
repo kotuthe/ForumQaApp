@@ -152,6 +152,7 @@ class ActivityMyWishList :
                 // アラートの表示
                 var msg: String? = null
                 if (condPage == 1) {
+                    textViewParams.text = "お気に入りのスポットを\n追加してみよう！"
                     showListViewEmpty("お気に入りが見つかりませんでした")
                     if (it == Constants.HTTP_STATUS.network) {
                         msg = "サーバーと通信できませんでした。しばらく時間を置いてからページを開いてください。"

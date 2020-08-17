@@ -60,13 +60,6 @@ class ActivitySplash : Activity() {
     }
 
     private val mRunnable = Runnable {
-
-        /*
-        // テスト　後で直す
-        val intent = Intent(this, ActivityInitDescription::class.java)
-        startActivity(intent)
-        finish()
-        */
         if (mySP!!.get(MySharedPreferences.Keys.init_description_count) as Int == 0) {
             // 初回説明に遷移
             val intent = Intent(this, ActivityInitDescription::class.java)

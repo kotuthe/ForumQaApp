@@ -585,7 +585,7 @@ class ActivityHospitalInfo :
             errorLocation()
         } else {
             //Log.i(">> $TAG", "requestLocationPermission request")
-            // ※2度でまだが、Activityの場合はこれをしないとコードエラー
+            // ※Activityの場合はこれをしないとコードエラー
             if (Build.VERSION.SDK_INT >= 23) {
                 requestPermissions(
                     arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),

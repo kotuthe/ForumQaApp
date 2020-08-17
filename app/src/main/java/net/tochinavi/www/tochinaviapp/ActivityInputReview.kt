@@ -47,14 +47,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.math.ceil
 
-
-/**
- * fuelのデフォルトがUTF-8のため日本語のエンコードは行わない
- *
- * ※後でやること
- * ・写真プレビュー
- */
-
 class ActivityInputReview :
     AppCompatActivity(),
     AlertNormal.OnSimpleDialogClickListener,

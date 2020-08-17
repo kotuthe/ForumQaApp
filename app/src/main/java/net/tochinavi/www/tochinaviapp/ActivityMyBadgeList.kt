@@ -159,26 +159,31 @@ class ActivityMyBadgeList :
                             ))
                     }
                     mAdapter.notifyDataSetChanged()
-                    textViewParams.text = "%d件".format(number)
-                    // パラメーターの設定を忘れずに
+                    textViewParams.apply {
+                        if (number > 0) {
+                            text = "%d件".format(number)
+                        } else {
+                            text = "チェックインをして称号をゲットしよう！"
+                        }
+                    }
                 } else {
-                    textViewParams.text = "※後で調整する"
-                    showAlertNoData()
+                    textViewParams.text = "称号を取得できませんでした"
+                    showAlertNoData("称号を取得できませんでした")
                 }
             }, failure = { error ->
                 // 通信エラー
                 Log.e(TAG_SHORT, error.toString())
-                showAlertNoData()
+                showAlertNoData("通信エラー", "時間を置いて再度表示してください")
             })
         }
     }
 
-    private fun showAlertNoData() {
-        showListViewEmpty("クチコミが見つかりませんでした")
+    private fun showAlertNoData(title: String, message: String? = null) {
+        showListViewEmpty(title)
         val alert = AlertNormal.newInstance(
             requestCode = REQUEST_ALERT_NO_DATA,
-            title = "クチコミが見つかりませんでした",
-            msg = "時間を置いて再度表示してください",
+            title = title,
+            msg = message,
             positiveLabel = "OK",
             negativeLabel = null
         )

@@ -131,8 +131,6 @@ class FragmentSpotNeighborList : Fragment() {
                 override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
                     if (!listData.isEmpty() && !isEndScroll) {
                         if ((p1 + p2 + 2) >= p3) {
-                            Log.i("$>> TAG", "一番下に行ったよ")
-                            // ※ここで続きを検索させる
                             isEndScroll = true
                             onSearch()
                         }

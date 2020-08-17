@@ -94,7 +94,7 @@ class ListSpotReviewAdapter(context: Context, datas: ArrayList<DataSpotReview>) 
         // 画像
         if (data.reviewImageUrls.size > 0) {
             holder.layoutImage!!.visibility = View.VISIBLE
-            holder.imageSpot!!.tag = data.id // キャッシュ制御の為※これほんとに必要か検討する
+            holder.imageSpot!!.tag = data.id // キャッシュ制御の為
 
             // holder.imageSpot!!.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorImageViewBg))
             holder.imageSpot!!.load(data.reviewImageUrls[0]) {

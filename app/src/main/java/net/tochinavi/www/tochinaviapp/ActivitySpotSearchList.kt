@@ -126,8 +126,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
                     if (!listData.isEmpty() && !isEndScroll) {
                         if ((p1 + p2 + 2) >= p3) {
-                            Log.i("$>> TAG", "一番下に行ったよ")
-                            // ※ここで続きを検索させる
                             isEndScroll = true
                             onSearch()
                         }
@@ -249,7 +247,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         var area: String? = null
         val db = DBHelper(mContext)
         try {
-            // カテゴリー(※調整必要)
+            // カテゴリー
             if (condCategoryArray.size > 0) {
                 var targetIndex = 0
                 var otherNum = 0

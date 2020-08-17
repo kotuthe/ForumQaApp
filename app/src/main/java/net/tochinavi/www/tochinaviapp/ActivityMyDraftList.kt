@@ -23,12 +23,15 @@ import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
+import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListMyDraftReviewAdapter
 import net.tochinavi.www.tochinaviapp.view.LoadingNormal
 import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
 import org.json.JSONObject
 
-class ActivityMyDraftList : AppCompatActivity() {
+class ActivityMyDraftList :
+    AppCompatActivity(),
+    AlertNormal.OnSimpleDialogClickListener {
 
     companion object {
         val TAG = "MyDraftList"
@@ -36,6 +39,7 @@ class ActivityMyDraftList : AppCompatActivity() {
 
     // リクエスト
     private val REQUEST_INPUT_REVIEW: Int = 0x1
+    private val REQUEST_ALERT_NO_DATA: Int = 0x2
 
     // UI //
     private lateinit var loading: LoadingNormal
@@ -86,6 +90,23 @@ class ActivityMyDraftList : AppCompatActivity() {
     }
 
     /**
+     * アラート　ポジティブ
+     */
+    override fun onSimpleDialogPositiveClick(requestCode: Int) {
+        when (requestCode) {
+            REQUEST_ALERT_NO_DATA -> {
+                finish()
+            }
+        }
+    }
+
+    /**
+     * アラート　ネガティブ
+     */
+    override fun onSimpleDialogNegativeClick(requestCode: Int) {
+    }
+
+    /**
      * UI設定
      */
     private fun initLayout() {
@@ -114,8 +135,6 @@ class ActivityMyDraftList : AppCompatActivity() {
                 override fun onScroll(p0: AbsListView?, p1: Int, p2: Int, p3: Int) {
                     if (!listData.isEmpty() && !isEndScroll) {
                         if ((p1 + p2 + 2) >= p3) {
-                            Log.i("$>> TAG", "一番下に行ったよ")
-                            // ※ここで続きを検索させる
                             isEndScroll = true
                             getData()
                         }
@@ -271,9 +290,9 @@ class ActivityMyDraftList : AppCompatActivity() {
                     hideListViewEmpty()
                 } else {
                     // 検索結果なし
-                    // ページ1の時はエラー文の表示する
                     if (condPage == 1) {
-                        showListViewEmpty("対象のスポットが見つかりませんでした")
+                        showListViewEmpty("下書きを取得できませんでした")
+                        showAlertNoData("下書きを取得できませんでした")
                     }
                 }
             }, failure = { error ->
@@ -284,8 +303,22 @@ class ActivityMyDraftList : AppCompatActivity() {
                 }
                 if (condPage == 1) {
                     showListViewEmpty("通信エラー")
+                    showAlertNoData("通信エラー", "時間を置いて再度表示してください")
                 }
             })
         }
     }
+
+    private fun showAlertNoData(title: String, message: String? = null) {
+        showListViewEmpty(title)
+        val alert = AlertNormal.newInstance(
+            requestCode = REQUEST_ALERT_NO_DATA,
+            title = title,
+            msg = message,
+            positiveLabel = "OK",
+            negativeLabel = null
+        )
+        alert.show(supportFragmentManager, AlertNormal.TAG)
+    }
+
 }
