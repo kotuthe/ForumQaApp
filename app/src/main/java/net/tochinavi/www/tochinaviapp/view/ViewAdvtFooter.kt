@@ -128,7 +128,6 @@ class ViewAdvtFooter : FrameLayout {
                 val datas = json.obj().get("datas") as JSONObject
                 val result = datas.get("result") as Boolean
                 if (result) {
-                    Log.i(">>", "広告表示できる")
                     imageView.visibility = View.VISIBLE
                     layoutClose.visibility = View.VISIBLE
 
@@ -137,7 +136,6 @@ class ViewAdvtFooter : FrameLayout {
                     }
                     advtUrl = datas.getString("url")
                 } else {
-                    Log.i(">>", "広告表示できない")
                     hideCurrentView()
                 }
             }, failure = { error ->

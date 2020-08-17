@@ -33,7 +33,7 @@ class RecyclerInfiniteScrollListener(
             if (!loading && (totalItemCount - visibleItemCount)
                 <= (firstVisibleItem + visibleThreshold /*最後の行から２つ上*/)) {
                 // End has been reached
-                Log.i("InfiniteScrollListener", "End reached")
+                // Log.i("InfiniteScrollListener", "End reached")
                 func() //呼び出し元で実装
                 loading = true
             }

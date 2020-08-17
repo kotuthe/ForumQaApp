@@ -45,9 +45,6 @@ class FragmentMyPage : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        Log.i(">>", "onCreate")
-
         mContext = context
         mySP = MySharedPreferences(mContext!!)
     }
@@ -127,8 +124,6 @@ class FragmentMyPage : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i(">> $TAG", "onResume")
-
         if (activity != null) {
             activity!!.title = getString(R.string.mypage_title)
         }
@@ -136,7 +131,7 @@ class FragmentMyPage : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.i(">> $TAG", "onPause")
+        // Log.i(">> $TAG", "onPause")
     }
 
     /** メニュー **/

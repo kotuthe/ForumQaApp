@@ -99,14 +99,12 @@ class FragmentTop : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.i(">> $TAG", "onCreateView")
         return inflater.inflate(R.layout.fragment_top,container,false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i(">> $TAG", "onCreate")
         mySP = MySharedPreferences(context!!)
         functions = Functions(context!!)
 
@@ -134,8 +132,6 @@ class FragmentTop : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        Log.i(">> $TAG", "onActivityCreated")
 
         // データの初期化
         condPage = 1
@@ -193,7 +189,6 @@ class FragmentTop : Fragment() {
             clearOnScrollListeners()
             addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
                 // 続きを検索
-                Log.i(">> old onScrolled", "続き")
                 onSearch()
             })
         }
@@ -201,7 +196,6 @@ class FragmentTop : Fragment() {
             // ※ダブルクリック禁止を実装(後で考える)
             val index = view.id
             val item: DataSpotList = listData[index]
-            Log.i(">> $TAG", "spotへ : ${item.name}")
             if (item.type == 1) {
                 // スポット情報へ
                 val intent = Intent(activity, ActivitySpotInfo_ImageSearch::class.java)
@@ -218,8 +212,6 @@ class FragmentTop : Fragment() {
     // フラグメント　オンスクリーン
     override fun onResume() {
         super.onResume()
-        Log.i(">> $TAG", "onResume")
-
         // Loadingの設定
         if (fragmentManager != null) {
             var enable: Boolean = false
@@ -253,8 +245,6 @@ class FragmentTop : Fragment() {
     // フラグメント　オフスクリーン
     override fun onPause() {
         super.onPause()
-        Log.i(">> $TAG", "onPause")
-
         // getLocationHighQualityの取得に時間がかかるため
         if (mLocationClient != null && mLocationCallback != null) {
             mLocationClient!!.removeLocationUpdates(mLocationCallback)
@@ -289,7 +279,6 @@ class FragmentTop : Fragment() {
             val v = createViewMenuItem(i, item.name, color)
             v!!.setOnClickListener(View.OnClickListener { view ->
                 val index = view.tag as Int
-                Log.i(">> $TAG", "menu click $index")
                 selectViewMenuItem(index)
                 // カテゴリーで検索
                 condCategory = if (index == 0) 0 else dataCategoryArray[index - 1].id
@@ -473,8 +462,6 @@ class FragmentTop : Fragment() {
             db.cleanup()
         }
 
-        Log.i(">> $TAG", "updateAppData: $app_category_date, $app_area_date")
-
         val url = MyString().my_http_url_app() + "/app_data/check_update.php"
         val params = listOf("md_category" to app_category_date, "md_area" to app_area_date)
         url.httpGet(params).responseJson { request, response, result ->
@@ -531,7 +518,6 @@ class FragmentTop : Fragment() {
     private fun checkPermission() {
         if (ActivityCompat.checkSelfPermission(context!!,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            Log.i(">> $TAG", "checkPermission ok")
             // アプリの権限が許可してる
             getLocation()
         } else {
@@ -597,24 +583,19 @@ class FragmentTop : Fragment() {
         val request = LocationRequest()
         request.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
-
-        Log.i(">> $TAG", "getLatLon: set listener")
         mLocationClient!!.lastLocation.addOnCompleteListener(
             activity!!,
             OnCompleteListener<Location?> { task ->
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> $TAG", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         // この後周辺検索へ
                         onSearch()
                     } else {
                         // last location is null
-                        Log.i(">> $TAG", "getLatLon: last location is null")
                         getLocationHighQuality()
                     }
                 } else {
-                    Log.i(">> $TAG", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -635,7 +616,6 @@ class FragmentTop : Fragment() {
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> $TAG", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 // この後周辺検索へ
                 onSearch()
             }
@@ -647,8 +627,6 @@ class FragmentTop : Fragment() {
      * 位置情報の取得失敗
      */
     private fun errorLocation() {
-
-        Log.i(">> $TAG", "errorLocation")
         // ※エリアで「周辺」が選択されたタイミングでtop_location_first_alert=falseする
         if (!(mySP!!.get(MySharedPreferences.Keys.top_location_first_alert) as Boolean)) {
             // アラートを表示
@@ -701,9 +679,7 @@ class FragmentTop : Fragment() {
      * お店の検索
      */
     private fun onSearch() {
-        Log.i(">> $TAG", "onSearch")
         if (loading != null) {
-            Log.i(">> $TAG", "onSearch loading not null")
             loading!!.updateLayout(getString(R.string.loading_normal_message), true)
             loading!!.onDismiss(1000)
         }

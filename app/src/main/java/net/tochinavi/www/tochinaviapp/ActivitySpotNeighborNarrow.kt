@@ -85,7 +85,6 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
             // カテゴリー
             REQUEST_CATEGORY -> {
                 if (FINAL_CATEGORY_ID == 0) { return }
-                Log.i("$TAG_SHORT", "final type: $FINAL_CATEGORY_TYPE, id: $FINAL_CATEGORY_ID")
                 condCategoryType = FINAL_CATEGORY_TYPE
                 condCategory = FINAL_CATEGORY_ID
                 selectFinalCategory(0, 0) // Final値をzeroにする
@@ -160,7 +159,6 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         listViewCategory.apply {
             adapter = mAdapter
             setOnItemClickListener{ parent, view, position, id ->
-                // Log.i(">> $TAG_SHORT", "category: ${dataCategoryArray[position].name}")
                 val intent = Intent(context, ActivitySpotNeighborNarrowCategorySecond::class.java)
                 intent.putExtra("id", dataCategoryArray[position].id)
                 intent.putExtra("name", dataCategoryArray[position].name)
@@ -307,7 +305,6 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
             // checked: checked.valueAt(i), index: checked.keyAt(i)
             if (checked.valueAt(i)) {
                 rVal = dataDistanceArray[checked.keyAt(i)]
-                Log.i(">> $TAG_SHORT", "checked distance: ${rVal}")
                 break
             }
         }

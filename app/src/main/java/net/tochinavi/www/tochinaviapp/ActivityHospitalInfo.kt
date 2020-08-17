@@ -104,7 +104,6 @@ class ActivityHospitalInfo :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_info)
 
-        Log.i(">> $TAG_SHORT", "onCreate")
         mContext = applicationContext
         mySP = MySharedPreferences(mContext)
         functions = Functions(mContext)
@@ -184,8 +183,6 @@ class ActivityHospitalInfo :
      * アラート　ポジティブ
      */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogActionClick requestCode: $requestCode")
-
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
                 // データなしの場合は戻る
@@ -228,7 +225,7 @@ class ActivityHospitalInfo :
      * アラート　ネガティブ
      */
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
+        // Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
     }
 
 
@@ -236,7 +233,6 @@ class ActivityHospitalInfo :
      * UI設定
      */
     private fun initLayout() {
-        Log.i(">> $TAG_SHORT", "initLayout")
 
         // UI
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
@@ -634,11 +630,9 @@ class ActivityHospitalInfo :
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         successLocation()
                     } else {
                         // last location is null
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: last location is null")
                         when (targetLocationType) {
                             LocationType.getAll, LocationType.getSpot -> {
                                 // 時間がかかる場合は位置情報なしでデータ取得する
@@ -651,7 +645,6 @@ class ActivityHospitalInfo :
                         }
                     }
                 } else {
-                    Log.i(">> ${TAG_SHORT}", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -677,7 +670,6 @@ class ActivityHospitalInfo :
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> ${TAG_SHORT}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 successLocation()
             }
         }
@@ -706,8 +698,6 @@ class ActivityHospitalInfo :
      * 位置情報の取得失敗
      */
     private fun errorLocation() {
-        Log.i(">> ${TAG_SHORT}", "errorLocation")
-
         mLocation = null
         when (targetLocationType) {
             LocationType.getAll -> {
@@ -741,7 +731,6 @@ class ActivityHospitalInfo :
      * スポットデータの取得
      */
     private fun getSpotData() {
-        Log.i(">> $TAG_SHORT", "getSpotData")
         // DataSpotInfo, ArrayList<DataSpotInfoDetail>, ArrayList<DataSpotInfoDetail>
         HttpHospitalInfo(mContext).get_hospital_info(
             dataSpot.id,
@@ -819,8 +808,6 @@ class ActivityHospitalInfo :
      * チェックインする
      */
     private fun doCheckin() {
-
-        Log.i(">> $TAG_SHORT", "doCheckin")
         HttpHospitalInfo(mContext).do_checkin(
             dataSpot.id,
             mLocation,
@@ -866,7 +853,6 @@ class ActivityHospitalInfo :
      * お気に入り
      */
     private fun doFavorite() {
-        Log.i(">> $TAG_SHORT", "doFavorite")
         HttpHospitalInfo(mContext).do_favorite(
             dataSpot.id,
             {

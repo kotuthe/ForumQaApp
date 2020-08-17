@@ -61,7 +61,6 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i(">> Setting", "req: $requestCode, res: $resultCode")
         when(requestCode) {
             // ログイン
             REQUEST_LOGIN -> {
@@ -82,7 +81,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.i(">> Permission", "req: $requestCode, per: $permissions, gra: $grantResults")
+        // Log.i(">> Permission", "req: $requestCode, per: $permissions, gra: $grantResults")
     }
 
     override fun onSimpleDialogNegativeClick(requestCode: Int) {

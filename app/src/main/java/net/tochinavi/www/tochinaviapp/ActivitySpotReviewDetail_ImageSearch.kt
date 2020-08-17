@@ -201,7 +201,6 @@ class ActivitySpotReviewDetail_ImageSearch :
         layoutBasic.listView.apply {
             adapter = basicAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> $TAG_SHORT", "position: $pos")
                 val item = basicListData[pos]
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {

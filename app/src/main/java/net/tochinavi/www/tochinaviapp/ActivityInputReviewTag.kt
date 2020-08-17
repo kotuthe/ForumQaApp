@@ -138,7 +138,6 @@ class ActivityInputReviewTag : AppCompatActivity() {
                 val enable = !item.enable
                 dataTags[index].enable = enable
                 it.isSelected = enable
-                Log.i(">> $TAG_SHORT", "select $index is " + if (enable) "T" else "F")
             }
         }
 

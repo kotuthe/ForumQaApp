@@ -104,7 +104,6 @@ class ActivitySpotInfo :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_info)
 
-        Log.i(">> $TAG_SHORT", "onCreate")
         mContext = applicationContext
         mySP = MySharedPreferences(mContext)
         functions = Functions(mContext)
@@ -184,7 +183,7 @@ class ActivitySpotInfo :
      * アラート　ポジティブ
      */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogActionClick requestCode: $requestCode")
+        // Log.i(">> $TAG_SHORT", "onSimpleDialogActionClick requestCode: $requestCode")
 
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
@@ -232,7 +231,7 @@ class ActivitySpotInfo :
      * アラート　ネガティブ
      */
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
+        // Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
     }
 
 
@@ -240,8 +239,6 @@ class ActivitySpotInfo :
      * UI設定
      */
     private fun initLayout() {
-        Log.i(">> $TAG_SHORT", "initLayout")
-
         // UI
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
 
@@ -404,7 +401,6 @@ class ActivitySpotInfo :
             listView.apply {
                 adapter = basicAdapter
                 onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                    Log.i(">> basicAdapter", "position: $pos")
                     val item = basicListData[pos]
                     when (item.type) {
                         Constants.SPOT_BASIC_INFO_TYPE.address -> {
@@ -442,8 +438,6 @@ class ActivitySpotInfo :
         layoutReview.listView.apply {
             adapter = reviewAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> reviewAdapter", "position: $pos")
-
                 val intent = Intent(this@ActivitySpotInfo, ActivitySpotReviewDetail::class.java)
                 intent.putExtra("dataSpot", dataSpot)
                 intent.putExtra("dataReview", reviewListData[pos])
@@ -658,11 +652,9 @@ class ActivitySpotInfo :
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         successLocation()
                     } else {
                         // last location is null
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: last location is null")
                         when (targetLocationType) {
                             LocationType.getAll, LocationType.getSpot -> {
                                 // 時間がかかる場合は位置情報なしでデータ取得する
@@ -675,7 +667,6 @@ class ActivitySpotInfo :
                         }
                     }
                 } else {
-                    Log.i(">> ${TAG_SHORT}", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -701,7 +692,6 @@ class ActivitySpotInfo :
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> ${TAG_SHORT}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 successLocation()
             }
         }
@@ -730,7 +720,6 @@ class ActivitySpotInfo :
      * 位置情報の取得失敗
      */
     private fun errorLocation() {
-        Log.i(">> ${TAG_SHORT}", "errorLocation")
 
         mLocation = null
         when (targetLocationType) {
@@ -765,7 +754,6 @@ class ActivitySpotInfo :
      * スポットデータの取得
      */
     private fun getSpotData() {
-        Log.i(">> $TAG_SHORT", "getSpotData")
         HttpSpotInfo(mContext).get_spot_info(
             dataSpot.id,
             mLocation,
@@ -846,7 +834,6 @@ class ActivitySpotInfo :
      */
     // layoutReview.listView
     private fun getReviewMin() {
-        Log.i(">> $TAG_SHORT", "getReviewMin")
         HttpSpotInfo(mContext).get_review_min(
             dataSpot,
             { datas, all_number ->
@@ -901,8 +888,6 @@ class ActivitySpotInfo :
      * チェックインする
      */
     private fun doCheckin() {
-
-        Log.i(">> $TAG_SHORT", "doCheckin")
         HttpSpotInfo(mContext).do_checkin(
             dataSpot.id,
             mLocation,
@@ -948,7 +933,6 @@ class ActivitySpotInfo :
      * お気に入り
      */
     private fun doFavorite() {
-        Log.i(">> $TAG_SHORT", "doFavorite")
         HttpSpotInfo(mContext).do_favorite(
             dataSpot.id,
             {
@@ -978,7 +962,6 @@ class ActivitySpotInfo :
      * クチコミをする
      */
     private fun doInputReview(type: Int) {
-        Log.i(">> $TAG_SHORT", "doInputReview")
         HttpSpotInfo(mContext).check_input_review(
             {
                 // クチコミ投稿へ

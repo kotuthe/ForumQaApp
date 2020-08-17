@@ -143,8 +143,6 @@ class ActivityMyCheckinList :
      * クチコミの取得
      */
     private fun getData() {
-        Log.i(">> ${TAG_SHORT}", "onSearch")
-
         HttpMyPage(mContext).get_checkin_list(
             condPage,
             { datas, all_number ->

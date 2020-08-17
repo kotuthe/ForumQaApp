@@ -22,7 +22,6 @@ class TaskDownloadImage(context: Context) : AsyncTask<String?, Void?, Uri?>() {
         val uri = params[0]!!
         val bitmap = downloadImage(uri) ?: return null
         val ext = File(uri).absoluteFile.extension
-        Log.i(">> TaskDownloadImage", "doInBackground: 拡張子 $ext")
         return insertCacheDir(bitmap, ext)
     }
 

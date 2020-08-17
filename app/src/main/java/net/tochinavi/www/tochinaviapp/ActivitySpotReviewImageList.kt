@@ -65,7 +65,6 @@ class ActivitySpotReviewImageList :
             clearOnScrollListeners()
             addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
                 // 続きを検索
-                Log.i(">> old onScrolled", "続き")
                 getData()
             })
         }
@@ -73,7 +72,6 @@ class ActivitySpotReviewImageList :
             // ※ダブルクリック禁止を実装(後で考える)
             val index = view.id
             val item: DataSpotReview = listData[index]
-            Log.i(">> $TAG_SHORT", "クチコミID : ${item.id}")
 
             val intent = Intent(this, ActivitySpotReviewImage::class.java)
             intent.putExtra("dataSpot", dataSpot)
@@ -95,14 +93,10 @@ class ActivitySpotReviewImageList :
      * アラート　ポジティブ
      */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        Log.i(
+        /*Log.i(
             ">> ${TAG_SHORT}",
             "onSimpleDialogActionClick requestCode: $requestCode"
-        )
-
-        when (requestCode) {
-
-        }
+        )*/
     }
 
     /**

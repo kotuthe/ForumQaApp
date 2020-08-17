@@ -54,7 +54,6 @@ class FragmentRanking : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.i(">> $TAG", "onCreate")
     }
 
     override fun onCreateView(
@@ -85,7 +84,6 @@ class FragmentRanking : Fragment() {
         tabLayout.clearOnTabSelectedListeners()
         tabLayout.addOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {
-                Log.i(">> $TAG", "onTabSelebted: ${tab.position}")
                 when (tab.position) {
                     Type.checkin.rawValue -> {
                         selectType = Type.checkin
@@ -142,7 +140,6 @@ class FragmentRanking : Fragment() {
     override fun onResume() {
         super.onResume()
         // ランキング > Myページ > ランキング　は　update
-        Log.i(">> $TAG", "onResume")
 
         if (activity != null) {
             activity!!.title = getString(R.string.ranking_title)
@@ -155,11 +152,6 @@ class FragmentRanking : Fragment() {
             // リスト表示
             updateListView()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(">> $TAG", "onPause")
     }
 
     /**
@@ -198,7 +190,6 @@ class FragmentRanking : Fragment() {
      * リストの切り替え
      */
     private fun updateListView() {
-        Log.i(">> $TAG", "updateListView")
         if (listView == null) return
 
         // Topへ
@@ -226,8 +217,6 @@ class FragmentRanking : Fragment() {
 
 
     private fun getData(id: Int) {
-        Log.i(">> $TAG", "getData")
-
         val params: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("id" to id) // 1 or 2
 

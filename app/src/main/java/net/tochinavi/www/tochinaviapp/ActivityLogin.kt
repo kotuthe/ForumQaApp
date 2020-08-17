@@ -190,7 +190,6 @@ class ActivityLogin : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg param: String?): Void? {
-            Log.i(">> ", "image path: ${param[0]!!}")
             bitmap = downloadWebImage(param[0]!!, 0, null)
             return null
         }
@@ -262,7 +261,6 @@ class ActivityLogin : AppCompatActivity() {
 
         } catch (e: OutOfMemoryError) {
             // メモリ不足時は画像を縮小する(設定値は2のべき乗)
-            Log.i(">> ", "downloadWebImage more $inSampleSize")
             downloadWebImage(path, if (inSampleSize == 0) 2 else inSampleSize * 2, null)
         } catch (e: IOException){
             // エラーの時はダミー画像を生成

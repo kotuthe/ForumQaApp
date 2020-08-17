@@ -128,8 +128,6 @@ class ActivitySpotReviewList :
      * クチコミの取得
      */
     private fun getData() {
-        Log.i(">> ${TAG_SHORT}", "onSearch")
-
         HttpSpotInfo(mContext).get_review_list(
             dataSpot,
             condPage,

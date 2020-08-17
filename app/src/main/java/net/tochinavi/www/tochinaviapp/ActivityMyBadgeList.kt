@@ -93,11 +93,6 @@ class ActivityMyBadgeList :
      * アラート　ポジティブ
      */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        Log.i(
-            ">> ${TAG_SHORT}",
-            "onSimpleDialogActionClick requestCode: $requestCode"
-        )
-
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
                 finish()

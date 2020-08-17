@@ -80,7 +80,6 @@ class FragmentSpotSearch : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        Log.i(">> $TAG", "onResume")
         if (activity != null) {
             activity!!.title = getString(R.string.spot_search_title)
         }
@@ -88,8 +87,6 @@ class FragmentSpotSearch : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        Log.i(">> $TAG", "onPause")
-
         // 検索フォームをクリア
         if (!searchView.isIconified) {
             searchView.isIconified = true
@@ -152,7 +149,6 @@ class FragmentSpotSearch : Fragment() {
 
     /** 検索へ **/
     private fun onSearch(word: String?, category: Int) {
-        Log.i("$TAG", "w: $word, c: $category")
         val intent = Intent(activity, ActivitySpotSearchList::class.java)
         intent.putExtra("word", if (word == null) "" else word)
         intent.putExtra("category", category)

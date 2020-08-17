@@ -110,7 +110,6 @@ class ActivitySpotInfo_ImageSearch :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_info_image_search)
 
-        Log.i(">> $TAG_SHORT", "onCreate")
         mContext = applicationContext
         mySP = MySharedPreferences(mContext!!)
         functions = Functions(mContext!!)
@@ -187,7 +186,6 @@ class ActivitySpotInfo_ImageSearch :
      * アラート　ポジティブ
      */
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogActionClick requestCode: $requestCode")
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
                 finish()
@@ -231,15 +229,13 @@ class ActivitySpotInfo_ImageSearch :
      * アラート　ネガティブ
      */
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
-        Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
+        // Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
     }
 
     /**
      * UI設定
      */
     private fun initLayout() {
-        Log.i(">> $TAG_SHORT", "initLayout")
-
         // UI
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
 
@@ -266,7 +262,6 @@ class ActivitySpotInfo_ImageSearch :
             clearOnScrollListeners()
             addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
                 // 続きを検索
-                Log.i(">> $TAG_SHORT", "rcvReviewImage: 続き $condReviewImagePage")
                 getReviewImages()
             })
 
@@ -279,8 +274,6 @@ class ActivitySpotInfo_ImageSearch :
         imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // ギャラリーへ
             val index = view.id
-            Log.i(">> $TAG_SHORT", "ギャラリーへ : ${imageListData[index].id}")
-
             val intent = Intent(this, ActivitySpotReviewGallery_ImageSearch::class.java)
             intent.putExtra("selectIndex", index)
             intent.putExtra("allNumber", reviewImagesNumber)
@@ -308,7 +301,6 @@ class ActivitySpotInfo_ImageSearch :
             clearOnScrollListeners()
             addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
                 // 続きを検索
-                Log.i(">> $TAG_SHORT", "rcvReviewText: 続き $condReviewTextPage")
                 getReviewTexts()
             })
 
@@ -325,8 +317,6 @@ class ActivitySpotInfo_ImageSearch :
         textAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // クチコミ詳細へ
             val index = view.id
-            Log.i(">> $TAG_SHORT", "クチコミ詳細へ : ${textListData[index].id}")
-
             val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
             intent.putExtra("dataSpot", dataSpot)
             intent.putExtra("dataReview", textListData[index])
@@ -354,7 +344,6 @@ class ActivitySpotInfo_ImageSearch :
         layoutBasic.listView.apply {
             adapter = basicAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> $TAG_SHORT", "position: $pos")
                 val item = basicListData[pos]
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {
@@ -424,7 +413,6 @@ class ActivitySpotInfo_ImageSearch :
         layoutActions.viewReview.setOnClickListener {
             // クチコミ投稿へ
             if (!isGetSpotInfo) {
-                Log.i(">> $TAG_SHORT", "not layoutActions")
                 return@setOnClickListener
             }
             // Firebase
@@ -675,11 +663,9 @@ class ActivitySpotInfo_ImageSearch :
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         successLocation()
                     } else {
                         // last location is null
-                        Log.i(">> ${TAG_SHORT}", "getLatLon: last location is null")
                         when (targetLocationType) {
                             LocationType.getAll, LocationType.getSpot -> {
                                 // 時間がかかる場合は位置情報なしでデータ取得する
@@ -692,7 +678,6 @@ class ActivitySpotInfo_ImageSearch :
                         }
                     }
                 } else {
-                    Log.i(">> ${TAG_SHORT}", "getLatLon: error")
                     errorLocation()
                 }
             })
@@ -718,7 +703,6 @@ class ActivitySpotInfo_ImageSearch :
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> ${TAG_SHORT}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 successLocation()
             }
         }
@@ -747,7 +731,6 @@ class ActivitySpotInfo_ImageSearch :
      * 位置情報の取得失敗
      */
     private fun errorLocation() {
-        Log.i(">> ${TAG_SHORT}", "errorLocation")
 
         mLocation = null
         when (targetLocationType) {
@@ -783,7 +766,6 @@ class ActivitySpotInfo_ImageSearch :
      */
 
     private fun getReviewImages() {
-        Log.i(">> $TAG_SHORT", "getReviewImages")
         HttpSpotInfo(mContext!!).get_review_images(
             dataSpot!!,
             condReviewImagePage,
@@ -826,7 +808,6 @@ class ActivitySpotInfo_ImageSearch :
      * クチコミテキストを取得
      */
     private fun getReviewTexts() {
-        Log.i(">> $TAG_SHORT", "getReviewTexts")
         HttpSpotInfo(mContext!!).get_review_texts(
             dataSpot!!,
             condReviewTextPage,
@@ -868,7 +849,6 @@ class ActivitySpotInfo_ImageSearch :
      * スポットデータの取得
      */
     private fun getSpotData() {
-        Log.i(">> $TAG_SHORT", "getSpotData")
         HttpSpotInfo(mContext!!).get_spot_info(
             dataSpot!!.id,
             mLocation,
@@ -933,8 +913,6 @@ class ActivitySpotInfo_ImageSearch :
      * チェックインする
      */
     private fun doCheckin() {
-
-        Log.i(">> $TAG_SHORT", "doCheckin")
         HttpSpotInfo(mContext!!).do_checkin(
             dataSpot!!.id,
             mLocation,
@@ -980,7 +958,6 @@ class ActivitySpotInfo_ImageSearch :
      * お気に入り
      */
     private fun doFavorite() {
-        Log.i(">> $TAG_SHORT", "doFavorite")
         HttpSpotInfo(mContext!!).do_favorite(
             dataSpot!!.id,
             {
@@ -1010,7 +987,6 @@ class ActivitySpotInfo_ImageSearch :
      * クチコミをする
      */
     private fun doInputReview() {
-        Log.i(">> $TAG_SHORT", "doInputReview")
         HttpSpotInfo(mContext!!).check_input_review(
             {
                 // クチコミ投稿へ

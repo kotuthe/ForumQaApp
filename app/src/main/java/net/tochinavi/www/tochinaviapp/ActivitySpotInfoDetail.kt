@@ -56,7 +56,6 @@ class ActivitySpotInfoDetail :
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> basicAdapter", "position: $pos")
                 val item = listData[pos]
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {

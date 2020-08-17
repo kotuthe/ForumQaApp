@@ -125,7 +125,6 @@ class ActivitySpotReviewGallery_ImageSearch :
 
             addOnScrollListener(RecyclerInfiniteScrollListener(manager) {
                 // 続きを検索
-                // Log.i(">> $TAG_SHORT", "続きから：$condPage")
                 getData()
             })
 
@@ -160,7 +159,6 @@ class ActivitySpotReviewGallery_ImageSearch :
      * クチコミ画像を取得
      */
     private fun getData() {
-        Log.i(">> ${TAG_SHORT}", "getReviewImages")
         HttpSpotInfo(mContext).get_review_images(
             dataSpot,
             condPage,

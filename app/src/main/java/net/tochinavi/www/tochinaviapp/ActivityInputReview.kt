@@ -133,11 +133,6 @@ class ActivityInputReview :
         initLayout()
     }
 
-    override fun onPause() {
-        super.onPause()
-        Log.i(">> $TAG", "onPause")
-    }
-
     override fun onDestroy() {
         super.onDestroy()
 
@@ -182,7 +177,6 @@ class ActivityInputReview :
      */
     private fun downloadImage() {
         if (dlImageIndex < dataDraftReview!!.reviewImageUrls.size) {
-            Log.i(">> $TAG", "$dlImageIndex: ${dataDraftReview!!.reviewImageUrls[dlImageIndex]}")
             runOnUiThread {
                 loading.updateLayout("写真を読み込み中\n%d%%...",
                     dlImageIndex.toDouble(), dataDraftReview!!.reviewImageUrls.size.toDouble())
@@ -224,7 +218,6 @@ class ActivityInputReview :
     private fun addImageListData(uris: ArrayList<Uri>) {
         println(uris)
         for (i in 0..uris.size - 1) {
-            Log.i(">> $TAG", uris[i].path)
             imageListData[imageListData.size - 1] = uris[i]
             if (imageListData.size < MAX_SELECT_IMAGE) {
                 // 9アイテム以下の時まではADDを追加
@@ -496,7 +489,6 @@ class ActivityInputReview :
                     viewHolder: RecyclerView.ViewHolder
                 ) {
                     super.clearView(recyclerView, viewHolder)
-                    Log.i(">> $TAG", "clearView")
                     imageAdapter!!.notifyDataSetChanged()
                 }
             })
@@ -510,7 +502,6 @@ class ActivityInputReview :
             when (view.tag) {
                 imageAdapter!!.TAG_VIEW_IMAGE -> {
                     // プレビュー
-                    Log.i(">> $TAG", "写真の拡大: $index")
                     val uris: ArrayList<Uri> = arrayListOf()
                     for (i in 0..imageListData.size - 1) {
                         if (imageListData[i] != null) {
@@ -689,7 +680,6 @@ class ActivityInputReview :
 
     // 戻るボタンを押した時しか取得できない
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
-        Log.i(">> $TAG", "KB ${KeyEvent.KEYCODE_BACK} == KC $keyCode")
         when (keyCode) {
             KeyEvent.KEYCODE_BACK -> {
                 backPage()
@@ -925,7 +915,6 @@ class ActivityInputReview :
             }
             .responseJson { request, response, result ->
                 result.fold(success = { json ->
-                    Log.i(">> $TAG", "httpUpload succsess" )
 
                     val datas = json.obj().get("datas") as JSONObject
                     if (datas.get("result") as Boolean) {
@@ -1074,12 +1063,8 @@ class ActivityInputReview :
         val url = MyString().my_http_url_app() + "/review/v2/insert_draft_review.php"
         val params = getInsertParams(imageNames)
 
-        Log.i(">> $TAG", "insertDraftData params")
-        println(params)
-
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->
-                Log.i(">> $TAG", "insertDraftData json")
                 println(json)
                 val datas = json.obj().get("datas") as JSONObject
                 if (datas.get("result") as Boolean) {

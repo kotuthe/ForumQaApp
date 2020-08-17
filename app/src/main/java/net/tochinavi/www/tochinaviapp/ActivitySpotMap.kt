@@ -272,14 +272,14 @@ class ActivitySpotMap :
                 if (task.isSuccessful) {
                     if (task.result != null) {
                         mLocation = task.result
-                        Log.i(">> $TAG", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
+                        // Log.i(">> $TAG", "getLatLon: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                         // setRoute()
                     } else {
                         // last location is null
-                        Log.i(">> $TAG", "getLatLon: last location is null")
+                        // Log.i(">> $TAG", "getLatLon: last location is null")
                     }
                 } else {
-                    Log.i(">> $TAG", "getLatLon: error")
+                    // Log.i(">> $TAG", "getLatLon: error")
                 }
             })
     }

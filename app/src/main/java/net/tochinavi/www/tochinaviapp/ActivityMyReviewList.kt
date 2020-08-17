@@ -216,8 +216,6 @@ class ActivityMyReviewList : AppCompatActivity() {
      * お店の検索
      */
     private fun getData() {
-        Log.i(">> ${FragmentTop.TAG}", "onSearch")
-
         if (condPage == 1) {
             loading.show(supportFragmentManager, LoadingNormal.TAG)
             loading.updateLayout(getString(R.string.loading_normal_message), true)

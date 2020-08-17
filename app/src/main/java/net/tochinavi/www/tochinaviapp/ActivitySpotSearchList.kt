@@ -101,7 +101,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
-                Log.i(">> ${TAG_SHORT}", "position: $pos")
                 // スポット情報へ
                 val item = listData[pos]
                 if (item.type == 1) {
@@ -203,7 +202,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Log.i(">> $TAG_SHORT", "onActivityResult: $requestCode, $resultCode, $data")
         when(requestCode) {
             REQUEST_NARROW -> {
                 if (resultCode == Activity.RESULT_OK && data != null) {
@@ -390,7 +388,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 mLocation = result.lastLocation
                 // 現在地だけ欲しいので、1回取得したらすぐに外す
                 mLocationClient!!.removeLocationUpdates(this)
-                Log.i(">> ${TAG_SHORT}", "getLatLon HighQuality: ${mLocation!!.latitude}, ${mLocation!!.longitude}")
                 // この後周辺検索へ
                 onSearch()
             }
@@ -402,8 +399,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
      * 位置情報の取得失敗
      */
     private fun errorLocation() {
-
-        Log.i(">> ${TAG_SHORT}", "errorLocation")
         if (!(mySP.get(MySharedPreferences.Keys.spot_search_location_first_alert) as Boolean)) {
             // アラート（1回のみ）
             mySP.put(MySharedPreferences.Keys.spot_search_location_first_alert, true)
@@ -435,7 +430,6 @@ class ActivitySpotSearchList : AppCompatActivity() {
      * お店の検索
      */
     private fun onSearch() {
-        Log.i(">> ${FragmentTop.TAG}", "onSearch")
         if (mLocation == null) {
             // 周辺検索はできないよ (多分ここにはこないと思う)
             errorLocation()
