@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/layout_input_review_image_bg">
+    android:background="@drawable/layout_image_empty">
 
     <ImageView
         android:id="@+id/imageView"

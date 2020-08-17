@@ -39,10 +39,7 @@ import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.network.TaskDownloadImage
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
-import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
-import net.tochinavi.www.tochinaviapp.value.MyString
-import net.tochinavi.www.tochinaviapp.value.convertDpToPx
-import net.tochinavi.www.tochinaviapp.value.ifNotNull
+import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.*
 import org.json.JSONObject
 import java.io.File
@@ -75,6 +72,7 @@ class ActivityInputReview :
     private val REQUEST_ALERT_DELETE_CONF: Int = 6 // 下書き削除
     private val REQUEST_ALERT_ACTION_FINISH: Int = 7 // 削除・下書き・投稿の終了後
     private val REQUEST_ALERT_BACK_PAGE: Int = 8 // 戻るボタン
+    private val REQUEST_ALERT_TOCHIGI_ALE: Int = 9 // とちぎエール飯
 
     private val MAX_SELECT_IMAGE: Int = 10
 
@@ -312,6 +310,11 @@ class ActivityInputReview :
                 // 前のページに戻る
                 finish()
             }
+            REQUEST_ALERT_TOCHIGI_ALE -> {
+                // エール飯WEB
+                startActivity(
+                    MyIntent().web_browser(MyString().my_http_url_tochigi_ale()))
+            }
 
         }
     }
@@ -385,7 +388,19 @@ class ActivityInputReview :
             hideKeyboard()
         }
 
-        // 写真
+        // 写真 //
+        // とちぎエール飯
+        buttonTochigiAle.setOnClickListener {
+            val alert = AlertNormal.newInstance(
+                requestCode = REQUEST_ALERT_TOCHIGI_ALE,
+                title = null,
+                msg = "写真を加工するために栃ナビ！サイトに移動します。\n写真を加工したあとはアプリに戻り、「写真を追加」から加工した写真を選択してください。",
+                positiveLabel = "撮影する",
+                negativeLabel = "キャンセル"
+            )
+            alert.show(supportFragmentManager, AlertNormal.TAG)
+        }
+
         imageAdapter = RecyclerInputReviewAdapter(mContext!!, imageListData)
         rcvImage.apply {
             setHasFixedSize(true)

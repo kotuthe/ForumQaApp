@@ -96,11 +96,11 @@ class ListSpotReviewAdapter(context: Context, datas: ArrayList<DataSpotReview>) 
             holder.layoutImage!!.visibility = View.VISIBLE
             holder.imageSpot!!.tag = data.id // キャッシュ制御の為※これほんとに必要か検討する
 
-            holder.imageSpot!!.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorImageViewBg))
+            // holder.imageSpot!!.setBackgroundColor(ContextCompat.getColor(mContext, R.color.colorImageViewBg))
             holder.imageSpot!!.load(data.reviewImageUrls[0]) {
                 placeholder(R.drawable.ic_image_placeholder)
                 // transformations(RoundedCornersTransformation(25f))
-                holder.imageSpot!!.setBackgroundColor(Color.TRANSPARENT)
+                // holder.imageSpot!!.setBackgroundColor(Color.TRANSPARENT)
             }
         } else {
             holder.layoutImage!!.visibility = View.GONE

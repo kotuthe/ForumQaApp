@@ -101,7 +101,7 @@ class ListMyDraftReviewAdapter(context: Context, dataDrafts: ArrayList<DataMyDra
             }
         } else {
             // 写真 GONE
-            holder.layoutMain!!.visibility = View.INVISIBLE
+            holder.layoutMain!!.visibility = View.GONE
         }
 
         // 下書き

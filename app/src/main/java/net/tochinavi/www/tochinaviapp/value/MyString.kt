@@ -59,5 +59,8 @@ class MyString() {
         return returnURL("/member/grapevine/home/?id=%d&k_id=%d".format(member_id, kuchikomi_id), true)
     }
 
+    // エール飯カメラ
+    fun my_http_url_tochigi_ale(): String {
+        return returnURL( "/p/photo_app/crop_image.shtml", true) }
 
 }

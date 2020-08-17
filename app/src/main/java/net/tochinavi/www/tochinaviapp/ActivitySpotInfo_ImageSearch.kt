@@ -906,6 +906,7 @@ class ActivitySpotInfo_ImageSearch :
             )
 
             // 基本情報
+            basicListData.clear()
             basicListData.addAll(
                 HttpSpotInfo(mContext!!).get_is_basic_list_data(dataSpot!!))
             basicAdapter!!.notifyDataSetChanged()

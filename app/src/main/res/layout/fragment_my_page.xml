@@ -45,7 +45,8 @@
                         android:id="@+id/imageViewUser"
                         android:layout_width="@dimen/fragment_my_page_img_user_size"
                         android:layout_height="@dimen/fragment_my_page_img_user_size"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/layout_image_empty"/>
 
                     <TextView
                         android:id="@+id/textViewUserName"

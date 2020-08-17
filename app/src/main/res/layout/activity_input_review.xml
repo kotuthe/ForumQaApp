@@ -142,16 +142,18 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/normal_margin"
+                            android:layout_marginEnd="@dimen/normal_margin"
                             android:layout_weight="1"
                             android:text="@string/input_review_title_review"
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/font_size_normal" />
 
-                        <Button
+                        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
                             android:id="@+id/buttonReviewClose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:layout_marginBottom="4dp"
                             android:text="@string/input_review_button_close_review"/>
 
                     </LinearLayout>
@@ -234,6 +236,27 @@
                         android:textColor="@android:color/black"
                         android:textSize="@dimen/font_size_normal" />
 
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="@dimen/normal_safe_area_margin"
+                        android:paddingEnd="@dimen/normal_safe_area_margin"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:background="@android:color/white"
+                        android:orientation="vertical">
+
+                        <Button
+                            android:id="@+id/buttonTochigiAle"
+                            android:layout_width="match_parent"
+                            android:layout_height="40dp"
+                            android:background="@drawable/btn_link"
+                            android:text="#とちぎエール飯のフレームで撮影する"
+                            android:textColor="@color/colorLinkBlue"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
                     <!-- 写真選択 -->
                     <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
                         android:id="@+id/rcvImage"
@@ -298,6 +321,7 @@
                             android:id="@+id/textViewTagHint"
                             android:layout_width="match_parent"
                             android:layout_height="46dp"
+                            android:gravity="start|center"
                             android:padding="@dimen/normal_margin"
                             android:paddingStart="@dimen/normal_safe_area_margin"
                             android:paddingEnd="@dimen/normal_safe_area_margin"

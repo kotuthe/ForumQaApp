@@ -17,8 +17,8 @@
         android:layout_width="@dimen/row_spot_image_size"
         android:layout_height="@dimen/row_spot_image_size"
         android:layout_marginEnd="@dimen/normal_margin"
-        android:background="@color/colorImageViewBg"
-        android:scaleType="centerCrop"/>
+        android:scaleType="centerCrop"
+        android:background="@drawable/layout_image_empty"/>
 
     <!-- 右側：詳細 -->
     <LinearLayout

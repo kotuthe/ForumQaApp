@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:text="param"/>
+            android:textColor="@android:color/black"/>
     </LinearLayout>
 
     <FrameLayout
