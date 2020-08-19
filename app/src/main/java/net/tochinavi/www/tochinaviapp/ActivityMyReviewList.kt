@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMyReview
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MyIntent
@@ -43,6 +44,8 @@ class ActivityMyReviewList : AppCompatActivity() {
     // UI //
     private lateinit var loading: LoadingNormal
 
+    private lateinit var firebase: FirebaseHelper
+
     // データ
     private lateinit var mContext: Context
     private lateinit var mySP: MySharedPreferences
@@ -58,7 +61,10 @@ class ActivityMyReviewList : AppCompatActivity() {
         setContentView(R.layout.activity_my_review_list)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         mySP = MySharedPreferences(mContext)
+
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage_Kuchikomi_List, null)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "クチコミ一覧"

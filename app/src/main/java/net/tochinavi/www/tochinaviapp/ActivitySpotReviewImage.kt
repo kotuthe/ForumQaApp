@@ -9,6 +9,7 @@ import coil.api.load
 import kotlinx.android.synthetic.main.activity_spot_review_image.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 
 class ActivitySpotReviewImage : AppCompatActivity() {
 
@@ -16,6 +17,8 @@ class ActivitySpotReviewImage : AppCompatActivity() {
         val TAG = "ActivitySpotReviewImage"
         val TAG_SHORT = "SpotReviewImage"
     }
+
+    private lateinit var firebase: FirebaseHelper
 
     // データ
     private lateinit var dataSpot: DataSpotInfo
@@ -27,6 +30,11 @@ class ActivitySpotReviewImage : AppCompatActivity() {
 
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
         dataReview = intent.getSerializableExtra("dataReview") as DataSpotReview
+
+        firebase = FirebaseHelper(applicationContext)
+        firebase.sendScreen(
+            FirebaseHelper.screenName.Kuchikomi_Image,
+            arrayListOf(Pair("id", dataSpot.id.toString()), Pair("kuchikomi_id", dataReview.id)))
 
         if (supportActionBar != null) {
             supportActionBar!!.title = dataReview.spotName

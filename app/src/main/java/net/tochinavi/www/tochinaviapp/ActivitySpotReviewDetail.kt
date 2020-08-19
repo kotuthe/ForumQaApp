@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.activity_spot_review_detail.*
 import kotlinx.android.synthetic.main.view_spot_review_detail_spot.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.view.RecyclerReviewDetailImageAdapter
 
 // タイプをintentに入れて、スポット以外も表示できるように調整する
@@ -23,6 +24,8 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
         val TAG = "ActivitySpotReviewDetail"
         val TAG_SHORT = "SpotReviewDetail"
     }
+
+    private lateinit var firebase: FirebaseHelper
 
     // 変数 //
     private lateinit var mContext: Context
@@ -39,8 +42,13 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
         setContentView(R.layout.activity_spot_review_detail)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
         dataReview = intent.getSerializableExtra("dataReview") as DataSpotReview
+
+        firebase.sendScreen(
+            FirebaseHelper.screenName.Spot_Info_Kuchikomi_Detail,
+            arrayListOf(Pair("id", dataSpot.id.toString()), Pair("kuchikomi_id", dataReview.id)))
 
         // 遷移元がギャラリー・クチコミ一覧の場合はクリアしてSpotInfoを表示する
         // ※これを使用するにはstartActivityForResultを使わないと動かない
@@ -84,7 +92,8 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
             textViewName.text = dataSpot.name
             textViewDetail.text = dataSpot.simple_detail
             setOnClickListener {
-                // firebase
+                firebase.sendSpotInfo(
+                    FirebaseHelper.screenName.Spot_Info_Kuchikomi_Detail, 1, dataSpot.id)
                 if (isClearFinish) {
                     // 展開されているActivityをクリア
                     val intent =

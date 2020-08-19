@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_spot_map.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyImage
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
 
@@ -50,6 +51,9 @@ class ActivitySpotMap :
         val TAG_SHORT = "ActivitySpotMap"
     }
 
+    private lateinit var firebase: FirebaseHelper
+    private lateinit var screenName: FirebaseHelper.screenName
+
     // データ
     private lateinit var mMap: GoogleMap
     private var mPolyline: Polyline? = null // 有無判定のため
@@ -63,7 +67,9 @@ class ActivitySpotMap :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_map)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+        firebase = FirebaseHelper(applicationContext)
+
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
@@ -71,12 +77,8 @@ class ActivitySpotMap :
         // type, spot_id, name, latitude, longitudem category_id
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
 
-        /*
-        // アナリティクス送信
-        ArrayList<DataAnalyticsParam> atParams = new ArrayList<DataAnalyticsParam>();
-        atParams.add(new DataAnalyticsParam("id", String.valueOf(spotId)));
-        mFirebase.sendScreen((spotType == 1 ? FirebaseHelper.screenName.Spot_Info_Map : FirebaseHelper.screenName.Hospital_Info_Map), atParams);
-        */
+        screenName = if (dataSpot.type == 1) FirebaseHelper.screenName.Spot_Info_Map else FirebaseHelper.screenName.Hospital_Info_Map
+        firebase.sendScreen(screenName, arrayListOf(Pair("id", dataSpot.id.toString())))
 
         if (supportActionBar != null) {
             supportActionBar!!.title = dataSpot.name
@@ -85,15 +87,9 @@ class ActivitySpotMap :
 
         // 目的地まで案内
         buttonRoute.setOnClickListener {
-            /*
-            // アナリティクス送信
-                mFirebase.sendEvent(
-                        (spotType == 1 ? FirebaseHelper.screenName.Spot_Info_Map : FirebaseHelper.screenName.Hospital_Info_Map),
-                        FirebaseHelper.eventCategory.Button,
-                        FirebaseHelper.eventAction.Tap,
-                        "目的地まで案内:Google Maps"
-                );
-             */
+
+            firebase.sendEvent(
+                screenName, FirebaseHelper.eventCategory.Button, FirebaseHelper.eventAction.Tap, "目的地まで案内:Google Maps")
 
             // Google Mapで経路表示
             val intent = Intent()

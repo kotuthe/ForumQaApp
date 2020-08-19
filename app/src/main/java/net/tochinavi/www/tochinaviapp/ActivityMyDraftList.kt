@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_my_draft_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMyDraftReview
 import net.tochinavi.www.tochinaviapp.entities.DataReviewTag
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -41,6 +42,8 @@ class ActivityMyDraftList :
     private val REQUEST_INPUT_REVIEW: Int = 0x1
     private val REQUEST_ALERT_NO_DATA: Int = 0x2
 
+    private lateinit var firebase: FirebaseHelper
+
     // UI //
     private lateinit var loading: LoadingNormal
 
@@ -59,7 +62,10 @@ class ActivityMyDraftList :
         setContentView(R.layout.activity_my_draft_list)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         mySP = MySharedPreferences(mContext)
+
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage_Draft_List, null)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "クチコミ下書き"

@@ -30,6 +30,7 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.clustering.view.DefaultClusterRenderer
 import com.google.maps.android.ui.IconGenerator
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyImage
 import kotlin.math.roundToInt
 
@@ -45,6 +46,8 @@ class ActivitySpotNeighborMap :
         val TAG_SHORT = "SpotNeighborMap"
     }
 
+    private lateinit var firebase: FirebaseHelper
+
     private lateinit var myPosition: LatLng
     private lateinit var spotArray: ArrayList<DataSpotList>
     private lateinit var mGoogleMap: GoogleMap
@@ -52,13 +55,14 @@ class ActivitySpotNeighborMap :
     private lateinit var mClusterManager: ClusterManager<MyItem>
     private var activeItem: MyItem? = null
 
-
     private var handlerMarkerAnime: Handler? = null
     private var runnableMarkerAnime: Runnable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_neighbor_map)
+
+        firebase = FirebaseHelper(applicationContext)
 
         spotArray = intent.getSerializableExtra("spotArray") as ArrayList<DataSpotList>
 
@@ -137,6 +141,7 @@ class ActivitySpotNeighborMap :
             if (it.tag != null) {
                 val tag = it.tag as MyItem
                 val item = tag.getData()
+                firebase.sendSpotInfo(FirebaseHelper.screenName.Search_Near_List, item.type, item.id)
                 if (item.type == 1) {
                     val intent = Intent(this, ActivitySpotInfo::class.java)
                     intent.putExtra("id", item.id)

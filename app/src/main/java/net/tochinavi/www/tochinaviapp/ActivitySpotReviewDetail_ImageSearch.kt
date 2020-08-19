@@ -26,6 +26,7 @@ import net.tochinavi.www.tochinaviapp.entities.DataISReviewDetailImage
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.network.TaskWebImageAnime
 import net.tochinavi.www.tochinaviapp.value.*
@@ -33,10 +34,6 @@ import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.ListSpotInfoBasicAdapter
 import net.tochinavi.www.tochinaviapp.view.RecyclerISReviewDetailImagesAdapter
 
-
-// スケルトンビュー
-// (rcvReviewImage.background as TransitionDrawable).startTransition(1000)
-// 続きはギャラリーへ
 class ActivitySpotReviewDetail_ImageSearch :
     AppCompatActivity(),
     OnMapReadyCallback,
@@ -49,6 +46,8 @@ class ActivitySpotReviewDetail_ImageSearch :
 
     // リクエスト
     private val REQUEST_ALERT_PHONE: Int = 0x1
+
+    private lateinit var firebase: FirebaseHelper
 
     // データ //
     private lateinit var functions: Functions
@@ -147,6 +146,11 @@ class ActivitySpotReviewDetail_ImageSearch :
             }
             imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
                 // ギャラリーへ
+                firebase.sendEvent(
+                    FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                    FirebaseHelper.eventCategory.Cell,
+                    FirebaseHelper.eventAction.Tap,
+                    "IS:クチコミ_写真")
                 val index = view.id
                 val intent = Intent(this@ActivitySpotReviewDetail_ImageSearch, ActivitySpotReviewGalleryPreview_ImageSearch::class.java)
                 intent.putExtra("selectIndex", index)
@@ -186,10 +190,20 @@ class ActivitySpotReviewDetail_ImageSearch :
         mapFragment.getMapAsync(this)
 
         layoutBasic.buttonMap.setOnClickListener {
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:地図")
             showMap()
         }
         layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:栃ナビ！サイトを見る")
             startActivity(
                 MyIntent().web_browser(
                 MyString().my_http_url_spot_info(dataSpot.id)))
@@ -205,14 +219,29 @@ class ActivitySpotReviewDetail_ImageSearch :
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {
                         // 地図へ
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:住所")
                         showMap()
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                         // 電話
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:電話")
                         showPhoneAlert()
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
                         // クーポンへ
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:クーポン")
                         startActivity(MyIntent().web_browser(
                             MyString().my_http_url_coupon(dataSpot.id)))
                     }
@@ -229,6 +258,11 @@ class ActivitySpotReviewDetail_ImageSearch :
         layoutShare.textViewCopy.text = getShareText()
         layoutShare.textViewCopy.setOnClickListener {
             // クリップボードにコピー
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "alt:クチコミコピー")
             functions.clipboardText(this, (it as TextView).text.toString())
 
             val alert = AlertNormal.newInstance(
@@ -244,12 +278,22 @@ class ActivitySpotReviewDetail_ImageSearch :
         layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
         layoutShare.buttonMail.setOnClickListener {
             // メールのシェア
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "メール")
             startActivity(
                 MyIntent().mail(getShareText()))
         }
         layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
         layoutShare.buttonLine.setOnClickListener {
             // ラインのシェア
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "LINE")
             MyIntent().line(getShareText(), {
                 startActivity(it)
             }, {

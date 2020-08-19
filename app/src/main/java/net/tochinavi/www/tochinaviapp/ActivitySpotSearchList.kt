@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.*
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
@@ -45,6 +46,8 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
     // リクエスト
     private val REQUEST_NARROW: Int = 0x1
+
+    private lateinit var firebase: FirebaseHelper
 
     // UI //
     private lateinit var loading: LoadingNormal
@@ -74,6 +77,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         setContentView(R.layout.activity_spot_search_list)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         mySP = MySharedPreferences(mContext)
         condWord = intent.getStringExtra("word")
 
@@ -103,6 +107,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // スポット情報へ
                 val item = listData[pos]
+                firebase.sendSpotInfo(FirebaseHelper.screenName.Search_List, item.type, item.id)
                 if (item.type == 1) {
                     val intent = Intent(this@ActivitySpotSearchList, ActivitySpotInfo::class.java)
                     intent.putExtra("id", item.id)
@@ -440,40 +445,52 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
         // ※後でFirebase
         val params: ArrayList<Pair<String, Any>> = ArrayList()
+        val fParams: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("page" to condPage)
+        fParams.add("page" to condPage.toString())
 
         // 周辺検索（エラー判定済み）
         params.add("latitude" to mLocation!!.latitude)
         params.add("longitude" to mLocation!!.longitude)
+        fParams.add("lat_lon" to "%f,%f".format(mLocation!!.latitude, mLocation!!.longitude))
 
         if (!condWord.isEmpty()) {
             params.add("cond_word" to condWord)
+            fParams.add("cond_word" to condWord)
         }
 
         // カテゴリー
         if (condCategoryArray.size > 0) {
             if (condCategoryArray.size > 1) {
                 // 第２、３
+                val tmpFParams: ArrayList<String> = arrayListOf()
                 for (i in 1..condCategoryArray.size - 1) {
                     val item = condCategoryArray[i]
                     params.add("cond_category[]" to item.second)
+                    tmpFParams.add("ca%d:%d".format(item.first, item.second))
                 }
+                fParams.add("cond_category" to tmpFParams.joinToString(","))
             } else {
                 // 第１
                 params.add("cond_category[]" to condCategoryArray[0].second)
+                fParams.add("cond_category" to "ca1:%d".format(condCategoryArray[0].second))
             }
         }
 
         // エリアID
         if (condAreaArray.size > 0) {
+            val tmpFParams: ArrayList<Int> = arrayListOf()
             for (i in 0..condAreaArray.size - 1) {
                 params.add("cond_area[]" to condAreaArray[i])
+                tmpFParams.add(condAreaArray[i])
             }
+            fParams.add("cond_area" to tmpFParams.joinToString(","))
         }
 
         // クーポン
         if (condCoupon) {
             params.add("cond_coupon" to condCoupon)
+            fParams.add("cond_coupon" to if (condCoupon) "1" else "0")
         }
 
         // ログインID
@@ -483,6 +500,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 val tableUsers = DBTableUsers(mContext)
                 ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
                     params.add("user_id" to it.user_id)
+                    fParams.add("user_id" to it.user_id.toString())
                 })
             } catch (e: Exception) {
                 Log.e(TAG_SHORT, "" + e.message)
@@ -490,6 +508,8 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 db.cleanup()
             }
         }
+
+        firebase.sendScreen(FirebaseHelper.screenName.Search_List, fParams)
 
         val url = MyString().my_http_url_app() + "/spot/search.php"
         url.httpGet(params).responseJson { request, response, result ->

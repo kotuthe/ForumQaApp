@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.*
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -48,6 +49,7 @@ class FragmentSpotNeighborList : Fragment() {
     private val REQUEST_CODE_ALERT_LOCATION: Int = 0x2
     private val REQUEST_NARROW: Int = 0x3
 
+    private lateinit var firebase: FirebaseHelper
     private lateinit var mySP: MySharedPreferences
 
     // UI //
@@ -79,6 +81,7 @@ class FragmentSpotNeighborList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebase = FirebaseHelper(context!!)
         mySP = MySharedPreferences(context!!)
     }
 
@@ -107,6 +110,7 @@ class FragmentSpotNeighborList : Fragment() {
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // スポット情報へ
                 val item = listData[pos]
+                firebase.sendSpotInfo(FirebaseHelper.screenName.Search_Near_List, item.type, item.id)
                 if (item.type == 1) {
                     val intent = Intent(activity, ActivitySpotInfo::class.java)
                     intent.putExtra("id", item.id)
@@ -502,25 +506,58 @@ class FragmentSpotNeighborList : Fragment() {
         }
 
         val params: ArrayList<Pair<String, Any>> = ArrayList()
+        val fParams: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("page" to condPage)
+        fParams.add("page" to condPage.toString())
 
         // 周辺検索（エラー判定済み）
         params.add("latitude" to mLocation!!.latitude)
         params.add("longitude" to mLocation!!.longitude)
+        fParams.add("lat_lon" to "%f,%f".format(mLocation!!.latitude, mLocation!!.longitude))
 
         // カテゴリー
         if (condCategory > 0) {
             params.add("cond_category" to condCategory)
+
+            var tmpFParams = ""
+            val db = DBHelper(context!!)
+            try {
+                val tableCategory2 = DBTableCategory2(context!!)
+                val tableCategory3 = DBTableCategory3(context!!)
+                when (condCategoryType) {
+                    1 -> {
+                        tmpFParams = "ca1: %d".format(condCategory)
+                    }
+                    2 -> {
+                        val data_ca2 = tableCategory2.getData(db, condCategory)
+                        tmpFParams = "ca2: %d{ca1: %d}".format(condCategory, data_ca2.parent_id)
+                    }
+                    3 -> {
+                        val data_ca3 = tableCategory3.getData(db, condCategory)
+                        val data_ca2 = tableCategory2.getData(db, data_ca3.parent_id)
+                        tmpFParams = "ca3: %d{ca1: %d, ca2: %d}".format(condCategory, data_ca2.parent_id, data_ca2.id)
+                    }
+                    else -> {
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(HttpSpotInfo.TAG, "" + e.message)
+            } finally {
+                db.cleanup()
+            }
+            fParams.add("cond_category" to tmpFParams)
         }
 
         // 距離
         if (condDistance > 0) {
             params.add("cond_distance_range" to condDistance)
+            fParams.add("cond_distance_range" to condDistance.toString())
         }
 
         // クーポン
         if (condCoupon) {
             params.add("cond_coupon" to condCoupon)
+            fParams.add("cond_coupon" to if (condCoupon) "1" else "0")
         }
 
         // ログインID
@@ -530,6 +567,7 @@ class FragmentSpotNeighborList : Fragment() {
                 val tableUsers = DBTableUsers(context!!)
                 ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
                     params.add("user_id" to it.user_id)
+                    fParams.add("user_id" to it.user_id.toString())
                 })
             } catch (e: Exception) {
                 Log.e(HttpSpotInfo.TAG, "" + e.message)
@@ -537,6 +575,8 @@ class FragmentSpotNeighborList : Fragment() {
                 db.cleanup()
             }
         }
+
+        firebase.sendScreen(FirebaseHelper.screenName.Search_Near_List, fParams)
 
         val url = MyString().my_http_url_app() + "/spot/get_neighbor_list.php"
         url.httpGet(params).responseJson { request, response, result ->

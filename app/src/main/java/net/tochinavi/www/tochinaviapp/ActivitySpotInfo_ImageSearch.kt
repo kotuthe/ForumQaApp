@@ -36,6 +36,7 @@ import kotlinx.android.synthetic.main.view_info_spot_basic.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoBasic
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.*
 import net.tochinavi.www.tochinaviapp.view.*
@@ -82,6 +83,7 @@ class ActivitySpotInfo_ImageSearch :
     // 変数 //
     private var functions: Functions? = null
     private var mContext: Context? = null
+    private lateinit var firebase: FirebaseHelper
     private var mySP: MySharedPreferences? = null
     private var dataSpot: DataSpotInfo? = null
     private lateinit var mGoogleMap: GoogleMap
@@ -111,6 +113,7 @@ class ActivitySpotInfo_ImageSearch :
         setContentView(R.layout.activity_spot_info_image_search)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext!!)
         mySP = MySharedPreferences(mContext!!)
         functions = Functions(mContext!!)
 
@@ -273,6 +276,11 @@ class ActivitySpotInfo_ImageSearch :
         }
         imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // ギャラリーへ
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:クチコミ_写真")
             val index = view.id
             val intent = Intent(this, ActivitySpotReviewGallery_ImageSearch::class.java)
             intent.putExtra("selectIndex", index)
@@ -316,6 +324,11 @@ class ActivitySpotInfo_ImageSearch :
          */
         textAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
             // クチコミ詳細へ
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:クチコミ_テキスト")
             val index = view.id
             val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
             intent.putExtra("dataSpot", dataSpot)
@@ -329,6 +342,11 @@ class ActivitySpotInfo_ImageSearch :
 
         layoutBasic.buttonMap.setOnClickListener {
             // 地図へ
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:地図")
             val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
             intent.putExtra("dataSpot", dataSpot)
             startActivity(intent)
@@ -336,6 +354,11 @@ class ActivitySpotInfo_ImageSearch :
 
         layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "IS:栃ナビ！サイトを見る")
             startActivity(MyIntent().web_browser(
                 MyString().my_http_url_spot_info(dataSpot!!.id)))
         }
@@ -348,16 +371,31 @@ class ActivitySpotInfo_ImageSearch :
                 when (item.type) {
                     Constants.SPOT_BASIC_INFO_TYPE.address -> {
                         // 地図へ
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:住所")
                         val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
                         intent.putExtra("dataSpot", dataSpot)
                         startActivity(intent)
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                         // 電話
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:電話")
                         showPhoneAlert()
                     }
                     Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
                         // クーポンへ
+                        firebase.sendEvent(
+                            FirebaseHelper.screenName.IS_Spot_Info,
+                            FirebaseHelper.eventCategory.Cell,
+                            FirebaseHelper.eventAction.Tap,
+                            "IS:クーポン")
                         startActivity(MyIntent().web_browser(
                             MyString().my_http_url_coupon(dataSpot!!.id)))
                     }
@@ -374,6 +412,11 @@ class ActivitySpotInfo_ImageSearch :
         layoutShare.textViewCopy.text = ""
         layoutShare.textViewCopy.setOnClickListener {
             // クリップボードにコピー
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Cell,
+                FirebaseHelper.eventAction.Tap,
+                "alt:店舗情報コピー")
             functions!!.clipboardText(this, (it as TextView).text.toString())
 
             val alert = AlertNormal.newInstance(
@@ -389,12 +432,22 @@ class ActivitySpotInfo_ImageSearch :
         layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
         layoutShare.buttonMail.setOnClickListener {
             // メールのシェア
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "メール")
             startActivity(
                 MyIntent().mail(dataSpot!!.snsShareTextLong))
         }
         layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
         layoutShare.buttonLine.setOnClickListener {
             // ラインのシェア
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "LINE")
             MyIntent().line(dataSpot!!.snsShareText, {
                 startActivity(it)
             }, {
@@ -428,14 +481,13 @@ class ActivitySpotInfo_ImageSearch :
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
-            /*
-            mFirebase.sendEvent(
+
+            firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
                 FirebaseHelper.eventCategory.Button,
                 FirebaseHelper.eventAction.Tap,
-                "IS:お気に入り"
-        );
-        */
+                "IS:お気に入り")
+
             if (mySP!!.get_status_login()) {
                 val message = if (dataSpot!!.bookMarkEnable)
                     "お気に入りを解除しますか？" else "お気に入りに登録しますか？"
@@ -464,15 +516,12 @@ class ActivitySpotInfo_ImageSearch :
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
-            /*
-            // アナリティクス送信
-                mFirebase.sendEvent(
-                        FirebaseHelper.screenName.IS_Spot_Info,
-                        FirebaseHelper.eventCategory.Button,
-                        FirebaseHelper.eventAction.Tap,
-                        "チェックイン"
-                );
-             */
+
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "チェックイン")
 
             if (mySP!!.get_status_login()) {
                 // チェックイン
@@ -508,6 +557,11 @@ class ActivitySpotInfo_ImageSearch :
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "地図をみる")
             val intent = Intent(this@ActivitySpotInfo_ImageSearch, ActivitySpotMap::class.java)
             intent.putExtra("dataSpot", dataSpot)
             startActivity(intent)
@@ -518,7 +572,11 @@ class ActivitySpotInfo_ImageSearch :
             if (!isGetSpotInfo) {
                 return@setOnClickListener
             }
-            // startActivity(MyIntent().phone(dataSpot!!.phone))
+            firebase.sendEvent(
+                FirebaseHelper.screenName.IS_Spot_Info,
+                FirebaseHelper.eventCategory.Button,
+                FirebaseHelper.eventAction.Tap,
+                "電話する")
             showPhoneAlert()
         }
     }
@@ -987,6 +1045,12 @@ class ActivitySpotInfo_ImageSearch :
      * クチコミをする
      */
     private fun doInputReview() {
+        firebase.sendEvent(
+            FirebaseHelper.screenName.IS_Spot_Info,
+            FirebaseHelper.eventCategory.Button,
+            FirebaseHelper.eventAction.Tap,
+            "IS:クチコミ")
+
         HttpSpotInfo(mContext!!).check_input_review(
             {
                 // クチコミ投稿へ

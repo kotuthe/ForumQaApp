@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_my_wish_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataMySpotList
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpMyPage
 import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
@@ -30,6 +31,8 @@ class ActivityMyWishList :
 
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
+    private lateinit var firebase: FirebaseHelper
+
     // 変数 //
     private lateinit var mContext: Context
     private lateinit var mAdapter: BaseAdapter
@@ -44,7 +47,9 @@ class ActivityMyWishList :
         setContentView(R.layout.activity_my_wish_list)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
 
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage_Favorite_List, null)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "お気に入り"
@@ -60,6 +65,7 @@ class ActivityMyWishList :
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // クチコミ詳細へ
                 val item = listData[pos]
+                firebase.sendSpotInfo(FirebaseHelper.screenName.Mypage_Favorite_List, item.type, item.id)
                 if (item.type == 1) {
                     val intent = Intent(this@ActivityMyWishList, ActivitySpotInfo::class.java)
                     intent.putExtra("id", item.id)

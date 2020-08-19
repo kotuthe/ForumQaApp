@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_spot_review_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
@@ -31,6 +32,8 @@ class ActivitySpotReviewList :
 
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
+    private lateinit var firebase: FirebaseHelper
+
     // 変数 //
     private lateinit var mContext: Context
     private lateinit var dataSpot: DataSpotInfo
@@ -46,7 +49,11 @@ class ActivitySpotReviewList :
         setContentView(R.layout.activity_spot_review_list)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
+
+        firebase.sendScreen(
+            FirebaseHelper.screenName.Spot_Info_Kuchikomi_List, arrayListOf(Pair("id", dataSpot.id.toString())))
 
         if (supportActionBar != null) {
             supportActionBar!!.title = dataSpot.name

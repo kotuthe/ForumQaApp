@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_spot_info_detail.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfoDetail
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.network.HttpSpotInfo
 import net.tochinavi.www.tochinaviapp.value.Constants
 import net.tochinavi.www.tochinaviapp.value.MyIntent
@@ -33,6 +34,8 @@ class ActivitySpotInfoDetail :
     private val REQUEST_ALERT_PHONE: Int = 0x1
     private val REQUEST_ALERT_NO_DATA: Int = 0x2
 
+    private lateinit var firebase: FirebaseHelper
+
     // 変数 //
     private lateinit var mContext: Context
     private lateinit var mAdapter: BaseAdapter
@@ -45,7 +48,11 @@ class ActivitySpotInfoDetail :
         setContentView(R.layout.activity_spot_info_detail)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
+
+        firebase.sendScreen(
+            FirebaseHelper.screenName.Spot_Info_Detail, arrayListOf(Pair("id", dataSpot.id.toString())))
 
         if (supportActionBar != null) {
             supportActionBar!!.title = dataSpot.name

@@ -12,6 +12,7 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_spot_review_image_list.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo
 import net.tochinavi.www.tochinaviapp.entities.DataSpotReview
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.AlertNormal
 import net.tochinavi.www.tochinaviapp.view.RecyclerInfiniteScrollListener
@@ -30,6 +31,8 @@ class ActivitySpotReviewImageList :
     // リクエスト //
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
+    private lateinit var firebase: FirebaseHelper
+
     // データ //
     private lateinit var dataSpot: DataSpotInfo
     private lateinit var mAdapter: RecyclerReviewImagesAdapter
@@ -41,6 +44,8 @@ class ActivitySpotReviewImageList :
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_spot_review_image_list)
+
+        firebase = FirebaseHelper(applicationContext)
 
         dataSpot = intent.getSerializableExtra("dataSpot") as DataSpotInfo
 
@@ -107,10 +112,11 @@ class ActivitySpotReviewImageList :
 
     private fun getData() {
 
-        // ※Firebase
         val params: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("id" to dataSpot.id)
         params.add("page" to condPage)
+        // パラメータと同じため
+        firebase.sendScreen(FirebaseHelper.screenName.Kuchikomi_Image_List, params)
 
         val url = MyString().my_http_url_app() + "/spot/get_spot_review_images.php"
         url.httpGet(params).responseJson { request, response, result ->

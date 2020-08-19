@@ -12,6 +12,7 @@ import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.activity_my_badge_list.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataBadge
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -34,6 +35,7 @@ class ActivityMyBadgeList :
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
     // データ //
+    private lateinit var firebase: FirebaseHelper
     private lateinit var mySP: MySharedPreferences
     private lateinit var mAdapter: RecyclerMyBadgeAdapter
     private var listData: ArrayList<DataBadge> = ArrayList()
@@ -47,8 +49,11 @@ class ActivityMyBadgeList :
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
+        firebase = FirebaseHelper(this)
         mySP = MySharedPreferences(this)
         mAdapter = RecyclerMyBadgeAdapter(this, listData)
+
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage_Badge_List, null)
 
         hideListViewEmpty()
 

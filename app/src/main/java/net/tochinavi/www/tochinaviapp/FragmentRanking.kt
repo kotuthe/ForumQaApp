@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.fragment_ranking.*
 import kotlinx.android.synthetic.main.listview_empty.view.*
 import kotlinx.android.synthetic.main.tab_item_ranking.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataRanking
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.view.ListRankingAdapter
@@ -44,6 +45,8 @@ class FragmentRanking : Fragment() {
         checkin(1),
     }
 
+    private lateinit var firebase: FirebaseHelper
+
     private var listData: ArrayList<DataRanking> = ArrayList()
     private var mAdapter: BaseAdapter? = null
     // 保持データ
@@ -54,6 +57,7 @@ class FragmentRanking : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        firebase = FirebaseHelper(context!!)
     }
 
     override fun onCreateView(
@@ -217,6 +221,9 @@ class FragmentRanking : Fragment() {
 
 
     private fun getData(id: Int) {
+        firebase.sendScreen(FirebaseHelper.screenName.Ranking,
+            arrayListOf(Pair("type", id.toString())))
+
         val params: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("id" to id) // 1 or 2
 

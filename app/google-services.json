@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "251862489866",
+    "firebase_url": "https://checkinapp-tochinavi.firebaseio.com",
+    "project_id": "checkinapp-tochinavi",
+    "storage_bucket": "checkinapp-tochinavi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:251862489866:android:cb9fe4b81a3dc01b",
+        "android_client_info": {
+          "package_name": "net.tochinavi.www.tochinaviapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "251862489866-ed9pm6fk34iuonl0vngau079jb2tlcru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.tochinavi.www.tochinaviapp",
+            "certificate_hash": "77172b8b05e8124715da3f421de802dcbcbe17b9"
+          }
+        },
+        {
+          "client_id": "251862489866-6boj2q32pn60g7v2a6tnu7ubfq9ldgmj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIOT2Wb4DilrVBXPQiuysapQAvX0dUWo4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "251862489866-6boj2q32pn60g7v2a6tnu7ubfq9ldgmj.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "251862489866-c00gr7gbs9f0mtl9dgloo15mhm9j0hup.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "jp.co.net.yamazen.TochinaviApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

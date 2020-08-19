@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.fragment_my_page.*
 import kotlinx.android.synthetic.main.fragment_my_page_no_login.*
 import kotlinx.android.synthetic.main.layout_my_page_number.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataUsers
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableUsers
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
@@ -38,7 +39,8 @@ class FragmentMyPage : Fragment() {
     private val REQUEST_SETTING: Int = 0x2
 
     private var mContext: Context? = null
-    private var mySP: MySharedPreferences? = null
+    private lateinit var firebase: FirebaseHelper
+    private lateinit var mySP: MySharedPreferences
 
     private var userId: Int = 0
     private var userData: DataUsers? = null
@@ -46,7 +48,9 @@ class FragmentMyPage : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mContext = context
+        firebase = FirebaseHelper(mContext!!)
         mySP = MySharedPreferences(mContext!!)
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage, null)
     }
 
     override fun onCreateView(
@@ -170,7 +174,7 @@ class FragmentMyPage : Fragment() {
      */
     private fun updateUserData() {
 
-        if (mySP!!.get_status_login()) {
+        if (mySP.get_status_login()) {
             // メンバーIDを取得
             val db = DBHelper(mContext!!)
             try {

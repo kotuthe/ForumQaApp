@@ -14,9 +14,11 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_my_page_setting.*
 import net.tochinavi.www.tochinaviapp.entities.DataListSimple
 import net.tochinavi.www.tochinaviapp.entities.ServiceNearWishSpot
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyIntent
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
+import net.tochinavi.www.tochinaviapp.value.ifNotNull
 import net.tochinavi.www.tochinaviapp.view.AlertActionSheet
 import net.tochinavi.www.tochinaviapp.view.ListSimpleAdapter
 
@@ -32,14 +34,18 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
     private val REQUEST_ALERT_LOGOUT: Int = 0x3
 
     private var mContext: Context? = null
-    private var mySP: MySharedPreferences? = null
+    private lateinit var firebase: FirebaseHelper
+    private lateinit var mySP: MySharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my_page_setting)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext!!)
         mySP = MySharedPreferences(mContext!!)
+
+        firebase.sendScreen(FirebaseHelper.screenName.Mypage_Setting, null)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = getString(R.string.my_page_setting_title)
@@ -92,8 +98,15 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         when (requestCode) {
             // ログアウト処理
             REQUEST_ALERT_LOGOUT -> {
-                // ※　Firebase
-                mySP!!.set_status_login(false)
+
+                firebase.sendEvent(
+                    FirebaseHelper.screenName.Mypage_Setting,
+                    FirebaseHelper.eventCategory.Cell,
+                    FirebaseHelper.eventAction.Tap,
+                    "ログアウト"
+                )
+
+                mySP.set_status_login(false)
                 updateStatusLogin()
 
                 // 周辺スポット通知の停止
@@ -121,7 +134,17 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         adapter.add(setListData("プライバシーポリシー"))
         listView.adapter = adapter
         listView.setOnItemClickListener { parent, view, position, id ->
-            var url: String = ""
+
+            ifNotNull(adapter.getItem(position), {
+                firebase.sendEvent(
+                    FirebaseHelper.screenName.Mypage_Setting,
+                    FirebaseHelper.eventCategory.Cell,
+                    FirebaseHelper.eventAction.Tap,
+                    it.title
+                )
+            })
+
+            var url = ""
             when(position) {
                 0 -> {
                     url = MyString().my_http_url_partner_top_web()
@@ -157,7 +180,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
 
         // ログイン or ログアウト
         layoutLogin.setOnClickListener {
-            if (mySP!!.get_status_login()) {
+            if (mySP.get_status_login()) {
                 // ログアウト
                 val alert = AlertActionSheet.newInstance(
                     requestCode = REQUEST_ALERT_LOGOUT,
@@ -170,6 +193,12 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
                 alert.show(supportFragmentManager, AlertActionSheet.TAG)
             } else {
                 // ログイン
+                firebase.sendEvent(
+                    FirebaseHelper.screenName.Mypage_Setting,
+                    FirebaseHelper.eventCategory.Cell,
+                    FirebaseHelper.eventAction.Tap,
+                    "ログイン"
+                )
                 val intent = Intent(this, ActivityLogin::class.java)
                 intent.putExtra("tag", TAG)
                 startActivityForResult(intent, REQUEST_LOGIN)
@@ -192,7 +221,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
     private fun updateStatusLogin() {
         var title: String = ""
         var color: Int = 0
-        if (mySP!!.get_status_login()) {
+        if (mySP.get_status_login()) {
             title = "ログアウト"
             color = R.color.colorIosPink
         } else {

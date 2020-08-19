@@ -32,6 +32,7 @@ import kotlinx.android.synthetic.main.view_top_selection.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataCategory1
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.entities.DataTopSelection
+import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.storage.DBHelper
 import net.tochinavi.www.tochinaviapp.storage.DBTableAppData
 import net.tochinavi.www.tochinaviapp.storage.DBTableArea2
@@ -58,6 +59,7 @@ class FragmentTop : Fragment() {
     private val COLOR_CATEGORY_ALL = Color.parseColor("#555555")
     private val COLOR_DIS_CATEGORY_ALL = Color.parseColor("#CCCCCC")
 
+    private lateinit var firebase: FirebaseHelper
     private var mySP: MySharedPreferences? = null
     private var functions: Functions? = null
 
@@ -105,8 +107,11 @@ class FragmentTop : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        firebase = FirebaseHelper(context!!)
         mySP = MySharedPreferences(context!!)
         functions = Functions(context!!)
+
+        firebase.sendScreen(FirebaseHelper.screenName.Top, null)
 
         val db = DBHelper(context!!)
         try {
@@ -196,6 +201,7 @@ class FragmentTop : Fragment() {
             // ※ダブルクリック禁止を実装(後で考える)
             val index = view.id
             val item: DataSpotList = listData[index]
+            firebase.sendISSpotInfo(FirebaseHelper.screenName.Top, item.type, item.id)
             if (item.type == 1) {
                 // スポット情報へ
                 val intent = Intent(activity, ActivitySpotInfo_ImageSearch::class.java)
@@ -685,40 +691,30 @@ class FragmentTop : Fragment() {
         }
 
         val params: ArrayList<Pair<String, Any>> = ArrayList()
+        val fParams: ArrayList<Pair<String, Any>> = ArrayList()
         params.add("page" to condPage)
+        fParams.add("page" to condPage.toString())
         if (condArea > 0) {
             // エリア検索
             params.add("cond_area" to condArea)
+            fParams.add("cond_area" to condArea.toString())
         } else {
             // 周辺検索
-            if (mLocation == null) {
-                // 周辺検索はできないよ
-                /*
-                // アラート表示
-                mActivity.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        new AlertDialog.Builder(getContext())
-                                .setTitle("周辺のお店を検索できません")
-                                .setMessage("周辺のお店を検索するには位置情報の利用を許可してください")
-                                .setPositiveButton("OK", null)
-                                .show();
-                    }
-                });
-                 */
-            } else {
-                // 周辺検索
+            if (mLocation != null) {
                 params.add("latitude" to mLocation!!.latitude)
                 params.add("longitude" to mLocation!!.longitude)
+                fParams.add("lat_lon" to "%f,%f".format(mLocation!!.latitude, mLocation!!.longitude))
             }
         }
 
         if (condCategory > 0) {
             params.add("cond_category[0]" to condCategory)
+            fParams.add("cond_category" to condCategory.toString())
         } else {
             // カテゴリーの選択がない時は健康をとった大カテゴリーで検索する
             // すべて //
             if (dataCategoryArray.count() > 0) {
+                fParams.add("cond_category" to "all")
                 for (i in 0..dataCategoryArray.size - 1) {
                     val id = dataCategoryArray.get(i).id
                     // 「健康」は含まない
@@ -730,9 +726,10 @@ class FragmentTop : Fragment() {
 
         if (condSort > 0) {
             params.add("cond_sort" to condSort)
+            fParams.add("cond_sort" to condSort.toString())
         }
 
-        println(params)
+        firebase.sendScreen(FirebaseHelper.screenName.Top, fParams)
 
         val url = MyString().my_http_url_app() + "/search_spot/search.php"
         url.httpGet(params).responseJson { request, response, result ->
