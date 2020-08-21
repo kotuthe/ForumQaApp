@@ -73,7 +73,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/normal_margin"
+                            android:layout_marginStart="@dimen/normal_margin"
                             android:layout_weight="1"
                             android:text="@string/input_review_title_date"
                             android:textColor="@android:color/black"
@@ -142,6 +142,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/normal_margin"
                             android:layout_marginEnd="@dimen/normal_margin"
                             android:layout_weight="1"
                             android:text="@string/input_review_title_review"
@@ -213,7 +214,7 @@
                         <TextView
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/normal_margin"
+                            android:layout_marginStart="@dimen/normal_margin"
                             android:layout_weight="1"
                             android:text="@string/input_review_title_image"
                             android:textColor="@android:color/black"

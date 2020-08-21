@@ -287,7 +287,8 @@ class FragmentTop : Fragment() {
                 val index = view.tag as Int
                 selectViewMenuItem(index)
                 // カテゴリーで検索
-                condCategory = if (index == 0) 0 else dataCategoryArray[index - 1].id
+                // condCategory = if (index == 0) 0 else dataCategoryArray[index - 1].id
+                condCategory = dataCategoryArray[index].id
                 newOnSearch()
             })
             viewMenuItems.add(v)
@@ -303,20 +304,20 @@ class FragmentTop : Fragment() {
         // 非選択
         var beforeColor = COLOR_DIS_CATEGORY_ALL
         if (selectMenuIndex > 0) {
-            beforeColor = MyColor().top_menu_dis_category(dataCategoryArray.get(selectMenuIndex).id)
+            beforeColor = MyColor().top_menu_dis_category(dataCategoryArray[selectMenuIndex].id)
         }
-        viewMenuItems.get(selectMenuIndex).setBackgroundColor(beforeColor)
-        val textViewBefore = viewMenuItems.get(selectMenuIndex).getChildAt(0) as TextView
+        viewMenuItems[selectMenuIndex].setBackgroundColor(beforeColor)
+        val textViewBefore = viewMenuItems[selectMenuIndex].getChildAt(0) as TextView
         textViewBefore.setTextColor(Color.BLACK)
 
         // 選択
         var selectColor = COLOR_CATEGORY_ALL
         if (tag > 0) {
-            selectColor = MyColor().top_menu_category(dataCategoryArray.get(tag).id)
+            selectColor = MyColor().top_menu_category(dataCategoryArray[tag].id)
         }
-        viewMenuItems.get(tag).setBackgroundColor(selectColor)
+        viewMenuItems[tag].setBackgroundColor(selectColor)
         viewMenuUnder.setBackgroundColor(selectColor)
-        val textViewSelect = viewMenuItems.get(tag).getChildAt(0) as TextView
+        val textViewSelect = viewMenuItems[tag].getChildAt(0) as TextView
         textViewSelect.setTextColor(Color.WHITE)
         selectMenuIndex = tag
     }
@@ -342,7 +343,7 @@ class FragmentTop : Fragment() {
         tlp.addRule(RelativeLayout.CENTER_HORIZONTAL, RelativeLayout.TRUE)
         tlp.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE)
         textView.layoutParams = tlp
-        textView.setTypeface(Typeface.DEFAULT_BOLD)
+        textView.typeface = Typeface.DEFAULT_BOLD
         textView.textSize = 13.0f
         textView.setTextColor(Color.BLACK)
         textView.text = name
@@ -745,14 +746,12 @@ class FragmentTop : Fragment() {
                 }
 
                 val datas = json.obj().get("datas") as JSONObject
-                val result = datas.get("result") as Boolean
-                if (result) {
-
+                if (datas.get("result") as Boolean) {
                     val spot_array = datas.getJSONArray("spot_array")
                     for (i in 0..spot_array.length() - 1) {
                         val obj = spot_array.getJSONObject(i)
                         val review_image_list = obj.getJSONArray("review_image_list")
-                        var review_image_array: ArrayList<String> = ArrayList()
+                        val review_image_array: ArrayList<String> = ArrayList()
                         if (review_image_list.length() > 0) {
                             for (j in 0..review_image_list.length() - 1) {
                                 review_image_array.add(review_image_list.getString(j))

@@ -357,10 +357,12 @@ class ActivityInputReview :
         // クチコミ
         layoutReview.visibility =
             if (reviewType == 1) View.VISIBLE else View.GONE
-        buttonReviewClose.visibility = View.INVISIBLE
+        buttonReviewClose.alpha = 0f
         editTextReview.apply {
             setOnFocusChangeListener { view, hasFocus ->
-                buttonReviewClose.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+                Log.i(TAG, if (hasFocus) "Focus" else "NO Focus")
+                // buttonReviewClose.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
+                buttonReviewClose.alpha = if (hasFocus) 1f else 0f
                 if (!isDraft) {
                     layoutNormalButtons.visibility = if (hasFocus) View.GONE else View.VISIBLE
                 } else {

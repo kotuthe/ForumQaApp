@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="net.tochinavi.www.tochinaviapp">
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -50,25 +52,76 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".ActivitySpotReviewImage"></activity>
-        <activity android:name=".ActivityImageZoom" />
-        <activity android:name=".ActivitySpotNeighborMap" />
-        <activity android:name=".ActivitySpotSearchNarrowArea" />
-        <activity android:name=".ActivitySpotSearchNarrowCategory1" />
-        <activity android:name=".ActivitySpotSearchNarrowCategoryMulti" />
-        <activity android:name=".ActivitySpotSearchNarrow" />
-        <activity android:name=".ActivityMyWishList" />
-        <activity android:name=".ActivityMyReviewList" />
-        <activity android:name=".ActivityMyCheckinList" />
-        <activity android:name=".ActivityMyBadgeDetail" />
-        <activity android:name=".ActivityMyBadgeList" />
-        <activity android:name=".ActivitySpotSearchList" />
-        <activity android:name=".ActivityHospitalInfo" />
-        <activity android:name=".ActivitySpotReviewDetail" />
-        <activity android:name=".ActivitySpotInfoDetail" />
-        <activity android:name=".ActivitySpotReviewImageList" />
-        <activity android:name=".ActivitySpotReviewList" />
+        android:theme="@style/AppTheme"
+        tools:ignore="LockedOrientationActivity" >
+        <activity
+            android:name=".ActivitySplash"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
+        <activity android:name=".ActivityMyPageSetting" android:screenOrientation="portrait" />
+        <activity  android:name=".ActivityLogin" android:screenOrientation="portrait" />
+        <activity android:name=".ActivityAppDataUpdate"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ActivityInitDescription"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ActivitySpotInfo" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotReviewImage" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityImageZoom" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotNeighborMap" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotSearchNarrowArea" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotSearchNarrowCategory1" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotSearchNarrowCategoryMulti" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotSearchNarrow" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyWishList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyReviewList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyCheckinList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyBadgeDetail" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyBadgeList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotSearchList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityHospitalInfo" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotReviewDetail" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotInfoDetail" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotReviewImageList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotReviewList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotMap" android:screenOrientation="portrait" />
+        <activity android:name=".ActivitySpotReviewDetail_ImageSearch" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityMyDraftList" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityInputReviewTag" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivityInputReview" android:screenOrientation="portrait"/>
+        <activity android:name=".MapsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotInfo_ImageSearch" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotNeighborNarrowCategorySecond" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotNeighborNarrowCategoryThird" android:screenOrientation="portrait"/>
+        <activity android:name=".ActivitySpotNeighborNarrow" android:screenOrientation="portrait"/>
+
+        <!-- apiデザイン -->
+        <activity
+            android:name="com.andremion.louvre.home.GalleryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Louvre.Light.DarkActionBar" />
+        <activity
+            android:name="com.andremion.louvre.preview.PreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Louvre.Preview" />
+
+        <!-- service -->
+        <service android:name=".entities.ServiceNearWishSpot" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -80,69 +133,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
-        <activity
-            android:name=".ActivitySpotMap"
-            android:label="@string/title_activity_spot_map" />
-        <activity android:name=".ActivitySpotReviewDetail_ImageSearch" />
-        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" />
-        <activity android:name=".ActivityMyDraftList" />
-        <activity android:name=".ActivityInputReviewTag" />
-        <activity android:name=".ActivityInputReview" />
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity android:name=".ActivitySpotInfo_ImageSearch" />
-        <activity android:name=".ActivitySpotNeighborNarrowCategorySecond" />
-        <activity android:name=".ActivitySpotNeighborNarrowCategoryThird" />
-        <activity android:name=".ActivitySpotNeighborNarrow" /> <!-- Splash Screen -->
-        <activity
-            android:name=".ActivitySplash"
-            android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:screenOrientation="portrait" />
-        <!--
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        -->
-        <activity android:name=".ActivityMyPageSetting" />
-        <activity android:name=".ActivityLogin" />
-        <activity
-            android:name=".ActivityAppDataUpdate"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivityInitDescription"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ActivitySpotInfo" /> <!-- apiデザイン -->
-        <activity
-            android:name="com.andremion.louvre.home.GalleryActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Louvre.Light.DarkActionBar" />
-        <activity
-            android:name="com.andremion.louvre.preview.PreviewActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Louvre.Preview" /> <!-- Android9でのHttp通信対策 -->
-        <!-- service -->
-        <service android:name=".entities.ServiceNearWishSpot" />
-
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" /> <!-- Google Map利用の為のAPIキー -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

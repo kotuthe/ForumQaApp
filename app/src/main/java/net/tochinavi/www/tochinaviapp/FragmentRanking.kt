@@ -79,10 +79,10 @@ class FragmentRanking : Fragment() {
         showListViewEmpty(getString(R.string.loading_normal_message))
 
         // タブ　レイアウト
-        val itemReview: View = createTabItem(R.drawable.ic_ranking_tab_review, "クチコミ", false)
+        val itemReview: View = createTabItem(R.drawable.ic_ranking_tab_review, getString(R.string.ranking_tag_review), false)
         tabLayout.getTabAt(0)!!.customView = itemReview
 
-        val itemCheckin: View = createTabItem(R.drawable.ic_ranking_tab_checkin, "チェックイン", true)
+        val itemCheckin: View = createTabItem(R.drawable.ic_ranking_tab_checkin, getString(R.string.ranking_tag_checkin), true)
         tabLayout.getTabAt(1)!!.customView = itemCheckin
 
         tabLayout.clearOnTabSelectedListeners()

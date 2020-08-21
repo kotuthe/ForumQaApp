@@ -66,6 +66,7 @@ class ActivitySpotReviewDetail_ImageSearch :
         setContentView(R.layout.activity_spot_review_detail_image_search)
 
         mContext = applicationContext
+        firebase = FirebaseHelper(mContext)
         functions = Functions(mContext)
 
         // データの取得

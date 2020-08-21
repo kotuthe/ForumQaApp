@@ -60,7 +60,7 @@ class ListRankingAdapter(context: Context, datas: ArrayList<DataRanking>) : Base
         }
 
         val data = arrayData[position]
-        holder.rank!!.text = "%d件".format(data.rank)
+        holder.rank!!.text = "%d位".format(data.rank)
         holder.name!!.text = data.name
         holder.info!!.text = data.detail
         holder.number!!.text = data.result

@@ -96,7 +96,7 @@
                 android:textColor="@android:color/white"
                 android:textStyle="bold"
                 android:textSize="12sp"
-                android:text="レビュー ＞"/>
+                android:text="@string/spot_review_gallery_image_search_detail"/>
 
         </LinearLayout>
 

@@ -41,7 +41,7 @@ class ActivitySpotReviewImage : AppCompatActivity() {
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        if (dataReview.userId > 0) {
+        if (dataReview.userId > 0 || !dataReview.userName.isEmpty()) {
             imageViewUserIcon.load(dataReview.userImage) {
                 placeholder(R.drawable.ic_image_placeholder)
             }
