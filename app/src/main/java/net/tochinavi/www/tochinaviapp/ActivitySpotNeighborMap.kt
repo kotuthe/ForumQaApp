@@ -209,7 +209,6 @@ class ActivitySpotNeighborMap :
         override fun getInfoWindow(marker: Marker): View {
 
             if (activeItem != null) {
-
                 val icon = BitmapFactory.decodeResource(mContext.resources, MyImage().icon_category_pin(activeItem!!.getData().parent_category_id))
                 animeMarker(icon, marker, 1000)
                 marker.tag = activeItem
@@ -222,8 +221,10 @@ class ActivitySpotNeighborMap :
                 info.text = "%s %s".format(data.category, data.distance)
 
                 val imageSpot = view.findViewById<ImageView>(R.id.imageViewSpot)
-                imageSpot.load(activeItem!!.getData().image_url) {
-                    placeholder(R.drawable.ic_image_placeholder)
+                if (!activeItem!!.getData().image_url.isEmpty()) {
+                    imageSpot.load(activeItem!!.getData().image_url) {
+                        placeholder(R.drawable.ic_image_placeholder)
+                    }
                 }
             }
 

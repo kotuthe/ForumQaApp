@@ -57,6 +57,7 @@ class ActivityInputReview :
     }
     // 定数 //
     private val REQUEST_SELECT_IMAGE_PICKER: Int = 1
+    private val REQUEST_SELECT_IMAGE_PICKER_IRREGULAR: Int = 101
     private val REQUEST_ALERT_IMAGE_DELETE: Int = 2
     private val REQUEST_SELECT_TAG: Int = 3
     private val REQUEST_ALERT_POST_CONF: Int = 4 // 投稿する
@@ -248,6 +249,18 @@ class ActivityInputReview :
                     if (uris.count() > 0) {
                         addImageListData(ArrayList(uris))
                     }
+                }
+            }
+            REQUEST_SELECT_IMAGE_PICKER_IRREGULAR -> {
+                // 1枚選択
+                try {
+                    data!!.data.also { uri ->
+                        ifNotNull(uri, {
+                            addImageListData(ArrayList(arrayListOf(it)))
+                        })
+                    }
+                } catch (e: Exception) {
+                    Log.e(TAG, e.toString())
                 }
             }
             REQUEST_SELECT_TAG -> {
@@ -527,12 +540,23 @@ class ActivityInputReview :
                 }
                 imageAdapter!!.TAG_VIEW_ADD -> {
                     // 写真の追加
-                    Louvre.init(this)
-                        .setRequestCode(REQUEST_SELECT_IMAGE_PICKER)
-                        .setMaxSelection(MAX_SELECT_IMAGE - (imageListData.size - 1))
-                        .setSelection(listOf<Uri>())
-                        .setMediaTypeFilter(Louvre.IMAGE_TYPE_JPEG, Louvre.IMAGE_TYPE_PNG, Louvre.IMAGE_TYPE_BMP)
-                        .open()
+                    // 【※あとで】android10がLouvreを使用できないため、GligarPickerを使えるようにする
+                    if (Build.VERSION.SDK_INT >= 29) {
+                        // Android 9以降は1枚ずつ
+                        val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            addCategory(Intent.CATEGORY_OPENABLE)
+                            type = "image/*"
+                        }
+                        startActivityForResult(intent, REQUEST_SELECT_IMAGE_PICKER_IRREGULAR)
+                    } else {
+                        Louvre.init(this)
+                            .setRequestCode(REQUEST_SELECT_IMAGE_PICKER)
+                            .setMaxSelection(MAX_SELECT_IMAGE - (imageListData.size - 1))
+                            .setSelection(listOf<Uri>())
+                            .setMediaTypeFilter(Louvre.IMAGE_TYPE_JPEG, Louvre.IMAGE_TYPE_PNG, Louvre.IMAGE_TYPE_BMP)
+                            .open()
+                    }
+
                 }
             }
         })

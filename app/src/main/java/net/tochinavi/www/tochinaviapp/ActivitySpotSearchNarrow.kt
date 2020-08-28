@@ -61,9 +61,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
     private lateinit var loading: LoadingNormal
 
     // 変数 //
-    private lateinit var mySP: MySharedPreferences
     private lateinit var mContext: Context
-    private var dataCategoryArray: ArrayList<DataCategory1> = ArrayList()
     private var isFirstCategory: Boolean = false
 
     // 条件
@@ -205,6 +203,8 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
             condAreaArray.clear()
             setViewArea()
 
+            // クーポンクリア
+            condCoupon = false
             checkboxCoupon.isChecked = false
         }
 

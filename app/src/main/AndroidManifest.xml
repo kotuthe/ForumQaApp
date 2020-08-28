@@ -24,6 +24,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 通知時の振動機能 -->
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- Release：Nexus7対応 -->
+    <uses-permission android:name="android.permission.CAMERA" /> <!-- カメラ -->
     <!-- 必須機能 -->
     <uses-feature
         android:name="android.hardware.telephony"

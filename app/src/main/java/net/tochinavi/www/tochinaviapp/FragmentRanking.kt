@@ -232,9 +232,8 @@ class FragmentRanking : Fragment() {
             result.fold(success = { json ->
 
                 val datas = json.obj().get("datas") as JSONObject
-                val result = datas.get("result") as Boolean
-                var _listData: ArrayList<DataRanking> = ArrayList()
-                if (result) {
+                val _listData: ArrayList<DataRanking> = ArrayList()
+                if (datas.get("result") as Boolean) {
                     val spot_array = datas.getJSONArray("user_array")
                     for (i in 0..spot_array.length() - 1) {
                         val obj = spot_array.getJSONObject(i)

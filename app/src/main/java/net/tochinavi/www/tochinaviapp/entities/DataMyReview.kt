@@ -7,6 +7,7 @@ class DataMyReview(
     type: Int,
     spotId: Int,
     spotName: String,
+    spotImage: String,
     userId: Int,
     userName: String,
     userImage: String,
@@ -27,6 +28,7 @@ class DataMyReview(
     var type: Int = 0
     var spotId: Int = 0
     var spotName: String = ""
+    var spotImage: String = ""
     var userId: Int = 0
     var userName: String = ""
     var userImage: String = ""
@@ -43,6 +45,7 @@ class DataMyReview(
         this.type = type
         this.spotId = spotId
         this.spotName = spotName
+        this.spotImage = spotImage
         this.userId = userId
         this.userName = userName
         this.userImage = userImage

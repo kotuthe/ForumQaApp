@@ -139,9 +139,9 @@ class ActivitySpotReviewGallery_ImageSearch :
         val item = imageListData[index]
 
         var title = ""
-        if (allNumber >= 2) {
-            // 2以上
-            title = "%d / %d".format(index + 1, allNumber)
+        if (allNumber >= 1) {
+            // 全枚数 = 写真枚数 + 店舗写真
+            title = "%d / %d".format(index + 1, allNumber + 1)
         }
         textViewNumber.text = title
 

@@ -113,7 +113,7 @@ class ActivityMyReviewList : AppCompatActivity() {
                     val dataSpot = DataSpotInfo(
                         item.spotId,
                         1,
-                        "",
+                        item.spotImage,
                         false,
                         item.spotName,
                         "",
@@ -289,6 +289,7 @@ class ActivityMyReviewList : AppCompatActivity() {
                             obj.getInt("type"),
                             obj.getInt("spot_id"),
                             obj.getString("spot_name"),
+                            obj.getString("spot_image"),
                             obj.getInt("user_id"),
                             obj.getString("user_name"),
                             obj.getString("user_image"),

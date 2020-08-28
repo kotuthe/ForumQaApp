@@ -3,6 +3,7 @@ package net.tochinavi.www.tochinaviapp
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
@@ -102,6 +103,17 @@ class ActivityMyWishList :
                 false
             }
         }
+
+        // リフレッシュ
+        refreshLayout.apply {
+            setColorSchemeResources(R.color.colorIosBlue)
+
+            setOnRefreshListener {
+                doRefresh()
+                // 数秒後に消す
+                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+            }
+        }
         getData()
     }
 
@@ -139,12 +151,27 @@ class ActivityMyWishList :
     }
 
     /**
+     * リフレッシュ
+     */
+    private fun doRefresh() {
+        isEndScroll = false
+        condPage = 1
+
+        getData()
+    }
+
+    /**
      * クチコミの取得
      */
     private fun getData() {
         HttpMyPage(mContext).get_wish_list(
             condPage,
             { datas, all_number ->
+                if (condPage == 1 && listData.count() > 0) {
+                    listView.setSelection(0)
+                    listData.clear()
+                    mAdapter.notifyDataSetChanged()
+                }
                 textViewParams.text = "%d件".format(all_number)
                 listData.addAll(datas)
                 mAdapter.notifyDataSetChanged()
