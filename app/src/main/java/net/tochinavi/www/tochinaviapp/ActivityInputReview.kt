@@ -1,17 +1,20 @@
 package net.tochinavi.www.tochinaviapp
 
+import android.Manifest
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
+import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.database.Cursor
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
-import android.os.VibrationEffect
-import android.os.Vibrator
+import android.os.*
+import android.provider.DocumentsContract
+import android.provider.MediaStore
 import android.util.Log
 import android.view.Gravity
 import android.view.KeyEvent
@@ -20,8 +23,10 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -82,6 +87,7 @@ class ActivityInputReview :
     private var imageAdapter: RecyclerInputReviewAdapter? = null
     private var imageListData: ArrayList<Uri?> = arrayListOf(null) // 最初にnullを１つ入れる
     private var deleteItemIndex: Int = 0
+    private var isSelectImageIrregular: Boolean = false
 
     // Web写真やりとり
     private var taskDLImage: TaskDownloadImage? = null
@@ -97,6 +103,8 @@ class ActivityInputReview :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_review)
 
+
+        isSelectImageIrregular = Build.VERSION.SDK_INT >= 29
 
         mContext = applicationContext
         mySP = MySharedPreferences(mContext!!)
@@ -132,6 +140,27 @@ class ActivityInputReview :
         textViewSpotName.text = dataSpot.name
 
         initLayout()
+
+
+        // ここあとで作り直す
+        val REQUEST_EXTERNAL_STORAGE = 1
+        val PERMISSIONS_STORAGE = arrayOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+        val permission: Int = ActivityCompat.checkSelfPermission(
+            this,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so Prompt the user
+            ActivityCompat.requestPermissions(
+                this,
+                PERMISSIONS_STORAGE,
+                REQUEST_EXTERNAL_STORAGE
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -274,6 +303,10 @@ class ActivityInputReview :
             }
         }
     }
+
+
+
+
 
     /**
      * アラート　ポジティブ
@@ -541,13 +574,26 @@ class ActivityInputReview :
                 imageAdapter!!.TAG_VIEW_ADD -> {
                     // 写真の追加
                     // 【※あとで】android10がLouvreを使用できないため、GligarPickerを使えるようにする
-                    if (Build.VERSION.SDK_INT >= 29) {
+                    if (isSelectImageIrregular) { // isSelectImageIrregular
                         // Android 9以降は1枚ずつ
+                        // val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                        //     addCategory(Intent.CATEGORY_OPENABLE)
+                        //     type = "image/*"
+                        // }
+
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
+                            /*addFlags(
+                                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                                        or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                        or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+                                        or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
+                            )*/
                             addCategory(Intent.CATEGORY_OPENABLE)
                             type = "image/*"
                         }
                         startActivityForResult(intent, REQUEST_SELECT_IMAGE_PICKER_IRREGULAR)
+
+
                     } else {
                         Louvre.init(this)
                             .setRequestCode(REQUEST_SELECT_IMAGE_PICKER)
@@ -906,6 +952,96 @@ class ActivityInputReview :
         alert.show(supportFragmentManager, AlertNormal.TAG)
     }
 
+    // Uriからファイルの作成
+    // AndroidQのみ動かす
+    private fun convertUriToFile(uri: Uri): File {
+
+        var path = ""
+        if (DocumentsContract.isDocumentUri(mContext!!, uri)) {
+            if ("com.android.externalstorage.documents" == uri.authority) {
+                // ExternalStorageProvider
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":").toTypedArray()
+                val type = split[0]
+                if ("primary".equals(type, ignoreCase = true)) {
+                    path = Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                } else {
+                    path = "/stroage/" + type + "/" + split[1]
+                }
+            } else if ("com.android.providers.downloads.documents" == uri.authority) {
+                // DownloadsProvider
+                val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME)
+                val c: Cursor? = mContext!!.contentResolver.query(uri, projection, null, null, null)
+                var fileName = ""
+                if (c != null) {
+                    if (c.moveToFirst()) {
+                        fileName = c.getString(
+                            c.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
+                        )
+                    }
+                    c.close()
+                }
+                path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/" + fileName
+            } else if ("com.android.providers.media.documents" == uri.authority) {
+                // MediaProvider
+                val docId = DocumentsContract.getDocumentId(uri)
+                val split = docId.split(":").toTypedArray()
+                val type = split[0]
+                val contentUri: Uri? = MediaStore.Files.getContentUri("external")
+                val selection = "_id=?"
+                val selectionArgs = arrayOf(
+                    split[1]
+                )
+                // path = getDataColumn(mContext!!, contentUri, selection, selectionArgs)!!
+
+                var c: Cursor? = null
+                val projection = arrayOf(MediaStore.Files.FileColumns.DATA)
+                try {
+                    c = mContext!!.contentResolver.query(
+                        contentUri!!, projection, selection, selectionArgs, null
+                    )
+                    if (c != null && c.moveToFirst()) {
+                        val cindex = c.getColumnIndexOrThrow(projection[0])
+                        path = c.getString(cindex)
+                    }
+                } finally {
+                    c?.close()
+                }
+
+            }
+        }
+
+        return File(path)
+
+    }
+
+
+    /*
+    fun getDataColumn(
+        context: Context, uri: Uri?, selection: String?,
+        selectionArgs: Array<String>?
+    ): String? {
+        var cursor: Cursor? = null
+        val projection = arrayOf(
+            MediaStore.Files.FileColumns.DATA
+        )
+        try {
+            cursor = context.contentResolver.query(
+                uri!!, projection, selection, selectionArgs, null
+            )
+            if (cursor != null && cursor.moveToFirst()) {
+                val cindex = cursor.getColumnIndexOrThrow(projection[0])
+                return cursor.getString(cindex)
+            }
+        } finally {
+            cursor?.close()
+        }
+        return null
+    }
+    */
+
+
+
     /**
      * 写真のアップロード(isDraft: 下書き投稿)
      */
@@ -918,7 +1054,13 @@ class ActivityInputReview :
         val files: ArrayList<File> = arrayListOf()
         for (i in 0..imageListData.count() - 1) {
             if (imageListData[i] != null) {
-                files.add(File(imageListData[i]!!.path!!))
+                val uri: Uri = imageListData[i]!!
+                if (isSelectImageIrregular) {
+                    // try catchする
+                    files.add(convertUriToFile(uri))
+                } else {
+                    files.add(File(uri.path!!))
+                }
             }
         }
 

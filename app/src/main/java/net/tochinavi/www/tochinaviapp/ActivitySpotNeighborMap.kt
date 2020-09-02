@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.os.AsyncTask
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.MenuItem
@@ -32,6 +34,12 @@ import com.google.maps.android.ui.IconGenerator
 import net.tochinavi.www.tochinaviapp.entities.DataSpotList
 import net.tochinavi.www.tochinaviapp.network.FirebaseHelper
 import net.tochinavi.www.tochinaviapp.value.MyImage
+import java.io.IOException
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.MalformedURLException
+import java.net.ProtocolException
+import java.net.URL
 import kotlin.math.roundToInt
 
 
@@ -201,29 +209,38 @@ class ActivitySpotNeighborMap :
     inner class MyInfoWindowAdapter(activity: Activity) : InfoWindowAdapter {
         private val view: View
         private val mContext = activity
+        private var lastMarker: Marker? = null
 
         init {
             view = activity.layoutInflater.inflate(R.layout.cell_spot_neighbor_map, null)
         }
 
         override fun getInfoWindow(marker: Marker): View {
+            if (lastMarker == null || !lastMarker!!.equals(marker)) {
+                lastMarker = marker
 
-            if (activeItem != null) {
-                val icon = BitmapFactory.decodeResource(mContext.resources, MyImage().icon_category_pin(activeItem!!.getData().parent_category_id))
-                animeMarker(icon, marker, 1000)
-                marker.tag = activeItem
+                if (activeItem != null) {
+                    val icon = BitmapFactory.decodeResource(mContext.resources, MyImage().icon_category_pin(activeItem!!.getData().parent_category_id))
+                    animeMarker(icon, marker, 1000)
+                    marker.tag = activeItem
 
-                val name = view.findViewById<TextView>(R.id.textViewName)
-                name.text = activeItem!!.title
+                    val name = view.findViewById<TextView>(R.id.textViewName)
+                    name.text = activeItem!!.title
 
-                val info = view.findViewById<TextView>(R.id.textViewInfo)
-                val data = activeItem!!.getData()
-                info.text = "%s %s".format(data.category, data.distance)
+                    val info = view.findViewById<TextView>(R.id.textViewInfo)
+                    val data = activeItem!!.getData()
+                    info.text = "%s %s".format(data.category, data.distance)
 
-                val imageSpot = view.findViewById<ImageView>(R.id.imageViewSpot)
-                if (!activeItem!!.getData().image_url.isEmpty()) {
-                    imageSpot.load(activeItem!!.getData().image_url) {
-                        placeholder(R.drawable.ic_image_placeholder)
+                    val imageSpot = view.findViewById<ImageView>(R.id.imageViewSpot)
+                    if (!activeItem!!.getData().image_url.isEmpty()) {
+                        // Android10以上がTaskWebMarkerImage、それ以外はcoilで
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            TaskWebMarkerImage(imageSpot, lastMarker!!).execute(activeItem!!.getData().image_url)
+                        } else {
+                            imageSpot.load(activeItem!!.getData().image_url) {
+                                placeholder(R.drawable.ic_image_placeholder)
+                            }
+                        }
                     }
                 }
             }
@@ -235,6 +252,53 @@ class ActivitySpotNeighborMap :
             TODO("Not yet implemented")
         }
 
+    }
+
+    /**
+     * マーカーの画像をダウンロード
+     */
+    inner class TaskWebMarkerImage internal constructor(img: ImageView, marker: Marker) :
+        AsyncTask<String, Void?, Bitmap?>() {
+
+        var img: ImageView
+        var marker: Marker
+
+        init {
+            this.img = img
+            this.marker = marker
+        }
+
+        override fun doInBackground(vararg strings: String): Bitmap? {
+            var bmp: Bitmap? = null
+            try {
+                val urlStr = strings[0]
+                val url = URL(urlStr)
+                val con: HttpURLConnection = url.openConnection() as HttpURLConnection
+                con.requestMethod = "GET"
+                con.connect()
+                when (con.responseCode) {
+                    HttpURLConnection.HTTP_OK -> {
+                        val `is`: InputStream = con.inputStream
+                        bmp = BitmapFactory.decodeStream(`is`)
+                        `is`.close()
+                    }
+                    else -> {
+                    }
+                }
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: ProtocolException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+            return bmp
+        }
+
+        override fun onPostExecute(bmp: Bitmap?) {
+            img.setImageBitmap(bmp)
+            marker.showInfoWindow()
+        }
     }
 
     /**
