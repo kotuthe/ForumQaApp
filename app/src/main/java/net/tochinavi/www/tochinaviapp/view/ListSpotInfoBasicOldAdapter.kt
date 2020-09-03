@@ -24,6 +24,7 @@ class ListSpotInfoBasicOldAdapter(context: Context, datas: ArrayList<DataSpotInf
     internal class ViewHolder {
         var icon: ImageView? = null
         var title: TextView? = null
+        var arrow: ImageView? = null
     }
 
     init {
@@ -52,24 +53,27 @@ class ListSpotInfoBasicOldAdapter(context: Context, datas: ArrayList<DataSpotInf
             holder = ViewHolder()
             holder.icon = view.findViewById(R.id.imageViewIcon)
             holder.title = view.findViewById(R.id.textViewTitle)
+            holder.arrow = view.findViewById(R.id.imageViewArrow)
             view.tag = holder
         } else {
             holder = view!!.tag as ViewHolder
         }
 
-
         val item = arrayData[position]
         var icon: Int = 0
         var color: Int = Color.BLACK
         var textAlign = View.TEXT_ALIGNMENT_TEXT_START
+        var isArrow: Boolean = false
         when (item.type) {
             Constants.SPOT_BASIC_INFO_TYPE.address -> {
                 icon = R.drawable.img_spot_info_map
                 color = ContextCompat.getColor(mContext, R.color.colorLinkBlue)
+                isArrow = true
             }
             Constants.SPOT_BASIC_INFO_TYPE.phone -> {
                 icon = R.drawable.img_spot_info_phone
                 color = ContextCompat.getColor(mContext, R.color.colorLinkBlue)
+                isArrow = true
             }
             Constants.SPOT_BASIC_INFO_TYPE.hour -> {
                 icon = R.drawable.img_spot_info_hour
@@ -80,10 +84,12 @@ class ListSpotInfoBasicOldAdapter(context: Context, datas: ArrayList<DataSpotInf
             Constants.SPOT_BASIC_INFO_TYPE.coupon -> {
                 icon = R.drawable.img_spot_info_coupon_red
                 color = ContextCompat.getColor(mContext, R.color.colorCoupon)
+                isArrow = true
             }
             Constants.SPOT_BASIC_INFO_TYPE.more_detail -> {
                 textAlign = View.TEXT_ALIGNMENT_TEXT_END
                 color = ContextCompat.getColor(mContext, R.color.colorLinkBlue)
+                isArrow = true
             }
             else -> {
             }
@@ -104,6 +110,7 @@ class ListSpotInfoBasicOldAdapter(context: Context, datas: ArrayList<DataSpotInf
             }
         }
 
+        holder.arrow!!.visibility = if (isArrow) View.VISIBLE else View.INVISIBLE
 
         return view!!
     }

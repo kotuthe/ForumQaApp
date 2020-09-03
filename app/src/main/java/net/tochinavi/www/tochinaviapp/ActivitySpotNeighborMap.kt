@@ -233,14 +233,17 @@ class ActivitySpotNeighborMap :
 
                     val imageSpot = view.findViewById<ImageView>(R.id.imageViewSpot)
                     if (!activeItem!!.getData().image_url.isEmpty()) {
-                        // Android10以上がTaskWebMarkerImage、それ以外はcoilで
-                        if (Build.VERSION.SDK_INT >= 29) {
+                        // coilがうまく動作しないため
+                        TaskWebMarkerImage(imageSpot, lastMarker!!).execute(activeItem!!.getData().image_url)
+                        /*
+                        if (Build.VERSION.SDK_INT >= 28) {
                             TaskWebMarkerImage(imageSpot, lastMarker!!).execute(activeItem!!.getData().image_url)
                         } else {
                             imageSpot.load(activeItem!!.getData().image_url) {
                                 placeholder(R.drawable.ic_image_placeholder)
                             }
                         }
+                        */
                     }
                 }
             }

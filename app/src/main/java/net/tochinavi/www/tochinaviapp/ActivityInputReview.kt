@@ -63,6 +63,7 @@ class ActivityInputReview :
     // 定数 //
     private val REQUEST_SELECT_IMAGE_PICKER: Int = 1
     private val REQUEST_SELECT_IMAGE_PICKER_IRREGULAR: Int = 101
+    private val REQUEST_PERMISSION_STORAGE: Int = 102
     private val REQUEST_ALERT_IMAGE_DELETE: Int = 2
     private val REQUEST_SELECT_TAG: Int = 3
     private val REQUEST_ALERT_POST_CONF: Int = 4 // 投稿する
@@ -103,7 +104,6 @@ class ActivityInputReview :
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_input_review)
 
-
         isSelectImageIrregular = Build.VERSION.SDK_INT >= 29
 
         mContext = applicationContext
@@ -140,27 +140,7 @@ class ActivityInputReview :
         textViewSpotName.text = dataSpot.name
 
         initLayout()
-
-
-        // ここあとで作り直す
-        val REQUEST_EXTERNAL_STORAGE = 1
-        val PERMISSIONS_STORAGE = arrayOf(
-            Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-        val permission: Int = ActivityCompat.checkSelfPermission(
-            this,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
-        )
-
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            // We don't have permission so Prompt the user
-            ActivityCompat.requestPermissions(
-                this,
-                PERMISSIONS_STORAGE,
-                REQUEST_EXTERNAL_STORAGE
-            )
-        }
+        requestStoragePermission()
     }
 
     override fun onDestroy() {
@@ -200,6 +180,44 @@ class ActivityInputReview :
             negativeLabel = "キャンセル"
         )
         alert.show(supportFragmentManager, AlertNormal.TAG)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode) {
+            REQUEST_PERMISSION_STORAGE -> {
+                if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    // 拒否された時
+                    // 画像投稿できませんよアラート
+                    val alert = AlertNormal.newInstance(
+                        requestCode = 0,
+                        title = "ストレージ権限の許可をしてください",
+                        msg = "許可をすると写真を投稿を行えます",
+                        positiveLabel = "OK",
+                        negativeLabel = null
+                    )
+                    alert.show(supportFragmentManager, AlertNormal.TAG)
+
+                }
+            }
+        }
+    }
+
+    private fun requestStoragePermission() {
+        if (isSelectImageIrregular && Build.VERSION.SDK_INT >= 23) {
+            if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+                requestPermissions(
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE),
+                    REQUEST_PERMISSION_STORAGE)
+            }
+        }
     }
 
     /**
@@ -576,18 +594,7 @@ class ActivityInputReview :
                     // 【※あとで】android10がLouvreを使用できないため、GligarPickerを使えるようにする
                     if (isSelectImageIrregular) { // isSelectImageIrregular
                         // Android 9以降は1枚ずつ
-                        // val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                        //     addCategory(Intent.CATEGORY_OPENABLE)
-                        //     type = "image/*"
-                        // }
-
                         val intent = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
-                            /*addFlags(
-                                Intent.FLAG_GRANT_READ_URI_PERMISSION
-                                        or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
-                                        or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                                        or Intent.FLAG_GRANT_PREFIX_URI_PERMISSION
-                            )*/
                             addCategory(Intent.CATEGORY_OPENABLE)
                             type = "image/*"
                         }
@@ -836,7 +843,7 @@ class ActivityInputReview :
 
         val isVisitDate = condVisitDate[0] != 0
         val isReview = editTextReview.length() > 0
-        var isImage = isImages()
+        val isImage = isImages()
 
         var enable = true
         when (reviewType) {
@@ -952,10 +959,8 @@ class ActivityInputReview :
         alert.show(supportFragmentManager, AlertNormal.TAG)
     }
 
-    // Uriからファイルの作成
-    // AndroidQのみ動かす
-    private fun convertUriToFile(uri: Uri): File {
-
+    // Uriからファイルの作成 ※ AndroidQのみで動作する
+    private fun convertUriToFile(uri: Uri): File? {
         var path = ""
         if (DocumentsContract.isDocumentUri(mContext!!, uri)) {
             if ("com.android.externalstorage.documents" == uri.authority) {
@@ -964,35 +969,34 @@ class ActivityInputReview :
                 val split = docId.split(":").toTypedArray()
                 val type = split[0]
                 if ("primary".equals(type, ignoreCase = true)) {
-                    path = Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                    // path = Environment.getExternalStorageDirectory().toString() + "/" + split[1]
+                    path = "%s/%s".format(Environment.getExternalStorageDirectory().toString(), split[1])
                 } else {
-                    path = "/stroage/" + type + "/" + split[1]
+                    // path = "/stroage/" + type + "/" + split[1]
+                    path = "/stroage/%s/%s".format(type, split[1])
                 }
             } else if ("com.android.providers.downloads.documents" == uri.authority) {
                 // DownloadsProvider
-                val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME)
-                val c: Cursor? = mContext!!.contentResolver.query(uri, projection, null, null, null)
                 var fileName = ""
-                if (c != null) {
-                    if (c.moveToFirst()) {
+                var c: Cursor? = null
+                try {
+                    val projection = arrayOf(MediaStore.MediaColumns.DISPLAY_NAME)
+                    c = mContext!!.contentResolver.query(uri, projection, null, null, null)
+                    if (c != null && c.moveToFirst()) {
                         fileName = c.getString(
-                            c.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME)
-                        )
+                            c.getColumnIndexOrThrow(MediaStore.MediaColumns.DISPLAY_NAME))
                     }
-                    c.close()
+                } finally {
+                    c?.close()
                 }
-                path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString() + "/" + fileName
+                path = "%s/%s".format(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS).toString(), fileName)
             } else if ("com.android.providers.media.documents" == uri.authority) {
                 // MediaProvider
                 val docId = DocumentsContract.getDocumentId(uri)
                 val split = docId.split(":").toTypedArray()
-                val type = split[0]
                 val contentUri: Uri? = MediaStore.Files.getContentUri("external")
                 val selection = "_id=?"
-                val selectionArgs = arrayOf(
-                    split[1]
-                )
-                // path = getDataColumn(mContext!!, contentUri, selection, selectionArgs)!!
+                val selectionArgs = arrayOf(split[1])
 
                 var c: Cursor? = null
                 val projection = arrayOf(MediaStore.Files.FileColumns.DATA)
@@ -1007,62 +1011,51 @@ class ActivityInputReview :
                 } finally {
                     c?.close()
                 }
-
             }
+        } else {
+            try {
+                path = uri.path!!
+            } catch (e: Exception) {}
+        }
+
+        if (path.isEmpty()) {
+            return null
         }
 
         return File(path)
-
     }
-
-
-    /*
-    fun getDataColumn(
-        context: Context, uri: Uri?, selection: String?,
-        selectionArgs: Array<String>?
-    ): String? {
-        var cursor: Cursor? = null
-        val projection = arrayOf(
-            MediaStore.Files.FileColumns.DATA
-        )
-        try {
-            cursor = context.contentResolver.query(
-                uri!!, projection, selection, selectionArgs, null
-            )
-            if (cursor != null && cursor.moveToFirst()) {
-                val cindex = cursor.getColumnIndexOrThrow(projection[0])
-                return cursor.getString(cindex)
-            }
-        } finally {
-            cursor?.close()
-        }
-        return null
-    }
-    */
-
-
 
     /**
      * 写真のアップロード(isDraft: 下書き投稿)
      */
     private fun uploadImage(isDraft: Boolean = false) {
 
-        loading.updateLayout("写真をアップロードしています...", true)
-
-        val url = MyString().my_http_url_app() + "/review/upload_image.php"
-
         val files: ArrayList<File> = arrayListOf()
         for (i in 0..imageListData.count() - 1) {
             if (imageListData[i] != null) {
                 val uri: Uri = imageListData[i]!!
-                if (isSelectImageIrregular) {
-                    // try catchする
-                    files.add(convertUriToFile(uri))
-                } else {
-                    files.add(File(uri.path!!))
+                try {
+                    if (isSelectImageIrregular) {
+                        files.add(convertUriToFile(uri)!!)
+                    } else {
+                        files.add(File(uri.path!!))
+                    }
+                } catch (e: Exception) {
+                    val alert = AlertNormal.newInstance(
+                        requestCode = REQUEST_ALERT_TOCHIGI_ALE,
+                        title = "写真をアップロードできませんでした",
+                        msg = "写真がアプリに対応しておりません",
+                        positiveLabel = "OK",
+                        negativeLabel = null
+                    )
+                    alert.show(supportFragmentManager, AlertNormal.TAG)
+                    return
                 }
             }
         }
+
+        loading.updateLayout("写真をアップロードしています...", true)
+        val url = MyString().my_http_url_app() + "/review/upload_image.php"
 
         url.httpUpload(Method.POST)
             .sources { request, url ->
@@ -1233,7 +1226,6 @@ class ActivityInputReview :
 
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->
-                println(json)
                 val datas = json.obj().get("datas") as JSONObject
                 if (datas.get("result") as Boolean) {
                     // 完了メッセージ
