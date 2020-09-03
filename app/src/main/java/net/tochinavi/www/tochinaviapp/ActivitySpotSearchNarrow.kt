@@ -16,7 +16,6 @@ import net.tochinavi.www.tochinaviapp.entities.DataCategory2
 import net.tochinavi.www.tochinaviapp.entities.DataCategory3
 import net.tochinavi.www.tochinaviapp.entities.DataNarrowMulti
 import net.tochinavi.www.tochinaviapp.storage.*
-import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.view.LoadingNormal
 
 

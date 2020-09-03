@@ -246,8 +246,6 @@ class ActivityMyReviewList : AppCompatActivity() {
             }
         }
 
-        println(params)
-
         val url = MyString().my_http_url_app() + "/mypage/v2/get_review_list.php"
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->

@@ -217,8 +217,6 @@ class ActivityMyDraftList :
             }
         }
 
-        println(params)
-
         val url = MyString().my_http_url_app() + "/mypage/get_draft_review_list.php"
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->

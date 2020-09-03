@@ -5,7 +5,6 @@ import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
-import android.content.ContentUris
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
@@ -23,10 +22,8 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
@@ -264,7 +261,6 @@ class ActivityInputReview :
      * ギャラーから追加した画像
      */
     private fun addImageListData(uris: ArrayList<Uri>) {
-        println(uris)
         for (i in 0..uris.size - 1) {
             imageListData[imageListData.size - 1] = uris[i]
             if (imageListData.size < MAX_SELECT_IMAGE) {
@@ -424,7 +420,6 @@ class ActivityInputReview :
         buttonReviewClose.alpha = 0f
         editTextReview.apply {
             setOnFocusChangeListener { view, hasFocus ->
-                Log.i(TAG, if (hasFocus) "Focus" else "NO Focus")
                 // buttonReviewClose.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
                 buttonReviewClose.alpha = if (hasFocus) 1f else 0f
                 if (!isDraft) {
@@ -1274,7 +1269,6 @@ class ActivityInputReview :
 
         url.httpGet(params).responseJson { request, response, result ->
             result.fold(success = { json ->
-                println(json)
                 val datas = json.obj().get("datas") as JSONObject
                 if (datas.get("result") as Boolean) {
                     // 完了メッセージ
