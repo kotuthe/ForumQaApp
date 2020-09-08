@@ -6,13 +6,21 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.google.gms.google-services'
 
 android {
+    signingConfigs {
+        debug {
+            storeFile file('/Users/kotouno/android_workspace/storefile/TochinaviApp.keystore')
+            storePassword 'yamazen'
+            keyAlias = 'pjrdev'
+            keyPassword 'yamazen'
+        }
+    }
     compileSdkVersion 29
     buildToolsVersion "29.0.2"
     defaultConfig {
         applicationId "net.tochinavi.www.tochinaviapp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1
+        versionCode 27
         versionName "5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -20,6 +28,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     // Keep the following configuration in order to target Java 8.
@@ -74,8 +83,7 @@ dependencies {
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
 }
 
-
-/*  TochinaviApp
+/*  TochinaviApp kotlin化前
     api fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
