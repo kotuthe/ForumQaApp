@@ -49,7 +49,7 @@ class ActivitySplash : Activity() {
             db.endTransaction()
             db.cleanup()
             // Topへ遷移
-            mHandler.postDelayed(mRunnable, 800)
+                mHandler.postDelayed(mRunnable, 800)
         }
 
     }

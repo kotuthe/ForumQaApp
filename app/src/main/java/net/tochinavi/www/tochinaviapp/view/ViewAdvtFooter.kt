@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.View
 import android.widget.FrameLayout
-import coil.api.load
+import coil.load
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import kotlinx.android.synthetic.main.view_advt_footer.view.*

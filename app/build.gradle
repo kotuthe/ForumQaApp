@@ -8,21 +8,22 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
         debug {
-            storeFile file('/Users/kotouno/android_workspace/storefile/TochinaviApp.keystore')
+            storeFile file('C:\\Git\\android\\storefile\\TochinaviApp.keystore')
             storePassword 'yamazen'
             keyAlias = 'pjrdev'
             keyPassword 'yamazen'
         }
     }
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 33
+    buildToolsVersion "30.0.3"
     defaultConfig {
         applicationId "net.tochinavi.www.tochinaviapp"
         minSdkVersion 21
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 27
         versionName "5.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -75,7 +76,7 @@ dependencies {
     implementation 'com.github.kittinunf.fuel:fuel-forge:1.15.1' //for Forge support
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     // image
-    implementation 'io.coil-kt:coil:0.8.0'
+    implementation 'io.coil-kt:coil:2.2.2'
     // Blur
     implementation 'jp.wasabeef:blurry:3.+'
     // image picker

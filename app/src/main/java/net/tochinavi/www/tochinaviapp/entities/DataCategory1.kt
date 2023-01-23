@@ -55,10 +55,10 @@ class DataCategory1(
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest!!.writeInt(id)
-        dest!!.writeString(name)
-        dest!!.writeString(sub_title)
+    override fun writeToParcel(p0: Parcel, flags: Int) {
+        p0.writeInt(id)
+        p0.writeString(name)
+        p0.writeString(sub_title)
     }
 
 }

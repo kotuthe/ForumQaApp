@@ -12,7 +12,7 @@ import android.widget.Button
 import android.widget.ImageView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
 

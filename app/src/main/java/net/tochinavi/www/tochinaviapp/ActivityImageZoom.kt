@@ -8,7 +8,7 @@ import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GestureDetectorCompat
 import coil.Coil
-import coil.api.load
+import coil.load
 import kotlinx.android.synthetic.main.activity_image_zoom.*
 
 class ActivityImageZoom : AppCompatActivity() {
@@ -39,12 +39,13 @@ class ActivityImageZoom : AppCompatActivity() {
 
         }*/
 
-        Coil.load(applicationContext, "https://www.tochinavi.net/img/kuchikomi/02/IMG01_f3d1329e1b59c81151b2c822d707fe16f2bab124.jpg") {
+        // ※後で調整する
+        /*Coil.load(applicationContext, "https://www.tochinavi.net/img/kuchikomi/02/IMG01_f3d1329e1b59c81151b2c822d707fe16f2bab124.jpg") {
             target { drawable ->
                 imageView.setImageDrawable(drawable)
                 onLoadedImage()
             }
-        }
+        }*/
     }
 
     private fun onLoadedImage() {
@@ -87,8 +88,10 @@ class ActivityImageZoom : AppCompatActivity() {
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
-        mScaleGestureDetector.onTouchEvent(event)
-        mPanGestureDetector.onTouchEvent(event)
+        if (event != null) {
+            mScaleGestureDetector.onTouchEvent(event)
+            mPanGestureDetector.onTouchEvent(event)
+        }
         return true
     }
 

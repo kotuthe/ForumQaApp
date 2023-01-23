@@ -19,7 +19,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import coil.api.load
+import coil.load
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -165,7 +165,7 @@ class ActivityHospitalInfo :
         when (requestCode) {
             // ログイン後
             REQUEST_IN_LOGIN -> {
-                if (resultCode == Activity.RESULT_OK) {
+                if (resultCode == RESULT_OK) {
                     // スポットページの更新
                     getSpotData()
                 }
@@ -593,7 +593,7 @@ class ActivityHospitalInfo :
     /** 位置情報取得 -> スポット取得 or チェックイン **/
     private fun setLocation() {
         // 端末の位置情報サービスをチェック
-        val manager = mContext.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val manager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // パーミッションのチェックが必要か確認
             if (Build.VERSION.SDK_INT >= 23) {

@@ -185,6 +185,7 @@ class ActivityLogin : AppCompatActivity() {
     inner class myAsyncDLUserIcon : AsyncTask<String, Int, Void>() {
 
         var bitmap: Bitmap? = null
+        @Deprecated("Deprecated in Java")
         override fun onPreExecute() {
             // 開始
         }

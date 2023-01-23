@@ -31,10 +31,7 @@ import net.tochinavi.www.tochinaviapp.storage.*
 import net.tochinavi.www.tochinaviapp.value.MySharedPreferences
 import net.tochinavi.www.tochinaviapp.value.MyString
 import net.tochinavi.www.tochinaviapp.value.ifNotNull
-import net.tochinavi.www.tochinaviapp.view.AlertNormal
-import net.tochinavi.www.tochinaviapp.view.ListSpotNeighborAdapter
-import net.tochinavi.www.tochinaviapp.view.LoadingNormal
-import net.tochinavi.www.tochinaviapp.view.TouchListenerSetSpeed
+import net.tochinavi.www.tochinaviapp.view.*
 import org.json.JSONObject
 
 class ActivitySpotSearchList : AppCompatActivity() {
@@ -79,7 +76,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
         mySP = MySharedPreferences(mContext)
-        condWord = intent.getStringExtra("word")
+        condWord = intent.getStringExtra("word").toString()
 
         ifNotNull(intent.getIntExtra("category", 0), {
             if (it > 0) {
@@ -166,6 +163,9 @@ class ActivitySpotSearchList : AppCompatActivity() {
         }
 
         setTextViewParams()
+
+        // 広告
+        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearchList, resources)
     }
 
     override fun onPause() {

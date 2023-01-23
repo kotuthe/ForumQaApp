@@ -3,7 +3,7 @@ package net.tochinavi.www.tochinaviapp.entities
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
-
+import kotlinx.android.parcel.Parcelize
 
 class DataArea1(
     id: Int = 0,
@@ -51,9 +51,9 @@ class DataArea1(
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest!!.writeInt(id)
-        dest!!.writeString(name)
+    override fun writeToParcel(p0: Parcel, flags: Int) {
+        p0.writeInt(id)
+        p0.writeString(name)
     }
 
 }

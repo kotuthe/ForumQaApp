@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
-import coil.api.load
+import coil.load
 import kotlinx.android.synthetic.main.activity_spot_review_detail.*
 import kotlinx.android.synthetic.main.view_spot_review_detail_spot.view.*
 import net.tochinavi.www.tochinaviapp.entities.DataSpotInfo

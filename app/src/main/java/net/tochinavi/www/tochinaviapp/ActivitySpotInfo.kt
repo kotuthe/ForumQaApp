@@ -19,7 +19,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import coil.api.load
+import coil.load
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +27,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
 import kotlinx.android.synthetic.main.activity_spot_info.*
+import kotlinx.android.synthetic.main.activity_spot_info.buttonMap
+import kotlinx.android.synthetic.main.activity_spot_info.viewAdvtFooter
+import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_share.view.textViewTitle
 import kotlinx.android.synthetic.main.view_info_spot_basic.view.buttonMap
@@ -538,6 +541,9 @@ class ActivitySpotInfo :
                 })
             }
         }
+
+        // 広告
+        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSpotInfo, resources)
     }
 
     private fun showReviewImageList() {

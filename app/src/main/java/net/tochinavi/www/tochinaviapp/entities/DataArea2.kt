@@ -68,10 +68,10 @@ class DataArea2(
         return 0
     }
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest!!.writeInt(id)
-        dest!!.writeString(name)
-        dest!!.writeInt(parent_id)
+    override fun writeToParcel(p0: Parcel, flags: Int) {
+        p0.writeInt(id)
+        p0.writeString(name)
+        p0.writeInt(parent_id)
     }
 
 }

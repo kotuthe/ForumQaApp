@@ -12,7 +12,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import coil.api.load
+import coil.load
 import net.tochinavi.www.tochinaviapp.R
 import net.tochinavi.www.tochinaviapp.entities.DataBadge
 import net.tochinavi.www.tochinaviapp.value.convertDpToPx
