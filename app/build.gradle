@@ -60,7 +60,7 @@ dependencies {
     // TabLayout(※アップデートするとレイアウト崩れるからそのままで)
     implementation 'com.google.android.material:material:1.0.0'
     // volley
-    implementation 'com.android.volley:volley:1.1.1'
+    implementation 'com.android.volley:volley:1.2.1'
     // Google Play Service
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     // Network
@@ -78,7 +78,7 @@ dependencies {
     // image
     implementation 'io.coil-kt:coil:2.2.2'
     // Blur
-    implementation 'jp.wasabeef:blurry:3.+'
+    implementation 'jp.wasabeef:blurry:4.0.1'
     // image picker
     implementation 'com.github.andremion:louvre:1.2.3'
     implementation 'com.google.maps.android:android-maps-utils:0.5+'
