@@ -129,7 +129,7 @@ class FragmentMyPage : Fragment() {
     override fun onResume() {
         super.onResume()
         if (activity != null) {
-            activity!!.title = getString(R.string.mypage_title)
+            requireActivity().title = getString(R.string.mypage_title)
         }
     }
 

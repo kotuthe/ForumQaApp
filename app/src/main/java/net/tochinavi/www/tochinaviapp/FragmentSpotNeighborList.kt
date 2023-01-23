@@ -81,8 +81,8 @@ class FragmentSpotNeighborList : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        firebase = FirebaseHelper(context!!)
-        mySP = MySharedPreferences(context!!)
+        firebase = FirebaseHelper(requireContext())
+        mySP = MySharedPreferences(requireContext())
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -104,7 +104,7 @@ class FragmentSpotNeighborList : Fragment() {
         }
 
         // listViewの初期化
-        mAdapter = ListSpotNeighborAdapter(context!!, listData)
+        mAdapter = ListSpotNeighborAdapter(requireContext(), listData)
         listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
@@ -157,7 +157,7 @@ class FragmentSpotNeighborList : Fragment() {
                 condPage = 1
                 mLocation = null
 
-                loading!!.show(fragmentManager!!, LoadingNormal.TAG)
+                loading!!.show(parentFragmentManager, LoadingNormal.TAG)
                 loading!!.updateLayout(getString(R.string.loading_normal_message), true)
 
                 // 位置情報を更新してから検索
@@ -192,7 +192,7 @@ class FragmentSpotNeighborList : Fragment() {
         super.onResume()
 
         if (activity != null) {
-            activity!!.title = getString(R.string.spot_neighbor_list_title)
+            requireActivity().title = getString(R.string.spot_neighbor_list_title)
         }
 
         // Loadingの設定
@@ -206,7 +206,7 @@ class FragmentSpotNeighborList : Fragment() {
                     message = getString(R.string.loading_normal_message),
                     isProgress = true
                 )
-                loading!!.show(fragmentManager!!, LoadingNormal.TAG)
+                loading!!.show(getParentFragmentManager(), LoadingNormal.TAG)
             }
         }
 
@@ -219,7 +219,7 @@ class FragmentSpotNeighborList : Fragment() {
 
         // getLocationHighQualityの取得に時間がかかるため
         if (mLocationClient != null && mLocationCallback != null) {
-            mLocationClient!!.removeLocationUpdates(mLocationCallback)
+            mLocationClient!!.removeLocationUpdates(mLocationCallback!!)
         }
     }
 
@@ -282,22 +282,22 @@ class FragmentSpotNeighborList : Fragment() {
     private fun setTextViewParams() {
         var category = ""
         if (condCategory > 0) {
-            val db = DBHelper(context!!)
+            val db = DBHelper(requireContext())
             try {
                 when (condCategoryType) {
                     1 -> {
                         val data1: DataCategory1 =
-                            DBTableCategory1(context!!).getData(db, condCategory)
+                            DBTableCategory1(requireContext()).getData(db, condCategory)
                         category = data1.name
                     }
                     2 -> {
                         val data2: DataCategory2 =
-                            DBTableCategory2(context!!).getData(db, condCategory)
+                            DBTableCategory2(requireContext()).getData(db, condCategory)
                         category = data2.name
                     }
                     3 -> {
                         val data3: DataCategory3 =
-                            DBTableCategory3(context!!).getData(db, condCategory)
+                            DBTableCategory3(requireContext()).getData(db, condCategory)
                         category = data3.name
                     }
                     else -> {
@@ -320,7 +320,7 @@ class FragmentSpotNeighborList : Fragment() {
     private fun setLocation() {
         hideListViewEmpty()
         // 端末の位置情報サービスをチェック
-        val manager = context!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val manager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // パーミッションのチェックが必要か確認
             if (Build.VERSION.SDK_INT >= 23) {
@@ -339,7 +339,7 @@ class FragmentSpotNeighborList : Fragment() {
      * Permissionのチェック
      */
     private fun checkPermission() {
-        if (ActivityCompat.checkSelfPermission(context!!,
+        if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             //Log.i(">> $TAG", "checkPermission ok")
             // アプリの権限が許可してる
@@ -355,7 +355,7 @@ class FragmentSpotNeighborList : Fragment() {
      * Permissionの不許可チェック
      */
     private fun requestLocationPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(activity!!,
+        if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
             //Log.i(">> $TAG", "requestLocationPermission alert");
             // パーミッションの許可で不許可にした場合
@@ -386,8 +386,8 @@ class FragmentSpotNeighborList : Fragment() {
 
                     // 近くにお気に入りしたスポットがあるときの処理 //
                     val intent = Intent(activity, ServiceNearWishSpot::class.java)
-                    activity!!.stopService(intent)
-                    activity!!.startService(intent)
+                    requireActivity().stopService(intent)
+                    requireActivity().startService(intent)
 
                     getLocation()
                 } else {
@@ -403,12 +403,29 @@ class FragmentSpotNeighborList : Fragment() {
      * 位置情報を取得　Permissionで許可された時
      */
     private fun getLocation() {
-        mLocationClient = LocationServices.getFusedLocationProviderClient(activity!!)
+        mLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val request = LocationRequest()
         request.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         mLocationClient!!.lastLocation.addOnCompleteListener(
-            activity!!,
+            requireActivity(),
             OnCompleteListener<Location?> { task ->
                 if (task.isSuccessful) {
                     if (task.result != null) {
@@ -448,7 +465,24 @@ class FragmentSpotNeighborList : Fragment() {
                 onSearch()
             }
         }
-        mLocationClient!!.requestLocationUpdates(request, mLocationCallback, null)
+        if (ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
+        mLocationClient!!.requestLocationUpdates(request, mLocationCallback!!, null)
     }
 
     /**
@@ -468,7 +502,7 @@ class FragmentSpotNeighborList : Fragment() {
                     negativeLabel = null
                 )
                 alert.setFragment(this)
-                alert.show(fragmentManager!!, AlertNormal.TAG)
+                alert.show(parentFragmentManager, AlertNormal.TAG)
             }
 
             if (loading != null) {
@@ -520,10 +554,10 @@ class FragmentSpotNeighborList : Fragment() {
             params.add("cond_category" to condCategory)
 
             var tmpFParams = ""
-            val db = DBHelper(context!!)
+            val db = DBHelper(requireContext())
             try {
-                val tableCategory2 = DBTableCategory2(context!!)
-                val tableCategory3 = DBTableCategory3(context!!)
+                val tableCategory2 = DBTableCategory2(requireContext())
+                val tableCategory3 = DBTableCategory3(requireContext())
                 when (condCategoryType) {
                     1 -> {
                         tmpFParams = "ca1: %d".format(condCategory)
@@ -562,13 +596,13 @@ class FragmentSpotNeighborList : Fragment() {
 
         // ログインID
         if (mySP.get_status_login()) {
-            val db = DBHelper(context!!)
+            val db = DBHelper(requireContext())
             try {
-                val tableUsers = DBTableUsers(context!!)
-                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login), {
+                val tableUsers = DBTableUsers(requireContext())
+                ifNotNull(tableUsers.getData(db, DBTableUsers.Ids.member_login)) {
                     params.add("user_id" to it.user_id)
                     fParams.add("user_id" to it.user_id.toString())
-                })
+                }
             } catch (e: Exception) {
                 Log.e(HttpSpotInfo.TAG, "" + e.message)
             } finally {

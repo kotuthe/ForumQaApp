@@ -12,21 +12,21 @@ class TextViewFontFit : AppCompatTextView {
      * コンストラクタ
      * @param context
      */
-    constructor(context: Context?) : super(context) {}
+    constructor(context: Context) : super(context) {}
 
     /**
      * コンストラクタ
      * @param context
      * @param attrs
      */
-    constructor(context: Context?, attrs: AttributeSet?) : super(
+    constructor(context: Context, attrs: AttributeSet?) : super(
         context,
         attrs
     ) {
     }
 
     constructor(
-        context: Context?,
+        context: Context,
         attrs: AttributeSet?,
         defStyle: Int
     ) : super(context, attrs, defStyle) {

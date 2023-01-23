@@ -1,8 +1,10 @@
 package net.tochinavi.www.tochinaviapp
 
+import android.Manifest
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
@@ -15,6 +17,7 @@ import android.view.animation.Interpolator
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter
@@ -106,6 +109,23 @@ class ActivitySpotNeighborMap :
     override fun onMapReady(googleMap: GoogleMap) {
         mGoogleMap = googleMap
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         mGoogleMap.isMyLocationEnabled = true
         // 初期カメラ
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 15f))
@@ -249,7 +269,7 @@ class ActivitySpotNeighborMap :
             return view
         }
 
-        override fun getInfoContents(p0: Marker?): View {
+        override fun getInfoContents(p0: Marker): View? {
             TODO("Not yet implemented")
         }
 
@@ -330,7 +350,7 @@ class ActivitySpotNeighborMap :
                 val t = interpolator.getInterpolation(elapsed.toFloat() / onePulseDuration)
 
                 marker.setIcon(
-                    BitmapDescriptorFactory.fromBitmap(scaleBitmap(icon,1f + 0.05f * t)))
+                    scaleBitmap(icon,1f + 0.05f * t)?.let { BitmapDescriptorFactory.fromBitmap(it) })
                 handlerMarkerAnime!!.postDelayed(this, 16)
             }
         }
