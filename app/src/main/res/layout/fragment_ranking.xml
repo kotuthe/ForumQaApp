@@ -59,7 +59,7 @@
     </FrameLayout>
 
     <!-- 広告 -->
-    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+    <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
         android:id="@+id/viewAdvtFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/advt_height"/>

@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
+    <net.tttttt.www.forum_qa_app.view.RecyclerViewSlowScroll
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/row_short_spot_height"

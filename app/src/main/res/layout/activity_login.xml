@@ -55,7 +55,7 @@
                 android:textColorHint="@android:color/darker_gray"
                 android:singleLine="true" />
 
-            <net.tochinavi.www.tochinaviapp.view.ButtonAction
+            <net.tttttt.www.forum_qa_app.view.ButtonAction
                 android:id="@+id/buttonLogin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -37,7 +37,7 @@
             android:src="@drawable/img_app_company"
             android:scaleType="fitCenter"/>
 
-        <net.tochinavi.www.tochinaviapp.view.TextViewFontFit
+        <net.tttttt.www.forum_qa_app.view.TextViewFontFit
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"

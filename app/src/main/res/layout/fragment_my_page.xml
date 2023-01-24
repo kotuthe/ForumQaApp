@@ -96,7 +96,7 @@
                     <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberReview"/>
                 </LinearLayout>
 
-                <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+                <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
                     android:id="@+id/listView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
         </ScrollView>
 
         <!-- 広告 -->
-        <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+        <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
             android:id="@+id/viewAdvtFooter"
             android:layout_width="match_parent"
             android:layout_height="@dimen/advt_height"

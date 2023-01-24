@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -65,7 +65,7 @@
                 </LinearLayout>
                 <include layout="@layout/merge_line_gray"/>
             </LinearLayout>
-            <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+            <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
                 android:id="@+id/listViewCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
                 <include layout="@layout/merge_line_gray"/>
             </LinearLayout>
 
-            <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+            <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
                 android:id="@+id/listViewDistance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -195,7 +195,7 @@
         android:padding="10dp">
 
         <!-- 条件をクリア -->
-        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+        <net.tttttt.www.forum_qa_app.view.ButtonCancel
             android:id="@+id/buttonClear"
             android:layout_width="0dp"
             android:layout_height="@dimen/cmn_btn_ok_cancel_height"
@@ -205,7 +205,7 @@
             android:textSize="13sp"
             android:textStyle="bold"/>
         <!-- 検索 -->
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonSearch"
             android:layout_width="0dp"
             android:layout_height="@dimen/cmn_btn_ok_cancel_height"

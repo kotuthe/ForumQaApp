@@ -65,7 +65,7 @@
             android:textSize="17sp"
             android:text="@string/app_data_update_loading_msg" />
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonRetry"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
             android:textSize="13sp"
             android:textStyle="bold"/>
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+        <net.tttttt.www.forum_qa_app.view.ButtonCancel
             android:id="@+id/buttonClose"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

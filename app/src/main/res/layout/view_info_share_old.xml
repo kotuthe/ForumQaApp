@@ -38,7 +38,7 @@
             android:layout_height="@dimen/activity_spot_info_share_btn_height"
             android:orientation="horizontal">
 
-            <net.tochinavi.www.tochinaviapp.view.ButtonWhiteGradient
+            <net.tttttt.www.forum_qa_app.view.ButtonWhiteGradient
                 android:id="@+id/buttonMail"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -50,7 +50,7 @@
                 android:paddingLeft="10dp"
                 android:text="@string/share_mail" />
 
-            <net.tochinavi.www.tochinaviapp.view.ButtonWhiteGradient
+            <net.tttttt.www.forum_qa_app.view.ButtonWhiteGradient
                 android:id="@+id/buttonLine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

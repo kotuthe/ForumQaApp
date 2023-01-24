@@ -128,7 +128,7 @@
                         android:visibility="visible"
                         android:text="good kita"/>
 
-                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
+                    <net.tttttt.www.forum_qa_app.view.RecyclerViewDyamicFit
                         android:id="@+id/recyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

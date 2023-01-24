@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<net.tochinavi.www.tochinaviapp.view.ListViewItemCheckable
+<net.tttttt.www.forum_qa_app.view.ListViewItemCheckable
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"

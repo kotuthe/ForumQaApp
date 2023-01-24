@@ -52,7 +52,7 @@
         android:padding="@dimen/normal_margin"
         android:orientation="horizontal">
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+        <net.tttttt.www.forum_qa_app.view.ButtonCancel
             android:id="@+id/buttonClear"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -60,7 +60,7 @@
             android:layout_marginEnd="@dimen/normal_margin"
             android:text="@string/input_review_tag_button_clear"/>
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonAdd"
             android:layout_width="0dp"
             android:layout_height="46dp"

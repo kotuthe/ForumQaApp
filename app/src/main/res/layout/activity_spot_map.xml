@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <net.tochinavi.www.tochinaviapp.view.ButtonWhiteGradient
+    <net.tttttt.www.forum_qa_app.view.ButtonWhiteGradient
         android:id="@+id/buttonRoute"
         android:layout_width="wrap_content"
         android:layout_height="40dp"

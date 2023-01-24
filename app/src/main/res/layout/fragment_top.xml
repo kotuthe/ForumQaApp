@@ -126,7 +126,7 @@
             <!-- 空の時View -->
             <!--<include layout="@layout/list_view_empty" android:id="@+id/layoutListViewEmpty" />-->
 
-            <net.tochinavi.www.tochinaviapp.view.RecyclerViewSlowScroll
+            <net.tttttt.www.forum_qa_app.view.RecyclerViewSlowScroll
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -136,7 +136,7 @@
     </LinearLayout>
 
     <!-- 広告 -->
-    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+    <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
         android:id="@+id/viewAdvtFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/advt_height"

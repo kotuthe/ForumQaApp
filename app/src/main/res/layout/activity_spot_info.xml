@@ -153,7 +153,7 @@
                     android:orientation="vertical">
 
                     <!--
-                    <net.tochinavi.www.tochinaviapp.view.ButtonActionSpotInfo
+                    <net.tttttt.www.forum_qa_app.view.ButtonActionSpotInfo
                         android:id="@+id/buttonCheckin"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
@@ -276,7 +276,7 @@
     </LinearLayout>
 
     <!-- 広告 -->
-    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+    <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
         android:id="@+id/viewAdvtFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/advt_height"

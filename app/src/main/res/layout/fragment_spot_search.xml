@@ -50,7 +50,7 @@
                         android:textColor="@color/colorTextGray" />
                 </FrameLayout>
 
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonCancel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -74,7 +74,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+                    <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
                         android:id="@+id/listView"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
     </LinearLayout>
 
     <!-- 広告 -->
-    <net.tochinavi.www.tochinaviapp.view.ViewAdvtFooter
+    <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
         android:id="@+id/viewAdvtFooter"
         android:layout_width="match_parent"
         android:layout_height="@dimen/advt_height"

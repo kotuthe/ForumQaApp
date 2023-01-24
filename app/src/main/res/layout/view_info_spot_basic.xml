@@ -42,7 +42,7 @@
     <include layout="@layout/merge_line_gray" />
 
     <!-- 住所、電話番号など -->
-    <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+    <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

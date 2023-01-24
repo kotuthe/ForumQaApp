@@ -61,7 +61,7 @@
                 android:orientation="vertical">
 
                 <!-- required -->
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonAction01"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/alert_as_button_height"
@@ -79,7 +79,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonAction02"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/alert_as_button_height"
@@ -99,7 +99,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonAction03"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/alert_as_button_height"
@@ -119,7 +119,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonAction04"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/alert_as_button_height"
@@ -139,7 +139,7 @@
                     android:visibility="gone"
                     tools:visibility="visible"/>
 
-                <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+                <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                     android:id="@+id/buttonAction05"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/alert_as_button_height"
@@ -163,7 +163,7 @@
             android:background="@drawable/alert_normal_bg"
             android:orientation="vertical">
 
-            <net.tochinavi.www.tochinaviapp.view.TextViewScaleAnime
+            <net.tttttt.www.forum_qa_app.view.TextViewScaleAnime
                 android:id="@+id/buttonNegative"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/alert_as_button_height"

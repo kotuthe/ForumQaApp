@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:251862489866:android:cb9fe4b81a3dc01b",
         "android_client_info": {
-          "package_name": "net.tochinavi.www.tochinaviapp"
+          "package_name": "net.tttttt.www.forum_qa_app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "251862489866-ed9pm6fk34iuonl0vngau079jb2tlcru.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "net.tochinavi.www.tochinaviapp",
+            "package_name": "net.tttttt.www.forum_qa_app",
             "certificate_hash": "77172b8b05e8124715da3f421de802dcbcbe17b9"
           }
         },
@@ -43,7 +43,7 @@
               "client_id": "251862489866-c00gr7gbs9f0mtl9dgloo15mhm9j0hup.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "jp.co.net.yamazen.TochinaviApp"
+                "bundle_id": "jp.co.net.yamazen.ForumQaApp"
               }
             }
           ]

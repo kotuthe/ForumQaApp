@@ -24,7 +24,7 @@
                 android:layout_height="20dp"/>
 
             <include layout="@layout/merge_line_gray"/>
-            <net.tochinavi.www.tochinaviapp.view.ListViewDyamicFit
+            <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -149,7 +149,7 @@
                             android:textColor="@android:color/black"
                             android:textSize="@dimen/font_size_normal" />
 
-                        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+                        <net.tttttt.www.forum_qa_app.view.ButtonCancel
                             android:id="@+id/buttonReviewClose"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
                         android:orientation="horizontal"
                         android:background="@android:color/white">
 
-                        <net.tochinavi.www.tochinaviapp.view.MyEditText
+                        <net.tttttt.www.forum_qa_app.view.MyEditText
                             android:id="@+id/editTextReview"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
                     </LinearLayout>
 
                     <!-- 写真選択 -->
-                    <net.tochinavi.www.tochinaviapp.view.RecyclerViewDyamicFit
+                    <net.tttttt.www.forum_qa_app.view.RecyclerViewDyamicFit
                         android:id="@+id/rcvImage"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -358,7 +358,7 @@
         android:orientation="horizontal"
         android:visibility="gone">
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+        <net.tttttt.www.forum_qa_app.view.ButtonCancel
             android:id="@+id/buttonSave"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -366,7 +366,7 @@
             android:layout_marginEnd="@dimen/normal_margin"
             android:text="@string/input_review_button_save"/>
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonPost"
             android:layout_width="0dp"
             android:layout_height="46dp"
@@ -392,7 +392,7 @@
             android:orientation="horizontal"
             android:layout_marginBottom="@dimen/normal_margin">
 
-            <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+            <net.tttttt.www.forum_qa_app.view.ButtonCancel
                 android:id="@+id/buttonDraftDelete"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
@@ -400,7 +400,7 @@
                 android:layout_marginEnd="@dimen/normal_margin"
                 android:text="@string/input_review_button_delete"/>
 
-            <net.tochinavi.www.tochinaviapp.view.ButtonCancel
+            <net.tttttt.www.forum_qa_app.view.ButtonCancel
                 android:id="@+id/buttonDraftSave"
                 android:layout_width="0dp"
                 android:layout_height="46dp"
@@ -409,7 +409,7 @@
 
         </LinearLayout>
 
-        <net.tochinavi.www.tochinaviapp.view.ButtonAction
+        <net.tttttt.www.forum_qa_app.view.ButtonAction
             android:id="@+id/buttonDraftPost"
             android:layout_width="match_parent"
             android:layout_height="46dp"
