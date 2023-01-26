@@ -16,6 +16,8 @@ import androidx.core.content.ContextCompat
 import androidx.viewpager.widget.ViewPager
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationBarView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_item_main.view.*
 import net.tttttt.www.forum_qa_app.entities.DataAppData
@@ -54,13 +56,57 @@ class MainActivity : AppCompatActivity() {
         initLayout()
     }
 
+    private val mOnNavigationItemSelectedListener = NavigationBarView.OnItemSelectedListener { item ->
+
+        when (item.itemId) {
+            R.id.navigation_home -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, FragmentTop())
+                    .commit()
+            }
+
+            R.id.navigation_search -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, FragmentSpotNeighborList())
+                    .commit()
+            }
+
+            R.id.navigation_mypage -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, FragmentSpotSearch())
+                    .commit()
+            }
+
+            R.id.navigation_topic -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, FragmentRanking())
+                    .commit()
+            }
+        }
+        true
+    }
+
+
     private fun initLayout() {
         // ヘッダー
-        setActionBar(0)
-        setStatusBar(0)
+        // setActionBar(0)
+        // setStatusBar(0)
+
+        bottomNavigationView.background = null
+        bottomNavigationView.menu.getItem(2).isEnabled = false
+
+        bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation_addqa.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, FragmentMyPage())
+                .commit()
+        }
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, FragmentTop())
+            .commit()
 
         // フッタータブ
-        val adapter = TabMainAdapter(supportFragmentManager,this)
+        /*val adapter = TabMainAdapter(supportFragmentManager,this)
         viewPager.adapter = adapter
         viewPager.setPagingEnabled(false)
         viewPager.currentItem = Constants.TAB_ITEM.TOP.ordinal
@@ -70,7 +116,7 @@ class MainActivity : AppCompatActivity() {
                 setStatusBar(position)
             }
         })
-        setTabLayout(viewPager)
+        setTabLayout(viewPager)*/
     }
 
     /**
@@ -107,7 +153,7 @@ class MainActivity : AppCompatActivity() {
     /**
      * タブのレイアウト
      */
-    private fun setTabLayout(viewPager: ViewPager) {
+    /*private fun setTabLayout(viewPager: ViewPager) {
         tabLayout.setupWithViewPager(viewPager)
 
         // Top
@@ -130,19 +176,19 @@ class MainActivity : AppCompatActivity() {
         val itemMyPage: View = createTabItem(R.drawable.ic_tab_mypage, "Myページ", 9f)
         tabLayout.getTabAt(Constants.TAB_ITEM.MY_PAGE.ordinal)!!.customView = itemMyPage
 
-    }
+    }*/
 
     /**
      * タブのアイテムの作成
      */
-    private fun createTabItem(icon: Int, title: String, titleSize: Float = 10f): View {
+    /*private fun createTabItem(icon: Int, title: String, titleSize: Float = 10f): View {
         val inflater = LayoutInflater.from(this)
         val itemView: View = inflater.inflate(R.layout.tab_item_main, null)
         itemView.tabIcon.setImageDrawable(ContextCompat.getDrawable(this, icon))
         itemView.tabText.setText(title)
         itemView.tabText.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleSize)
         return itemView
-    }
+    }*/
 
     /**
      * サービスの開始

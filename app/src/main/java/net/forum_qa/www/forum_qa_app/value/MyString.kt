@@ -4,8 +4,8 @@ class MyString() {
 
     private val basic_str = "tochi:navi"
     private val DOMAIN_PUBLIC = "https://www.tochinavi.net";
-    private val DOMAIN_TEST = "http://test.tochinavi.net";
-    private val DOMAIN_TEST_BASIC = "http://$basic_str@test.tochinavi.net";
+    private val DOMAIN_TEST = "https://test.tochinavi.net";
+    private val DOMAIN_TEST_BASIC = "https://$basic_str@test.tochinavi.net";
 
 
     init {
@@ -13,7 +13,7 @@ class MyString() {
 
     /** [注意] 公開: false, テスト: true **/
     fun isTest(): Boolean {
-        return false
+        return true
     }
 
     /*  */

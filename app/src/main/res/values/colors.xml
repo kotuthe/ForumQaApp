@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#FCF770</color>
-    <color name="colorPrimaryDark">#E5DE59</color>
+    <color name="colorPrimary">#06AFB6</color>
+    <color name="colorPrimaryDark">#06AFB6</color>
     <color name="colorAccent">#D81B60</color>
 
     <!-- フッタータブ -->
-    <color name="colorTabBg">#4f5051</color>
-    <color name="colorTabIconActive">#FCF770</color>
-    <color name="colorTabIcon">#787878</color>
+    <color name="colorTabBg">#06AFB6</color>
+    <color name="colorTabIconActive">#ffffff</color>
+    <color name="colorTabIcon">#daf6f7</color>
 
     <!-- iOS色（グレー） -->
     <color name="colorIosBlue">#007AFF</color>
