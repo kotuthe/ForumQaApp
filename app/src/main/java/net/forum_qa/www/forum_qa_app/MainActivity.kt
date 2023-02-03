@@ -20,6 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_item_main.view.*
+import net.forum_qa.www.forum_qa_app.FragmentMyPage
 import net.tttttt.www.forum_qa_app.entities.DataAppData
 import net.tttttt.www.forum_qa_app.entities.ServiceNearWishSpot
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -59,27 +60,27 @@ class MainActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = NavigationBarView.OnItemSelectedListener { item ->
 
         when (item.itemId) {
-            R.id.navigation_home -> {
+            R.id.navigation_top -> {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.frameLayout, FragmentTop())
                     .commit()
             }
 
-            R.id.navigation_search -> {
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, FragmentSpotNeighborList())
-                    .commit()
-            }
-
             R.id.navigation_mypage -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, FragmentSpotSearch())
+                    .replace(R.id.frameLayout, FragmentMyPage())
                     .commit()
             }
 
             R.id.navigation_topic -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, FragmentRanking())
+                    .replace(R.id.frameLayout, FragmentTopics())
+                    .commit()
+            }
+
+            R.id.navigation_menu -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.frameLayout, FragmentSpotSearch())
                     .commit()
             }
         }

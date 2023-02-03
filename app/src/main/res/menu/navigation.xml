@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
+        android:id="@+id/navigation_top"
         android:icon="@drawable/ic_nav_top"
         android:title="TOP" />
 
     <item
-        android:id="@+id/navigation_search"
+        android:id="@+id/navigation_mypage"
         android:icon="@drawable/ic_nav_mypage"
         android:title="Myページ" />
 
@@ -15,12 +15,12 @@
         android:title="" />
 
     <item
-        android:id="@+id/navigation_mypage"
+        android:id="@+id/navigation_topic"
         android:icon="@drawable/ic_nav_topics"
         android:title="お知らせ" />
 
     <item
-        android:id="@+id/navigation_topic"
+        android:id="@+id/navigation_menu"
         android:icon="@drawable/ic_nav_menu"
         android:title="メニュー" />
 </menu>

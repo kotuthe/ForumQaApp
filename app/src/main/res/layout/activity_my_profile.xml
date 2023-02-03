@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorListBackground"
+    tools:context=".ActivityMyProfile">
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_margin="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:background="@drawable/shape_rounded_corners"
+            android:orientation="vertical">
+
+            <!-- Info -->
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_rounded_corners"
+                android:padding="16dp">
+
+                <ImageView
+                    android:id="@+id/imageUser"
+                    android:layout_width="@dimen/fragment_my_page_img_user_size"
+                    android:layout_height="@dimen/fragment_my_page_img_user_size"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/layout_image_empty"/>
+
+                <ImageView
+                    android:id="@+id/imageUserEdit"
+                    android:layout_width="@dimen/fragment_my_page_img_user_size"
+                    android:layout_height="@dimen/fragment_my_page_img_user_size"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/layout_image_empty"/>
+
+            </FrameLayout>
+
+            <!-- nickname -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="ニックネーム"/>
+
+                <net.tttttt.www.forum_qa_app.view.MyEditText
+                    android:id="@+id/editTextReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/txt_mypage_edit"
+                    android:textSize="15sp"
+                    android:hint="入力してください" />
+
+            </LinearLayout>
+
+            <!-- age -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="年齢"/>
+
+                <Spinner
+                    android:id="@+id/planets_spinner"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/txt_mypage_edit"/>
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:id="@+id/buttonUserEdit"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/btn_normal"
+                android:text="編集完了"
+                android:textColor="#fff"
+                android:textSize="13sp" />
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

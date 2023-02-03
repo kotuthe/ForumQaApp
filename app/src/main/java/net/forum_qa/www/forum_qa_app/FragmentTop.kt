@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.*
 import android.view.*
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -55,6 +56,8 @@ class FragmentTop : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        setHasOptionsMenu(true)
+
         firebase = FirebaseHelper(requireContext())
         mySP = MySharedPreferences(requireContext())
         functions = Functions(requireContext())
@@ -93,6 +96,22 @@ class FragmentTop : Fragment() {
         recyclerView.adapter = adapter
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.top_option, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        /*
+        when (item.itemId) {
+            R.id.action_support ->
+
+                R.id.action_1 ->
+        }
+        */
+        Toast.makeText(context, "「${item.title}」が押されました。", Toast.LENGTH_SHORT).show()
+        return super.onOptionsItemSelected(item)
+    }
     // フラグメント　オンスクリーン
     override fun onResume() {
         super.onResume()

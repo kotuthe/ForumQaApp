@@ -12,7 +12,8 @@
     <!-- iOS色（グレー） -->
     <color name="colorIosBlue">#007AFF</color>
     <color name="colorIosPink">#FF375F</color>
-    <color name="colorGroupTableViewBackground">#F2F2F7</color>
+    <color name="colorListBackground">#DCECEC</color>
+    <color name="colorGroupTableViewBackground">#daf6f7</color>
 
     <!-- Topのステータスバー -->
     <color name="colorTopStatus">#DADADA</color>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_support"
+        android:icon="@drawable/ic_support"
+        android:orderInCategory="1"
+        android:title="応援"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_1"
+        android:title="通設定"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_2"
+        android:title="ブロックユーザーリスト"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_3"
+        android:title="メニューXXX"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_4"
+        android:title="メニューXXX"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_5"
+        android:title="お問合せサポート"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_6"
+        android:title="利用規約・プライバシーポリシー"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_7"
+        android:title="サインアウト"
+        app:showAsAction="never" />
+</menu>

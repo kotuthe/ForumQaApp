@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="net.tttttt.www.forum_qa_app">
     <!--
@@ -25,7 +24,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 通知時の振動機能 -->
     <uses-permission android:name="android.permission.VIBRATE" /> <!-- Release：Nexus7対応 -->
     <uses-permission android:name="android.permission.CAMERA" /> <!-- カメラ -->
-
     <!-- 必須機能 -->
     <uses-feature
         android:name="android.hardware.telephony"
@@ -52,65 +50,138 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true"
         tools:ignore="LockedOrientationActivity">
         <activity
             android:name=".ActivitySplash"
-            android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait" />
-        <activity android:name=".ActivityMyPageSetting" android:screenOrientation="portrait" />
-        <activity  android:name=".ActivityLogin" android:screenOrientation="portrait" />
-        <activity android:name=".ActivityAppDataUpdate"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ActivityInitDescription"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".ActivityTopicsDetail"
             android:screenOrientation="portrait" />
-        <activity android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
-            android:theme="@style/AppTheme.NoActionBar"
+        <activity
+            android:name=".ActivityMyProfile"
             android:screenOrientation="portrait" />
-        <activity android:name=".ActivitySpotInfo" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotReviewImage" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityImageZoom" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotNeighborMap" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotSearchNarrowArea" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotSearchNarrowCategory1" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotSearchNarrowCategoryMulti" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotSearchNarrow" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyWishList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyReviewList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyCheckinList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyBadgeDetail" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyBadgeList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotSearchList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityHospitalInfo" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotReviewDetail" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotInfoDetail" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotReviewImageList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotReviewList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotMap" android:screenOrientation="portrait" />
-        <activity android:name=".ActivitySpotReviewDetail_ImageSearch" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotReviewGallery_ImageSearch" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityMyDraftList" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityInputReviewTag" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivityInputReview" android:screenOrientation="portrait"/>
-        <activity android:name=".MapsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotInfo_ImageSearch" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotNeighborNarrowCategorySecond" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotNeighborNarrowCategoryThird" android:screenOrientation="portrait"/>
-        <activity android:name=".ActivitySpotNeighborNarrow" android:screenOrientation="portrait"/>
-
-        <!-- apiデザイン -->
+        <activity
+            android:name=".ActivityMyPageSetting"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityLogin"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityAppDataUpdate"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivityInitDescription"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivitySpotReviewGalleryPreview_ImageSearch"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ActivitySpotInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewImage"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityImageZoom"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotNeighborMap"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotSearchNarrowArea"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotSearchNarrowCategory1"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotSearchNarrowCategoryMulti"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotSearchNarrow"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyWishList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyReviewList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyCheckinList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyBadgeDetail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyBadgeList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotSearchList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityHospitalInfo"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewDetail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotInfoDetail"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewImageList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotMap"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewDetail_ImageSearch"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotReviewGallery_ImageSearch"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyDraftList"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityInputReviewTag"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityInputReview"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MapsActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotInfo_ImageSearch"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotNeighborNarrowCategorySecond"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotNeighborNarrowCategoryThird"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivitySpotNeighborNarrow"
+            android:screenOrientation="portrait" /> <!-- apiデザイン -->
         <activity
             android:name="com.andremion.louvre.home.GalleryActivity"
             android:screenOrientation="portrait"
@@ -118,9 +189,7 @@
         <activity
             android:name="com.andremion.louvre.preview.PreviewActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.Louvre.Preview" />
-
-        <!-- service -->
+            android:theme="@style/AppTheme.Louvre.Preview" /> <!-- service -->
         <service android:name=".entities.ServiceNearWishSpot" />
 
         <uses-library

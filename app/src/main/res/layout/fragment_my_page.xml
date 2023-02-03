@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorGroupTableViewBackground"
+    android:background="@color/colorListBackground"
     tools:context=".FragmentMyPage">
-
-    <!-- no login ver -->
-    <include
-        android:id="@+id/layoutNoLogin"
-        layout="@layout/fragment_my_page_no_login"
-        android:visibility="gone"/>
 
     <!-- login ver -->
     <LinearLayout
-        android:id="@+id/layoutLogin"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -24,102 +18,209 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:layout_margin="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
+                <!-- Info -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/bg_pattern_dot"
+                    android:background="@drawable/shape_rounded_corners"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:paddingBottom="@dimen/fragment_my_page_user_padding_bottom"
-                    android:paddingTop="@dimen/fragment_my_page_user_padding_top">
+                    android:padding="16dp">
 
                     <ImageView
-                        android:id="@+id/imageViewUser"
+                        android:id="@+id/imageUser"
                         android:layout_width="@dimen/fragment_my_page_img_user_size"
                         android:layout_height="@dimen/fragment_my_page_img_user_size"
                         android:scaleType="centerCrop"
                         android:background="@drawable/layout_image_empty"/>
 
                     <TextView
-                        android:id="@+id/textViewUserName"
+                        android:id="@+id/textName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="name"
                         android:textSize="@dimen/font_size_normal"
-                        android:textColor="@android:color/black" />
+                        android:textColor="#333"/>
 
                     <TextView
-                        android:id="@+id/textViewUserDetail"
+                        android:id="@+id/textDetail"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="2dp"
+                        android:layout_marginTop="8dp"
                         android:text="detail"
-                        android:textColor="@android:color/black"
+                        android:textColor="#555"
                         android:textSize="@dimen/font_size_normal" />
 
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:id="@+id/buttonUserEdit"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginRight="16dp"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/btn_normal"
+                        android:text="編集する"
+                        android:textColor="#fff"
+                        android:textSize="13sp" />
+
                 </LinearLayout>
 
-                <!-- 数字 -->
+                <!-- score 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/fragment_my_page_number_height"
-                    android:background="@android:color/black"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:orientation="horizontal">
-                    <!-- 称号 -->
-                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberBadge"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="質問した数"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/txt_mypage_counter"
+                            android:textColor="@android:color/white"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="26dp"
+                            android:paddingRight="26dp"
+                            android:text="16"/>
+
+                    </LinearLayout>
 
                     <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="@dimen/fragment_my_page_number_separator_height"
-                        android:layout_gravity="center"
-                        android:background="@android:color/white"/>
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent"/>
 
-                    <!-- チェックイン -->
-                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberCheckin"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="@dimen/fragment_my_page_number_separator_height"
-                        android:layout_gravity="center"
-                        android:background="@android:color/white"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="回答した数"/>
 
-                    <!-- クチコミ -->
-                    <include layout="@layout/layout_my_page_number" android:id="@+id/layoutNumberReview"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/txt_mypage_counter"
+                            android:textColor="@android:color/white"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="26dp"
+                            android:paddingRight="26dp"
+                            android:text="16"/>
+
+                    </LinearLayout>
                 </LinearLayout>
 
-                <net.tttttt.www.forum_qa_app.view.ListViewDyamicFit
-                    android:id="@+id/listView"
+                <!-- score 2 -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/white"
-                    android:divider="@color/colorListDivider"
-                    android:dividerHeight="@dimen/list_divider_height"
-                    android:listSelector="@drawable/listview_selector"
-                    android:drawSelectorOnTop="true"/>
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
 
-                <include layout="@layout/merge_line_gray"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/normal_footer_margin" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="フォロワー"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/txt_mypage_counter"
+                            android:textColor="@android:color/white"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="26dp"
+                            android:paddingRight="26dp"
+                            android:text="16"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="フォロー中"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:background="@drawable/txt_mypage_counter"
+                            android:textColor="@android:color/white"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp"
+                            android:paddingLeft="26dp"
+                            android:paddingRight="26dp"
+                            android:text="16"/>
+
+                    </LinearLayout>
+                </LinearLayout>
+
             </LinearLayout>
+
 
         </ScrollView>
 
         <!-- 広告 -->
-        <net.tttttt.www.forum_qa_app.view.ViewAdvtFooter
+        <View
             android:id="@+id/viewAdvtFooter"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/advt_height"
+            android:layout_height="200dp"
+            android:background="#555"
             android:layout_gravity="bottom"/>
 
     </LinearLayout>

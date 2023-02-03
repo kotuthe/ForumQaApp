@@ -24,7 +24,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\HITBIT~1\AppData\Local\Temp\baseline_person_add_alt_1_24.xml" />
+                                                <entry key="imagePath" value="C:\Users\HITBIT~1\AppData\Local\Temp\baseline_error_24.xml" />
                                                 <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../../../hitbit%20kotouno/AppData/Local/Android/Sdk/icons/material/materialicons/person_add_alt_1/baseline_person_add_alt_1_24.xml" />
+                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../../../hitbit%20kotouno/AppData/Local/Android/Sdk/icons/material/materialicons/error/baseline_error_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,7 +68,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_card_add_alt" />
+                                      <entry key="outputName" value="ic_caution_cicle" />
                                     </map>
                                   </option>
                                 </PersistentState>
