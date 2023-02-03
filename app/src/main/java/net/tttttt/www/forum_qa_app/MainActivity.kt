@@ -20,7 +20,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.tab_item_main.view.*
-import net.forum_qa.www.forum_qa_app.FragmentMyPage
+import net.tttttt.www.forum_qa_app.FragmentMyPage
 import net.tttttt.www.forum_qa_app.entities.DataAppData
 import net.tttttt.www.forum_qa_app.entities.ServiceNearWishSpot
 import net.tttttt.www.forum_qa_app.storage.DBHelper

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import net.forum_qa.www.forum_qa_app.FragmentMyPage
+import net.tttttt.www.forum_qa_app.FragmentMyPage
 import net.tttttt.www.forum_qa_app.*
 import net.tttttt.www.forum_qa_app.value.Constants
 

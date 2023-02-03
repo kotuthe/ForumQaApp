@@ -11,8 +11,8 @@ import kotlinx.android.synthetic.main.fragment_spot_search.*
 import net.tttttt.www.forum_qa_app.value.*
 import net.tttttt.www.forum_qa_app.view.*
 import kotlinx.android.synthetic.main.fragment_topics.*
-import net.forum_qa.www.forum_qa_app.ActivityTopicsDetail
-import net.forum_qa.www.forum_qa_app.view.CardTopicsAdapter
+import net.tttttt.www.forum_qa_app.ActivityTopicsDetail
+import net.tttttt.www.forum_qa_app.view.CardTopicsAdapter
 import net.tttttt.www.forum_qa_app.entities.DataCardTopics
 import net.tttttt.www.forum_qa_app.entities.DataSpotList
 import java.text.SimpleDateFormat

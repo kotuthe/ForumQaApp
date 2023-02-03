@@ -1,4 +1,4 @@
-package net.forum_qa.www.forum_qa_app.view
+package net.tttttt.www.forum_qa_app.view
 
 import android.content.Context
 import android.view.LayoutInflater

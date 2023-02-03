@@ -1,4 +1,4 @@
-package net.forum_qa.www.forum_qa_app
+package net.tttttt.www.forum_qa_app
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

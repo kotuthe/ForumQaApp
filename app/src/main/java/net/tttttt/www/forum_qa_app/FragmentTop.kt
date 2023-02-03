@@ -12,7 +12,7 @@ import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.value.*
 import net.tttttt.www.forum_qa_app.view.*
 import kotlinx.android.synthetic.main.fragment_top.*
-import net.forum_qa.www.forum_qa_app.view.CardTopAdapter
+import net.tttttt.www.forum_qa_app.view.CardTopAdapter
 import org.json.JSONObject
 
 // カードビューを使う

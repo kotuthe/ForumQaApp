@@ -1,4 +1,4 @@
-package net.forum_qa.www.forum_qa_app
+package net.tttttt.www.forum_qa_app
 
 import android.content.Intent
 import android.os.Bundle
