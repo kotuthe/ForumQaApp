@@ -97,9 +97,9 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.menu.getItem(2).isEnabled = false
 
         bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener)
-        navigation_addqa.setOnClickListener {
+        floatingActionButton.setOnClickListener {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, FragmentMyPage())
+                .replace(R.id.frameLayout, FragmentPostQa())
                 .commit()
         }
         supportFragmentManager.beginTransaction()

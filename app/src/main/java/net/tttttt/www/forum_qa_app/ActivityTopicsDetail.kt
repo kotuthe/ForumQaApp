@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.AttributeSet
 import android.view.MenuItem
 import android.view.View
+import android.widget.ArrayAdapter
 import net.tttttt.www.forum_qa_app.R
 import kotlinx.android.synthetic.main.activity_topics_detail.*
 

@@ -56,6 +56,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".ActivityMyAnswerList"
+            android:exported="false" />
+        <activity
             android:name=".ActivitySplash"
             android:exported="true"
             android:screenOrientation="portrait">
@@ -67,6 +70,9 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ActivityMyQuestionList"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ActivityTopicsDetail"

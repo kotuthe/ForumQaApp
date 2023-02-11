@@ -95,17 +95,17 @@
                             android:textColor="#333"
                             android:text="質問した数"/>
 
-                        <TextView
+                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/buttonQuestionList"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/txt_mypage_counter"
-                            android:textColor="@android:color/white"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="26dp"
-                            android:paddingRight="26dp"
-                            android:text="16"/>
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -127,17 +127,17 @@
                             android:textColor="#333"
                             android:text="回答した数"/>
 
-                        <TextView
+                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/buttonAnswerList"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/txt_mypage_counter"
-                            android:textColor="@android:color/white"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="26dp"
-                            android:paddingRight="26dp"
-                            android:text="16"/>
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
                 </LinearLayout>

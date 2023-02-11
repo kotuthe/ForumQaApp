@@ -27,7 +27,7 @@ class TabMainAdapter(fm: FragmentManager, private val context: Context): Fragmen
                 return FragmentSpotSearch()
             }
             Constants.TAB_ITEM.RANKING -> {
-                return FragmentRanking()
+                return FragmentPostQa()
             }
             Constants.TAB_ITEM.MY_PAGE -> {
                 return FragmentMyPage()

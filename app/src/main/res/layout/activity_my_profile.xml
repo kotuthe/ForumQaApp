@@ -32,17 +32,19 @@
                     android:id="@+id/imageUser"
                     android:layout_width="@dimen/fragment_my_page_img_user_size"
                     android:layout_height="@dimen/fragment_my_page_img_user_size"
+                    android:src="@drawable/img_error_login"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/layout_image_empty"/>
+                    android:scaleType="centerCrop"/>
 
                 <ImageView
                     android:id="@+id/imageUserEdit"
                     android:layout_width="@dimen/fragment_my_page_img_user_size"
                     android:layout_height="@dimen/fragment_my_page_img_user_size"
+                    android:padding="30dp"
+                    android:src="@drawable/ic_setting"
+                    android:background="#55333333"
                     android:layout_gravity="center"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/layout_image_empty"/>
+                    android:scaleType="fitCenter" />
 
             </FrameLayout>
 
@@ -60,10 +62,13 @@
                     android:text="ニックネーム"/>
 
                 <net.tttttt.www.forum_qa_app.view.MyEditText
-                    android:id="@+id/editTextReview"
+                    android:id="@+id/editTextNickName"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:background="@drawable/txt_mypage_edit"
+                    android:inputType="text"
                     android:textSize="15sp"
                     android:hint="入力してください" />
 
@@ -83,10 +88,78 @@
                     android:text="年齢"/>
 
                 <Spinner
-                    android:id="@+id/planets_spinner"
+                    android:id="@+id/spinnerAge"
                     android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:background="@drawable/txt_mypage_edit"/>
+
+            </LinearLayout>
+
+            <!-- gender -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="性別"/>
+
+                <Spinner
+                    android:id="@+id/spinnerGender"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/txt_mypage_edit"/>
+
+            </LinearLayout>
+
+            <!-- prefecture -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="住んでいる県"/>
+
+                <Spinner
+                    android:id="@+id/spinnerPrefecture"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/txt_mypage_edit"/>
+
+            </LinearLayout>
+
+            <!-- city -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#333"
+                    android:text="住んでいる市町村"/>
+
+                <net.tttttt.www.forum_qa_app.view.MyEditText
+                    android:id="@+id/editTextCity"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
+                    android:background="@drawable/txt_mypage_edit"
+                    android:inputType="text"
+                    android:textSize="15sp"
+                    android:hint="入力してください" />
 
             </LinearLayout>
 

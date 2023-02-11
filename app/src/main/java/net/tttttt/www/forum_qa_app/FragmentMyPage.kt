@@ -42,6 +42,16 @@ class FragmentMyPage : Fragment() {
             intent.putExtra("dataMember", dataMember)
             startActivity(intent)
         }
+
+        buttonQuestionList.setOnClickListener {
+            val intent = Intent(activity, ActivityMyQuestionList::class.java)
+            startActivity(intent)
+        }
+
+        buttonAnswerList.setOnClickListener {
+            val intent = Intent(activity, ActivityMyAnswerList::class.java)
+            startActivity(intent)
+        }
     }
 
 

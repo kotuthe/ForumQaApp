@@ -6,7 +6,7 @@ import java.util.HashMap
 class MyAddress() {
 
     // 県 //
-    private val prefectures: HashMap<Int, String> = hashMapOf(
+    private val prefectures: HashMap<Int, String> = linkedMapOf(
         1 to "北海道",
         2 to "青森県",
         3 to "岩手県",
@@ -62,6 +62,14 @@ class MyAddress() {
     /** 県 **/
     fun getPrefectures(): HashMap<Int, String> {
         return prefectures
+    }
+
+    fun getPrefectureTexts(): Array<String> {
+        val rArray: ArrayList<String> = arrayListOf()
+        for (v in prefectures.values) {
+            rArray.add(v)
+        }
+        return rArray.toTypedArray()
     }
 
     fun getPrefId(text: String): Int {
