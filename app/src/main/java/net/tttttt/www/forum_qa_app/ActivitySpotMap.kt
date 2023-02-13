@@ -28,7 +28,7 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.activity_spot_map.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotMapBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.value.MyImage
@@ -51,6 +51,8 @@ class ActivitySpotMap :
         val TAG_SHORT = "ActivitySpotMap"
     }
 
+    private lateinit var binding: ActivitySpotMapBinding
+
     private lateinit var firebase: FirebaseHelper
     private lateinit var screenName: FirebaseHelper.screenName
 
@@ -66,7 +68,10 @@ class ActivitySpotMap :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_map)
+
+        binding = ActivitySpotMapBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         firebase = FirebaseHelper(applicationContext)
 
@@ -86,7 +91,7 @@ class ActivitySpotMap :
         }
 
         // 目的地まで案内
-        buttonRoute.setOnClickListener {
+        binding.buttonRoute.setOnClickListener {
 
             firebase.sendEvent(
                 screenName, FirebaseHelper.eventCategory.Button, FirebaseHelper.eventAction.Tap, "目的地まで案内:Google Maps")
@@ -262,6 +267,23 @@ class ActivitySpotMap :
         val request = LocationRequest()
         request.priority = LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
 
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return
+        }
         mLocationClient!!.lastLocation.addOnCompleteListener(
             this,
             OnCompleteListener<Location?> { task ->

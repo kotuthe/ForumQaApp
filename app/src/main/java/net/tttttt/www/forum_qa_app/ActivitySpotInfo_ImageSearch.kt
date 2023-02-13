@@ -28,10 +28,13 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotInfoImageSearchBinding
+/*
 import kotlinx.android.synthetic.main.activity_spot_info_image_search.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_spot_actions_footer.view.*
 import kotlinx.android.synthetic.main.view_info_spot_basic.view.*
+*/
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfoBasic
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
@@ -52,6 +55,8 @@ class ActivitySpotInfo_ImageSearch :
         val TAG = "ActivitySpotInfo_ImageSearch"
         val TAG_SHORT = "ActivitySpotInfo_IS"
     }
+
+    private lateinit var binding: ActivitySpotInfoImageSearchBinding
 
     // 位置情報サービスの使用用途
     enum class LocationType  {
@@ -109,7 +114,10 @@ class ActivitySpotInfo_ImageSearch :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_info_image_search)
+
+        binding = ActivitySpotInfoImageSearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext!!)
@@ -243,12 +251,12 @@ class ActivitySpotInfo_ImageSearch :
 
         // 上部 //
         if (!dataSpot!!.name.isEmpty()) {
-            textViewSpotName.text = dataSpot!!.name
+            binding.textViewSpotName.text = dataSpot!!.name
         }
 
         // クチコミ写真 //
         imageAdapter = RecyclerISReviewImagesAdapter(mContext!!, imageListData)
-        rcvReviewImage.apply {
+        binding.rcvReviewImage.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 列
@@ -292,7 +300,7 @@ class ActivitySpotInfo_ImageSearch :
 
         // クチコミテキスト //
         textAdapter = RecyclerISReviewTextsAdapter(mContext!!, textListData)
-        rcvReviewText.apply {
+        binding.rcvReviewText.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 列
@@ -339,7 +347,7 @@ class ActivitySpotInfo_ImageSearch :
         val mapFragment = supportFragmentManager.findFragmentById(R.id.fragmentMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        layoutBasic.buttonMap.setOnClickListener {
+        binding.layoutBasic.buttonMap.setOnClickListener {
             // 地図へ
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -351,7 +359,7 @@ class ActivitySpotInfo_ImageSearch :
             startActivity(intent)
         }
 
-        layoutBasic.buttonWebDetail.setOnClickListener {
+        binding.layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -363,7 +371,7 @@ class ActivitySpotInfo_ImageSearch :
         }
 
         basicAdapter = ListSpotInfoBasicAdapter(mContext!!, basicListData)
-        layoutBasic.listView.apply {
+        binding.layoutBasic.listView.apply {
             adapter = basicAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 val item = basicListData[pos]
@@ -406,10 +414,10 @@ class ActivitySpotInfo_ImageSearch :
         }
 
         // お店のシェア //
-        layoutShare.textViewTitle.text = "お店の情報をシェアする"
-        layoutShare.textViewCopyTitle.text = "URLをコピーする"
-        layoutShare.textViewCopy.text = ""
-        layoutShare.textViewCopy.setOnClickListener {
+        binding.layoutShare.textViewTitle.text = "お店の情報をシェアする"
+        binding.layoutShare.textViewCopyTitle.text = "URLをコピーする"
+        binding.layoutShare.textViewCopy.text = ""
+        binding.layoutShare.textViewCopy.setOnClickListener {
             // クリップボードにコピー
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -428,8 +436,8 @@ class ActivitySpotInfo_ImageSearch :
             alert.show(supportFragmentManager, AlertNormal.TAG)
 
         }
-        layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
-        layoutShare.buttonMail.setOnClickListener {
+        binding.layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
+        binding.layoutShare.buttonMail.setOnClickListener {
             // メールのシェア
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -439,8 +447,8 @@ class ActivitySpotInfo_ImageSearch :
             startActivity(
                 MyIntent().mail(dataSpot!!.snsShareTextLong))
         }
-        layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
-        layoutShare.buttonLine.setOnClickListener {
+        binding.layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
+        binding.layoutShare.buttonLine.setOnClickListener {
             // ラインのシェア
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info,
@@ -462,7 +470,7 @@ class ActivitySpotInfo_ImageSearch :
         }
 
         // アクションフッター //
-        layoutActions.viewReview.setOnClickListener {
+        binding.layoutActions.viewReview.setOnClickListener {
             // クチコミ投稿へ
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -475,7 +483,7 @@ class ActivitySpotInfo_ImageSearch :
                 showNoLoginAlert(LoginType.review)
             }
         }
-        layoutActions.viewFavorite.setOnClickListener {
+        binding.layoutActions.viewFavorite.setOnClickListener {
             // お気に入り
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -510,7 +518,7 @@ class ActivitySpotInfo_ImageSearch :
 
 
         }
-        layoutActions.viewCheckin.setOnClickListener {
+        binding.layoutActions.viewCheckin.setOnClickListener {
             // チェックイン
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -551,7 +559,7 @@ class ActivitySpotInfo_ImageSearch :
             }
 
         }
-        layoutActions.viewMap.setOnClickListener {
+        binding.layoutActions.viewMap.setOnClickListener {
             // 地図
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -566,7 +574,7 @@ class ActivitySpotInfo_ImageSearch :
             startActivity(intent)
 
         }
-        layoutActions.viewPhone.setOnClickListener {
+        binding.layoutActions.viewPhone.setOnClickListener {
             // 電話
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -867,7 +875,7 @@ class ActivitySpotInfo_ImageSearch :
 
                 if (condReviewImagePage == 1) {
                     // スケルトンビュー
-                    (rcvReviewImage.background as TransitionDrawable).startTransition(1000)
+                    (binding.rcvReviewImage.background as TransitionDrawable).startTransition(1000)
                     getReviewTexts()
                 }
                 condReviewImagePage++
@@ -877,7 +885,7 @@ class ActivitySpotInfo_ImageSearch :
                     when (it) {
                         Constants.HTTP_STATUS.nodata -> {
                             // ギャラリーのデータなし
-                            viewReviewImageArea.visibility = View.GONE
+                            binding.viewReviewImageArea.visibility = View.GONE
                             getReviewTexts()
                         }
                         Constants.HTTP_STATUS.network -> {
@@ -908,7 +916,7 @@ class ActivitySpotInfo_ImageSearch :
 
                 if (condReviewTextPage == 1) {
                     // スケルトンビュー
-                    (rcvReviewText.background as TransitionDrawable).startTransition(500)
+                    (binding.rcvReviewText.background as TransitionDrawable).startTransition(500)
                     getSpotData()
                 }
                 condReviewTextPage++
@@ -918,7 +926,7 @@ class ActivitySpotInfo_ImageSearch :
                     when (it) {
                         Constants.HTTP_STATUS.nodata -> {
                             // クチコミテキストのデータなし
-                            viewReviewTextArea.visibility = View.GONE
+                            binding.viewReviewTextArea.visibility = View.GONE
                             getSpotData()
                         }
                         Constants.HTTP_STATUS.network -> {
@@ -983,18 +991,18 @@ class ActivitySpotInfo_ImageSearch :
             basicAdapter!!.notifyDataSetChanged()
 
             // シェア
-            layoutShare.textViewCopy.text = dataSpot!!.snsShareText
+            binding.layoutShare.textViewCopy.text = dataSpot!!.snsShareText
 
             // アクションフッター
-            layoutActions.imageViewFavorite.setImageDrawable(
+            binding.layoutActions.imageViewFavorite.setImageDrawable(
                 ContextCompat.getDrawable(mContext!!, if (dataSpot!!.bookMarkEnable)
                     R.drawable.img_spot_info_favorite else R.drawable.img_spot_info_favorite_dis))
-            layoutActions.imageViewCheckin.setImageDrawable(
+            binding.layoutActions.imageViewCheckin.setImageDrawable(
                 ContextCompat.getDrawable(mContext!!, if (dataSpot!!.checkinEnable)
                     R.drawable.img_spot_info_action_checkin else R.drawable.img_spot_info_action_checkin_dis))
 
             // 上部の項目を表示することで下にスライドしなくなる
-            textViewSpotName.text = dataSpot!!.name
+            binding.textViewSpotName.text = dataSpot!!.name
 
         }
 

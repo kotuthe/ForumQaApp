@@ -10,18 +10,22 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyProfileBinding
 import net.tttttt.www.forum_qa_app.entities.DataMember
-import kotlinx.android.synthetic.main.activity_my_profile.*
 import net.tttttt.www.forum_qa_app.value.MyAddress
 import net.tttttt.www.forum_qa_app.value.MyProfile
 
 class ActivityMyProfile : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMyProfileBinding
     private lateinit var dataMember: DataMember
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_profile)
+
+        binding = ActivityMyProfileBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "プロフィール編集"
@@ -51,8 +55,8 @@ class ActivityMyProfile : AppCompatActivity() {
             MyProfile().getGenderTexts()
         )
         gndAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerGender.adapter = gndAdapter
-        spinnerGender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinnerGender.adapter = gndAdapter
+        binding.spinnerGender.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             //　アイテムが選択された時
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val item = parent!!.selectedItem as String
@@ -71,8 +75,8 @@ class ActivityMyProfile : AppCompatActivity() {
             MyAddress().getPrefectureTexts()
         )
         prfAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        spinnerPrefecture.adapter = prfAdapter
-        spinnerPrefecture.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+        binding.spinnerPrefecture.adapter = prfAdapter
+        binding.spinnerPrefecture.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
             //　アイテムが選択された時
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 val item = parent!!.selectedItem as String

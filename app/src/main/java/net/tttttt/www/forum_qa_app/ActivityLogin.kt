@@ -15,7 +15,7 @@ import android.view.inputmethod.EditorInfo
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_login.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityLoginBinding
 import net.tttttt.www.forum_qa_app.entities.DataUsers
 import net.tttttt.www.forum_qa_app.storage.DBHelper
 import net.tttttt.www.forum_qa_app.storage.DBTableUsers
@@ -34,6 +34,8 @@ class ActivityLogin : AppCompatActivity() {
         val TAG = "ActivityLogin"
     }
 
+    private lateinit var binding: ActivityLoginBinding
+
     // 変数 //
     private var mContext: Context? = null
     private var mySP: MySharedPreferences? = null
@@ -42,7 +44,10 @@ class ActivityLogin : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+        // setContentView(R.layout.activity_login)
+        binding = ActivityLoginBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         mySP = MySharedPreferences(mContext!!)
@@ -60,7 +65,7 @@ class ActivityLogin : AppCompatActivity() {
         hideLoading()
 
         // パスワード入力
-        editPassword.setOnEditorActionListener() { v, actionId, event ->
+        binding.editPassword.setOnEditorActionListener() { v, actionId, event ->
             when(actionId){
                 EditorInfo.IME_ACTION_DONE, EditorInfo.IME_NULL, 999 -> {
                     checkInput()
@@ -71,12 +76,12 @@ class ActivityLogin : AppCompatActivity() {
         }
 
         // ログインボタン
-        buttonLogin.setOnClickListener {
+        binding.buttonLogin.setOnClickListener {
             checkInput()
         }
 
         // パスワード忘れた
-        textViewForgetLink.setOnClickListener {
+        binding.textViewForgetLink.setOnClickListener {
             val uri: Uri = Uri.parse(MyString().my_http_url_forget_pass())
             val i = Intent(Intent.ACTION_VIEW, uri)
             startActivity(i)
@@ -92,12 +97,12 @@ class ActivityLogin : AppCompatActivity() {
     }
 
     private fun showLoading(msg: String) {
-        viewLoading.visibility = View.VISIBLE
-        textViewLoading.text = msg
+        binding.viewLoading.visibility = View.VISIBLE
+        binding.textViewLoading.text = msg
     }
 
     private fun hideLoading() {
-        viewLoading.visibility = View.GONE
+        binding.viewLoading.visibility = View.GONE
     }
 
     private fun isEmailValid(email: String): Boolean {
@@ -105,27 +110,27 @@ class ActivityLogin : AppCompatActivity() {
     }
 
     private fun checkInput() {
-        actEmail.error = null
-        editPassword.error = null
+        binding.actEmail.error = null
+        binding.editPassword.error = null
 
         var cancel = false
-        val email = actEmail.text.toString()
-        val password = editPassword.text.toString()
+        val email = binding.actEmail.text.toString()
+        val password = binding.editPassword.text.toString()
 
         if (email.isEmpty()) {
             cancel = true
-            actEmail.error = "必須"
-            actEmail.requestFocus()
+            binding.actEmail.error = "必須"
+            binding.actEmail.requestFocus()
         } else if (!isEmailValid(email)) {
             cancel = true
-            actEmail.error = "正しく入力してください"
-            actEmail.requestFocus()
+            binding.actEmail.error = "正しく入力してください"
+            binding.actEmail.requestFocus()
         }
 
         if (password.isEmpty()) {
             cancel = true
-            editPassword.error = "必須"
-            editPassword.requestFocus()
+            binding.editPassword.error = "必須"
+            binding.editPassword.requestFocus()
         }
 
         if (!cancel) {
@@ -174,8 +179,8 @@ class ActivityLogin : AppCompatActivity() {
         showLoading("認証に失敗しました")
         Handler().postDelayed(Runnable {
 
-            actEmail.error = "IDまたはパスワードが違います"
-            actEmail.requestFocus()
+            binding.actEmail.error = "IDまたはパスワードが違います"
+            binding.actEmail.requestFocus()
 
             hideLoading()
         }, 800)

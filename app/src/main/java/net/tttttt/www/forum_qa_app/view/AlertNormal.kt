@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.alert_normal.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.AlertNormalBinding
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -36,6 +36,8 @@ class AlertNormal : DialogFragmentFullScreen() {
             }
         }
     }
+
+    private lateinit var binding: AlertNormalBinding
 
     private object UNINITIALIZED_VALUE_FOR_ARGMENTS
     @Suppress("UNCHECKED_CAST")
@@ -117,56 +119,58 @@ class AlertNormal : DialogFragmentFullScreen() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.alert_normal, container, false)
+        // return inflater.inflate(R.layout.alert_normal, container, false)
+        binding = AlertNormalBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutDialog.setOnTouchListener { _, _ -> true }
+        binding.layoutDialog.setOnTouchListener { _, _ -> true }
 
         // タイトル
         if (title == null || title!!.isEmpty()) {
-            textViewTitle.visibility = View.GONE
+            binding.textViewTitle.visibility = View.GONE
         } else {
-            textViewTitle.visibility = View.VISIBLE
-            textViewTitle.text = title
+            binding.textViewTitle.visibility = View.VISIBLE
+            binding.textViewTitle.text = title
         }
 
         // メッセージ
         if (msg == null || msg!!.isEmpty()) {
-            textViewMsg.visibility = View.GONE
+            binding.textViewMsg.visibility = View.GONE
         } else {
-            textViewMsg.visibility = View.VISIBLE
-            textViewMsg.text = msg
+            binding.textViewMsg.visibility = View.VISIBLE
+            binding.textViewMsg.text = msg
         }
 
         // ポジティブボタン
         if (!positiveLabel.isNullOrEmpty()) {
-            buttonPositive.text = positiveLabel
+            binding.buttonPositive.text = positiveLabel
         }
 
         // ネガティブボタン
         if (!negativeLabel.isNullOrEmpty()) {
-            viewButtonSeparator.visibility = View.VISIBLE
-            buttonNegative.text = negativeLabel
-            buttonNegative.visibility = View.VISIBLE
-            buttonNegative.setOnClickListener {
+            binding.viewButtonSeparator.visibility = View.VISIBLE
+            binding.buttonNegative.text = negativeLabel
+            binding.buttonNegative.visibility = View.VISIBLE
+            binding.buttonNegative.setOnClickListener {
                 listener?.onSimpleDialogNegativeClick(requestCode)
                 dismiss()
             }
         }
 
         // Destructiveモードのレイアウト
-        if (buttonPositive.isVisible && is_positive_destructive) {
-            buttonPositive.setTextColor(ContextCompat.getColor(context!!, R.color.colorIosPink))
+        if (binding.buttonPositive.isVisible && is_positive_destructive) {
+            binding.buttonPositive.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorIosPink))
         }
 
-        if (buttonNegative.isVisible && is_negative_destructive) {
-            buttonNegative.setTextColor(ContextCompat.getColor(context!!, R.color.colorIosPink))
+        if (binding.buttonNegative.isVisible && is_negative_destructive) {
+            binding.buttonNegative.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorIosPink))
         }
 
-        buttonPositive.setOnClickListener {
+        binding.buttonPositive.setOnClickListener {
             listener?.onSimpleDialogPositiveClick(requestCode)
             dismiss()
         }

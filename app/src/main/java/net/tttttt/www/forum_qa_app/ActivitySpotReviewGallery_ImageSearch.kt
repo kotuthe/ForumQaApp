@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_spot_review_gallery_image_search.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewGalleryImageSearchBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
 import net.tttttt.www.forum_qa_app.network.HttpSpotInfo
@@ -27,6 +27,8 @@ class ActivitySpotReviewGallery_ImageSearch :
         val TAG_SHORT = "SpotReviewGallery_IS"
     }
 
+    private lateinit var binding: ActivitySpotReviewGalleryImageSearchBinding
+
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
     // データ
@@ -41,7 +43,10 @@ class ActivitySpotReviewGallery_ImageSearch :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_gallery_image_search)
+        // setContentView(R.layout.activity_spot_review_gallery_image_search)
+        binding = ActivitySpotReviewGalleryImageSearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         supportActionBar!!.hide()
 
@@ -78,12 +83,12 @@ class ActivitySpotReviewGallery_ImageSearch :
      * UIの初期設定
      */
     private fun initLayout() {
-        viewPageClose.setOnClickListener{
+        binding.viewPageClose.setOnClickListener{
             // 戻った時にこちらで取得したクチコミデータをスポットページで更新するかを検討する
             finish()
         }
 
-        buttonReviewDetail.setOnClickListener {
+        binding.buttonReviewDetail.setOnClickListener {
             // クチコミ詳細へ
             val item = imageListData[selectIndex]
             val intent = Intent(this, ActivitySpotReviewDetail_ImageSearch::class.java)
@@ -92,16 +97,16 @@ class ActivitySpotReviewGallery_ImageSearch :
             startActivity(intent)
         }
 
-        textViewSpotName.text = dataSpot.name
+        binding.textViewSpotName.text = dataSpot.name
 
         mAdapter = RecyclerISReviewGalleryAdapter(mContext, imageListData)
 
         // ページコントロール
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(binding.recyclerView)
 
         // recyclerViewの設定
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // 表示計算の最適化（推奨）
             setHasFixedSize(true)
 
@@ -142,15 +147,15 @@ class ActivitySpotReviewGallery_ImageSearch :
             // 全枚数 = 写真枚数 + 店舗写真
             title = "%d / %d".format(index + 1, allNumber + 1)
         }
-        textViewNumber.text = title
+        binding.textViewNumber.text = title
 
         if (index == 0) {
-            textViewDate.visibility = View.INVISIBLE
-            buttonReviewDetail.visibility = View.INVISIBLE
+            binding.textViewDate.visibility = View.INVISIBLE
+            binding.buttonReviewDetail.visibility = View.INVISIBLE
         } else {
-            textViewDate.visibility = View.VISIBLE
-            buttonReviewDetail.visibility = View.VISIBLE
-            textViewDate.text = item.reviewDate
+            binding.textViewDate.visibility = View.VISIBLE
+            binding.buttonReviewDetail.visibility = View.VISIBLE
+            binding.textViewDate.text = item.reviewDate
         }
     }
 

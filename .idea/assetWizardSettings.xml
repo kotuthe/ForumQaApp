@@ -24,8 +24,8 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="imagePath" value="C:\Users\HITBIT~1\AppData\Local\Temp\baseline_settings_24.xml" />
-                                                <entry key="opacityPercent" value="80" />
+                                                <entry key="imagePath" value="C:\Users\HITBIT~1\AppData\Local\Temp\baseline_add_24.xml" />
+                                                <entry key="opacityPercent" value="60" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -36,7 +36,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../../../hitbit%20kotouno/AppData/Local/Android/Sdk/icons/material/materialicons/settings/baseline_settings_24.xml" />
+                                                <entry key="url" value="file:/$PROJECT_DIR$/../../../../../../hitbit%20kotouno/AppData/Local/Android/Sdk/icons/material/materialicons/add/baseline_add_24.xml" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -68,8 +68,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="outputName" value="ic_setting" />
-                                      <entry key="theme" value="HOLO_DARK" />
+                                      <entry key="outputName" value="ic_add" />
                                     </map>
                                   </option>
                                 </PersistentState>

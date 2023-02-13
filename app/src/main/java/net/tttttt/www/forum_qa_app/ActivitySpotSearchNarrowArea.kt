@@ -7,7 +7,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_search_narrow_area.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotSearchNarrowAreaBinding
 import net.tttttt.www.forum_qa_app.entities.DataNarrowMulti
 import net.tttttt.www.forum_qa_app.storage.DBHelper
 import net.tttttt.www.forum_qa_app.storage.DBTableArea1
@@ -22,6 +22,8 @@ class ActivitySpotSearchNarrowArea :
         const val TAG_SHORT = "SSNarrowArea"
     }
 
+    private lateinit var binding: ActivitySpotSearchNarrowAreaBinding
+
     // データ //
     private var selectArea: ArrayList<Int> = arrayListOf()
     private lateinit var mAdapter: ListNarrowAreaAdapter
@@ -30,7 +32,10 @@ class ActivitySpotSearchNarrowArea :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_search_narrow_area)
+        // setContentView(R.layout.activity_spot_search_narrow_area)
+        binding = ActivitySpotSearchNarrowAreaBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         selectArea = intent.getIntegerArrayListExtra("area")!!
 
@@ -84,7 +89,7 @@ class ActivitySpotSearchNarrowArea :
         // listView //
         mAdapter = ListNarrowAreaAdapter(this, groups,childes)
 
-        listView.apply {
+        binding.listView.apply {
 
             setAdapter(mAdapter)
             // セクション(true: 折りたたまれない)
@@ -107,7 +112,7 @@ class ActivitySpotSearchNarrowArea :
         }
 
         // 条件をクリア
-        buttonClear.setOnClickListener {
+        binding.buttonClear.setOnClickListener {
             val tmp_childes: ArrayList<ArrayList<DataNarrowMulti>> = arrayListOf()
             for (i in 0..groups.size - 1) {
                 tmp_childes.add(childes[i])
@@ -123,7 +128,7 @@ class ActivitySpotSearchNarrowArea :
         }
 
         // 決定
-        buttonSearch.setOnClickListener {
+        binding.buttonSearch.setOnClickListener {
             val intent = Intent()
             val array_child: ArrayList<Int> = arrayListOf()
             for (i in 0..groups.size - 1) {

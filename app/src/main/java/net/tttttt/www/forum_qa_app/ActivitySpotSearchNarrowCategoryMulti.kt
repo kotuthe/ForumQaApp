@@ -6,7 +6,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.widget.CheckBox
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_search_narrow_category_multi.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotSearchNarrowCategoryMultiBinding
 import net.tttttt.www.forum_qa_app.entities.DataNarrowMulti
 import net.tttttt.www.forum_qa_app.storage.DBHelper
 import net.tttttt.www.forum_qa_app.storage.DBTableCategory1
@@ -22,6 +22,8 @@ class ActivitySpotSearchNarrowCategoryMulti :
         const val TAG_SHORT = "SSNarrowCaM"
     }
 
+    private lateinit var binding: ActivitySpotSearchNarrowCategoryMultiBinding
+
     // データ //
     private var selectCategory: ArrayList<Pair<Int, Int>> = arrayListOf()
     private var parentId: Int = 0
@@ -32,7 +34,10 @@ class ActivitySpotSearchNarrowCategoryMulti :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_search_narrow_category_multi)
+        // setContentView(R.layout.activity_spot_search_narrow_category_multi)
+        binding = ActivitySpotSearchNarrowCategoryMultiBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         selectCategory = intent.getSerializableExtra("category") as ArrayList<Pair<Int, Int>>
         parentId = selectCategory[0].second
@@ -91,10 +96,10 @@ class ActivitySpotSearchNarrowCategoryMulti :
             supportActionBar!!.title = parentName
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
-        textViewCategory1Title.text = "%s の全て".format(parentName)
+        binding.textViewCategory1Title.text = "%s の全て".format(parentName)
 
         // カテゴリー１ //
-        layoutCategory1.setOnClickListener {
+        binding.layoutCategory1.setOnClickListener {
             ActivitySpotSearchNarrow.selectCategory1(parentId)
             val intent = Intent(this, ActivitySpotSearchNarrow::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
@@ -106,7 +111,7 @@ class ActivitySpotSearchNarrowCategoryMulti :
         // listView //
         mAdapter = ListNarrowCategoryAdapter(this, groups,childes)
 
-        listView.apply {
+        binding.listView.apply {
 
             setAdapter(mAdapter)
             // セクション
@@ -141,7 +146,7 @@ class ActivitySpotSearchNarrowCategoryMulti :
         }
 
         // 条件をクリア
-        buttonClear.setOnClickListener {
+        binding.buttonClear.setOnClickListener {
             val tmp_groups: ArrayList<DataNarrowMulti> = arrayListOf()
             val tmp_childes: ArrayList<ArrayList<DataNarrowMulti>> = arrayListOf()
             for (i in 0..groups.size - 1) {
@@ -158,7 +163,7 @@ class ActivitySpotSearchNarrowCategoryMulti :
             mAdapter.notifyDataSetChanged()
 
             // 全て開く
-            listView.apply {
+            binding.listView.apply {
                 for (i in 0..groups.size - 1) {
                     if (!groups[i].checked) {
                         expandGroup(i)
@@ -168,7 +173,7 @@ class ActivitySpotSearchNarrowCategoryMulti :
         }
 
         // 決定
-        buttonSearch.setOnClickListener {
+        binding.buttonSearch.setOnClickListener {
             // 2つ前に戻る場合があるため
             ActivitySpotSearchNarrow.selectFinalCategory(parentId, groups, childes)
             val intent = Intent(this, ActivitySpotSearchNarrow::class.java)

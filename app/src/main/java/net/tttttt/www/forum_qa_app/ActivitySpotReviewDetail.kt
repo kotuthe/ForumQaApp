@@ -8,8 +8,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import coil.load
-import kotlinx.android.synthetic.main.activity_spot_review_detail.*
-import kotlinx.android.synthetic.main.view_spot_review_detail_spot.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewDetailBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -25,6 +24,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
         val TAG_SHORT = "SpotReviewDetail"
     }
 
+    private lateinit var binding: ActivitySpotReviewDetailBinding
     private lateinit var firebase: FirebaseHelper
 
     // 変数 //
@@ -39,7 +39,10 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_detail)
+        // setContentView(R.layout.activity_spot_review_detail)
+        binding = ActivitySpotReviewDetailBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -85,13 +88,13 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
 
     private fun updateLayout() {
         // スポット情報
-        layoutSpot.apply {
+        binding.layoutSpot.apply {
             imageViewSpot.load(dataSpot.imageUrl) {
                 placeholder(R.drawable.ic_image_placeholder)
             }
             textViewName.text = dataSpot.name
             textViewDetail.text = dataSpot.simple_detail
-            setOnClickListener {
+            /*setOnClickListener {
                 firebase.sendSpotInfo(
                     FirebaseHelper.screenName.Spot_Info_Kuchikomi_Detail, 1, dataSpot.id)
                 if (isClearFinish) {
@@ -111,18 +114,19 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
                     // 戻る
                     finish()
                 }
-            }
+            }*/
         }
-        layoutOther.visibility = View.GONE
+        // error
+        // binding.layoutOther.visibility = View.GONE
 
         // ユーザー情報
-        textViewDate.text = "投稿日: %s".format(dataReview.reviewDate)
-        imageViewUserIcon.load(dataReview.userImage) {
+        binding.textViewDate.text = "投稿日: %s".format(dataReview.reviewDate)
+        binding.imageViewUserIcon.load(dataReview.userImage) {
             placeholder(R.drawable.ic_image_placeholder)
         }
-        textViewUserName.text = dataReview.userName
-        textViewUserDetail.text = dataReview.userInfo
-        textViewReview.apply {
+        binding.textViewUserName.text = dataReview.userName
+        binding.textViewUserDetail.text = dataReview.userInfo
+        binding.textViewReview.apply {
             if (dataReview.review.isEmpty()) {
                 visibility = View.GONE
             } else {
@@ -130,7 +134,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
                 text = dataReview.review
             }
         }
-        textViewReviewInfo.apply {
+        binding.textViewReviewInfo.apply {
             if (dataReview.goodNum > 0) {
                 visibility = View.VISIBLE
                 text = getString(R.string.spot_review_detail_good_kita).format(dataReview.goodNum)
@@ -141,7 +145,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
 
         // クチコミ画像
         mAdapter = RecyclerReviewDetailImageAdapter(this, imageData)
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 列
@@ -171,7 +175,7 @@ class ActivitySpotReviewDetail : AppCompatActivity() {
         if (dataReview.reviewImageUrls.size > 0) {
             imageData.addAll(dataReview.reviewImageUrls)
         } else {
-            recyclerView.visibility = View.GONE
+            binding.recyclerView.visibility = View.GONE
         }
 
     }

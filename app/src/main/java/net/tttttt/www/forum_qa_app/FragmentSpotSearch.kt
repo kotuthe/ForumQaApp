@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.fragment_spot_search.*
+import net.tttttt.www.forum_qa_app.databinding.FragmentSpotSearchBinding
 import net.tttttt.www.forum_qa_app.entities.DataCategory1
 import net.tttttt.www.forum_qa_app.entities.DataListSearch
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -28,22 +28,24 @@ class FragmentSpotSearch : Fragment() {
         val TAG_SHORT = "SpotSearch"
     }
 
+    private lateinit var binding: FragmentSpotSearchBinding
+
     private var dataCategory: ArrayList<DataCategory1> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_spot_search, container, false)
+        binding = FragmentSpotSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val db = DBHelper(context!!)
+        val db = DBHelper(requireContext())
         try {
-            dataCategory = DBTableCategory1(context!!).getAll(db)
+            dataCategory = DBTableCategory1(requireContext()).getAll(db)
         } catch (e: Exception) {
             Log.e(TAG_SHORT, "" + e.message)
         } finally {
@@ -58,13 +60,13 @@ class FragmentSpotSearch : Fragment() {
 
         // カテゴリーの一覧
         if (dataCategory.size > 0) {
-            val mAdapter = ListSearchAdapter(context!!, 0)
+            val mAdapter = ListSearchAdapter(requireContext(), 0)
             for (i in 0..dataCategory.size - 1) {
                 val item = dataCategory.get(i)
                 mAdapter.add(DataListSearch(MyImage().icon_category(item.id), item.name, item.sub_title))
             }
 
-            listView.apply {
+            binding.listView.apply {
                 adapter = mAdapter
                 setOnItemClickListener { parent, view, position, id ->
                     // カテゴリー検索へ
@@ -75,48 +77,48 @@ class FragmentSpotSearch : Fragment() {
         }
 
         // 広告
-        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearch, resources)
+        binding.viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearch, resources)
     }
 
     override fun onResume() {
         super.onResume()
         if (activity != null) {
-            activity!!.title = getString(R.string.spot_search_title)
+            requireActivity().title = getString(R.string.spot_search_title)
         }
     }
 
     override fun onPause() {
         super.onPause()
         // 検索フォームをクリア
-        if (!searchView.isIconified) {
-            searchView.isIconified = true
-            searchView.isIconified = true
+        if (!binding.searchView.isIconified) {
+            binding.searchView.isIconified = true
+            binding.searchView.isIconified = true
         }
     }
 
     /** 検索フォームの設定 **/
     private fun setSearchView() {
         // SearchViewのキャンセル
-        buttonCancel.setOnClickListener {
-            searchView.isIconified = true
-            searchView.isIconified = true
+        binding.buttonCancel.setOnClickListener {
+            binding.searchView.isIconified = true
+            binding.searchView.isIconified = true
             // textViewSVHint.visibility = View.VISIBLE
         }
 
         // SearchView //
         // ヒント
-        textViewSVHint.setOnClickListener {
-            searchView.isIconified = false
-            textViewSVHint.visibility = View.GONE
+        binding.textViewSVHint.setOnClickListener {
+            binding.searchView.isIconified = false
+            binding.textViewSVHint.visibility = View.GONE
         }
 
         // 虫眼鏡のクリック
-        searchView.setOnSearchClickListener {
-            textViewSVHint.visibility = View.GONE
+        binding.searchView.setOnSearchClickListener {
+            binding.textViewSVHint.visibility = View.GONE
         }
 
         // テキストの変化
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // テキスト検索へ
                 hideKeyboard()
@@ -130,9 +132,9 @@ class FragmentSpotSearch : Fragment() {
         })
 
         // 閉じるイベント
-        searchView.setOnCloseListener(object : SearchView.OnCloseListener {
+        binding.searchView.setOnCloseListener(object : SearchView.OnCloseListener {
             override fun onClose(): Boolean {
-                textViewSVHint.visibility = View.VISIBLE
+                binding.textViewSVHint.visibility = View.VISIBLE
                 return false
             }
         })
@@ -140,9 +142,9 @@ class FragmentSpotSearch : Fragment() {
 
     /** キーボードを閉じる **/
     private fun hideKeyboard() {
-        val view = activity!!.currentFocus
+        val view = requireActivity().currentFocus
         if (view != null) {
-            val manager = activity!!.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val manager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             manager.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }

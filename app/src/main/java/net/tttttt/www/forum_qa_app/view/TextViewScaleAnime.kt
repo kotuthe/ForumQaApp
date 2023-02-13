@@ -8,7 +8,7 @@ import android.view.animation.ScaleAnimation
 import android.widget.TextView
 
 
-class TextViewScaleAnime(context: Context, attr: AttributeSet) : TextView(context, attr) {
+class TextViewScaleAnime(context: Context, attr: AttributeSet) : androidx.appcompat.widget.AppCompatTextView(context, attr) {
 
     init {
         // this.setBackgroundResource(R.drawable.btn_action)

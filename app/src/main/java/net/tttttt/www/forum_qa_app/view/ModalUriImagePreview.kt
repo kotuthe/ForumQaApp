@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.modal_uri_image_preview.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.ModalUriImagePreviewBinding
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -41,6 +41,8 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
             }
         }
     }
+
+    private lateinit var binding: ModalUriImagePreviewBinding
 
     private object UNINITIALIZED_VALUE_FOR_ARGMENTS
     @Suppress("UNCHECKED_CAST")
@@ -109,7 +111,9 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.modal_uri_image_preview, container, false)
+        // return inflater.inflate(R.layout.modal_uri_image_preview, container, false)
+        binding = ModalUriImagePreviewBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -118,7 +122,7 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
         // 多分、背景をタッチしても消えない設定をするようにしている
         // layoutDialog.setOnTouchListener { _, _ -> true }
 
-        viewPageClose.setOnClickListener {
+        binding.viewPageClose.setOnClickListener {
             listener?.onModalUriImagePreviewCloseClick()
             onDismiss(250)
         }
@@ -135,14 +139,14 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
      */
     private fun initLayout() {
 
-        mAdapter = RecyclerUriImagePreviewAdapter(context!!, items)
+        mAdapter = RecyclerUriImagePreviewAdapter(requireContext(), items)
 
         // ページコントロール
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(binding.recyclerView)
 
         // recyclerViewの設定
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // 表示計算の最適化（推奨）
             setHasFixedSize(true)
 
@@ -187,12 +191,12 @@ class ModalUriImagePreview : DialogFragmentFullScreen() {
             // 2以上
             title += " ( %d / %d )".format(index + 1, items.count())
         }
-        textViewTitle.text = if (fixTitle != null) fixTitle!! else title
+        binding.textViewTitle.text = if (fixTitle != null) fixTitle!! else title
     }
 
     /** タイトル更新 **/
     fun setNotChangeTitle(title: String) {
-        textViewTitle.text = title
+        binding.textViewTitle.text = title
     }
 
 }

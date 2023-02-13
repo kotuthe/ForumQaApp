@@ -10,7 +10,7 @@ import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_spot_search_narrow.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotSearchNarrowBinding
 import net.tttttt.www.forum_qa_app.entities.DataCategory1
 import net.tttttt.www.forum_qa_app.entities.DataCategory2
 import net.tttttt.www.forum_qa_app.entities.DataCategory3
@@ -32,6 +32,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         // onActivityResultでしか使用できない //
         var IS_ACTIVITY_RESULT: Boolean = false
         var FINAL_CATEGORY_1: Int = 0
+
         var finalMultiGroups: ArrayList<DataNarrowMulti>? = null
         var finalMultiChildes: ArrayList<ArrayList<DataNarrowMulti>>? = null
 
@@ -56,6 +57,8 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         val REQUEST_AREA: Int = 0x2
     }
 
+    private lateinit var binding: ActivitySpotSearchNarrowBinding
+
     // UI //
     private lateinit var loading: LoadingNormal
 
@@ -72,7 +75,10 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_search_narrow)
+        // setContentView(R.layout.activity_spot_search_narrow)
+        binding = ActivitySpotSearchNarrowBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
 
@@ -146,7 +152,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
 
         // カテゴリー
         setViewCategory()
-        layoutCategory.setOnClickListener {
+        binding.layoutCategory.setOnClickListener {
             loading.show(supportFragmentManager, LoadingNormal.TAG)
             loading.onDismiss(500)
 
@@ -167,24 +173,24 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
 
         // エリア
         setViewArea()
-        textViewAreaTitle.text = "エリア"
-        layoutArea.setOnClickListener {
+        binding.textViewAreaTitle.text = "エリア"
+        binding.layoutArea.setOnClickListener {
             val intent = Intent(this@ActivitySpotSearchNarrow, ActivitySpotSearchNarrowArea::class.java)
             intent.putExtra("area", condAreaArray)
             startActivityForResult(intent, REQUEST_AREA)
         }
 
         // クーポン
-        layoutCoupon.setOnClickListener {
-            checkboxCoupon.isChecked = !checkboxCoupon.isChecked
-            condCoupon = checkboxCoupon.isChecked
+        binding.layoutCoupon.setOnClickListener {
+            binding.checkboxCoupon.isChecked = !binding.checkboxCoupon.isChecked
+            condCoupon = binding.checkboxCoupon.isChecked
         }
-        checkboxCoupon.setOnClickListener {
-            condCoupon = checkboxCoupon.isChecked
+        binding.checkboxCoupon.setOnClickListener {
+            condCoupon = binding.checkboxCoupon.isChecked
         }
 
         // クリア
-        buttonClear.setOnClickListener {
+        binding.buttonClear.setOnClickListener {
 
             // カテゴリーのクリア
             val parent_ca_id = if (condCategoryArray.size > 0) condCategoryArray[0].second else 0
@@ -204,11 +210,11 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
 
             // クーポンクリア
             condCoupon = false
-            checkboxCoupon.isChecked = false
+            binding.checkboxCoupon.isChecked = false
         }
 
         // 検索
-        buttonSearch.setOnClickListener {
+        binding.buttonSearch.setOnClickListener {
             val intent = Intent()
             intent.putExtra("word", condWord)
             intent.putExtra("category", condCategoryArray)
@@ -219,7 +225,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         }
 
         // 条件からレイアウトの更新
-        checkboxCoupon.isChecked = condCoupon
+        binding.checkboxCoupon.isChecked = condCoupon
     }
 
     private fun setViewCategory() {
@@ -245,7 +251,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         }
 
         // 第 1 カテゴリー
-        textViewCategoryTitle.apply {
+        binding.textViewCategoryTitle.apply {
             if (title == null) {
                 text = "カテゴリー"
             } else  {
@@ -254,7 +260,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         }
 
         // 第 2 or 3 カテゴリー
-        textViewCategoryValue.apply {
+        binding.textViewCategoryValue.apply {
             if (value == null) {
                 text = "指定なし"
                 setTextColor(ContextCompat.getColor(mContext, R.color.colorTextGray))
@@ -311,7 +317,7 @@ class ActivitySpotSearchNarrow : AppCompatActivity() {
         }
 
         // 第 2 エリア
-        textViewAreaValue.apply {
+        binding.textViewAreaValue.apply {
             if (value == null) {
                 text = "指定なし"
                 setTextColor(ContextCompat.getColor(mContext, R.color.colorTextGray))

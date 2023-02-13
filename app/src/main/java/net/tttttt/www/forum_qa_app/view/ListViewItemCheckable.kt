@@ -2,14 +2,17 @@ package net.tttttt.www.forum_qa_app.view
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.Checkable
 import android.widget.FrameLayout
-import kotlinx.android.synthetic.main.listview_item_checkable.view.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.ListviewItemCheckableBinding
 
 class ListViewItemCheckable : FrameLayout, Checkable {
     // private var mRadioButton: RadioButton? = null
+
+    private val binding = ListviewItemCheckableBinding.inflate(LayoutInflater.from(context), this, true)
 
     constructor(context: Context) : super(context) {
         initialize()
@@ -35,12 +38,12 @@ class ListViewItemCheckable : FrameLayout, Checkable {
 
     override fun isChecked(): Boolean {
         // return mRadioButton!!.isChecked
-        return radioButton.isChecked
+        return binding.radioButton.isChecked
     }
 
     override fun setChecked(checked: Boolean) { // RadioButton の表示を切り替える
         // mRadioButton!!.isChecked = checked
-        radioButton.isChecked = checked
+        binding.radioButton.isChecked = checked
     }
 
     override fun toggle() {}

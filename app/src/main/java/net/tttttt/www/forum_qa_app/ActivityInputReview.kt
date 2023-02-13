@@ -33,7 +33,8 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.core.Method
 import com.github.kittinunf.fuel.httpGet
 import com.github.kittinunf.fuel.httpUpload
-import kotlinx.android.synthetic.main.activity_input_review.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityInputReviewBinding
+import net.tttttt.www.forum_qa_app.databinding.ActivityMainBinding
 import net.tttttt.www.forum_qa_app.entities.DataBadge
 import net.tttttt.www.forum_qa_app.entities.DataMyDraftReview
 import net.tttttt.www.forum_qa_app.entities.DataReviewTag
@@ -58,6 +59,7 @@ class ActivityInputReview :
         val TAG = "ActivityInputReview"
     }
     // 定数 //
+    private lateinit var binding: ActivityInputReviewBinding
     private val REQUEST_SELECT_IMAGE_PICKER: Int = 1
     private val REQUEST_SELECT_IMAGE_PICKER_IRREGULAR: Int = 101
     private val REQUEST_PERMISSION_STORAGE: Int = 102
@@ -99,7 +101,10 @@ class ActivityInputReview :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_input_review)
+        // setContentView(R.layout.activity_input_review)
+        binding = ActivityInputReviewBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         isSelectImageIrregular = Build.VERSION.SDK_INT >= 29
 
@@ -134,7 +139,7 @@ class ActivityInputReview :
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        textViewSpotName.text = dataSpot.name
+        binding.textViewSpotName.text = dataSpot.name
 
         initLayout()
         requestStoragePermission()
@@ -390,7 +395,7 @@ class ActivityInputReview :
 
                 // クチコミ
                 if (!it.review.isEmpty()) {
-                    editTextReview.setText(it.review)
+                    binding.editTextReview.setText(it.review)
                 }
 
                 // 写真
@@ -410,33 +415,33 @@ class ActivityInputReview :
 
         // 訪問日
         setVisitDateTitle()
-        layoutVisitValue.setOnClickListener {
+        binding.layoutVisitValue.setOnClickListener {
             showCalendar()
         }
 
         // クチコミ
-        layoutReview.visibility =
+        binding.layoutReview.visibility =
             if (reviewType == 1) View.VISIBLE else View.GONE
-        buttonReviewClose.alpha = 0f
-        editTextReview.apply {
+        binding.buttonReviewClose.alpha = 0f
+        binding.editTextReview.apply {
             setOnFocusChangeListener { view, hasFocus ->
                 // buttonReviewClose.visibility = if (hasFocus) View.VISIBLE else View.INVISIBLE
-                buttonReviewClose.alpha = if (hasFocus) 1f else 0f
+                binding.buttonReviewClose.alpha = if (hasFocus) 1f else 0f
                 if (!isDraft) {
-                    layoutNormalButtons.visibility = if (hasFocus) View.GONE else View.VISIBLE
+                    binding.layoutNormalButtons.visibility = if (hasFocus) View.GONE else View.VISIBLE
                 } else {
-                    layoutDraftButtons.visibility = if (hasFocus) View.GONE else View.VISIBLE
+                    binding.layoutDraftButtons.visibility = if (hasFocus) View.GONE else View.VISIBLE
                 }
             }
         }
 
-        buttonReviewClose.setOnClickListener {
+        binding.buttonReviewClose.setOnClickListener {
             hideKeyboard()
         }
 
         // 写真 //
         // とちぎエール飯
-        buttonTochigiAle.setOnClickListener {
+        binding.buttonTochigiAle.setOnClickListener {
             val alert = AlertNormal.newInstance(
                 requestCode = REQUEST_ALERT_TOCHIGI_ALE,
                 title = null,
@@ -448,7 +453,7 @@ class ActivityInputReview :
         }
 
         imageAdapter = RecyclerInputReviewAdapter(mContext!!, imageListData)
-        rcvImage.apply {
+        binding.rcvImage.apply {
             setHasFixedSize(true)
 
             val lmg = GridLayoutManager(context, imageAdapter!!.spanCount)
@@ -461,10 +466,10 @@ class ActivityInputReview :
 
         // 写真クチコミができない時
         if (!dataSpot.imageEnable) {
-            rcvImage.visibility = View.GONE
-            textViewImageHint.text = "※%s様では撮影不可となっており、写真投稿をご遠慮いただいております。".format(dataSpot.name)
+            binding.rcvImage.visibility = View.GONE
+            binding.textViewImageHint.text = "※%s様では撮影不可となっており、写真投稿をご遠慮いただいております。".format(dataSpot.name)
         } else {
-            textViewImageHint.text = getString(R.string.input_review_image_hint).format(MAX_SELECT_IMAGE)
+            binding.textViewImageHint.text = getString(R.string.input_review_image_hint).format(MAX_SELECT_IMAGE)
         }
 
         // アイテムの並び替え
@@ -489,7 +494,7 @@ class ActivityInputReview :
                         val from = it.adapterPosition
                         if (imageAdapter!!.items[from] == null) {
                             // 「追加」は動かさない
-                            clearView(rcvImage, it)
+                            clearView(binding.rcvImage, it)
                         } else {
                             // 振動
                             val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
@@ -554,7 +559,7 @@ class ActivityInputReview :
                 }
             })
 
-        touchHelper.attachToRecyclerView(rcvImage)
+        touchHelper.attachToRecyclerView(binding.rcvImage)
 
         // 写真プレビュー
         imageAdapter!!.setOnItemClickListener(View.OnClickListener { view ->
@@ -611,7 +616,7 @@ class ActivityInputReview :
 
         // タグの選択
         updateViewTag()
-        layoutTag.setOnClickListener {
+        binding.layoutTag.setOnClickListener {
             // タグ選択へ
             val intent = Intent(this, ActivityInputReviewTag::class.java)
             intent.putExtra("id", dataSpot.id)
@@ -647,25 +652,25 @@ class ActivityInputReview :
 
         var height = 0f
         if (!isDraft) {
-            layoutNormalButtons.visibility = View.VISIBLE
-            layoutDraftButtons.visibility = View.GONE
+            binding.layoutNormalButtons.visibility = View.VISIBLE
+            binding.layoutDraftButtons.visibility = View.GONE
             height = 80f
 
             // 下書き
-            buttonSave.setOnClickListener(draftListener)
+            binding.buttonSave.setOnClickListener(draftListener)
             // 投稿
-            buttonPost.setOnClickListener(saveListener)
+            binding.buttonPost.setOnClickListener(saveListener)
         } else {
-            layoutNormalButtons.visibility = View.GONE
-            layoutDraftButtons.visibility = View.VISIBLE
+            binding.layoutNormalButtons.visibility = View.GONE
+            binding.layoutDraftButtons.visibility = View.VISIBLE
             height = 134f
 
             // 下書きを削除
-            buttonDraftDelete.setOnClickListener(deleteListener)
+            binding.buttonDraftDelete.setOnClickListener(deleteListener)
             // 下書き
-            buttonDraftSave.setOnClickListener(draftListener)
+            binding.buttonDraftSave.setOnClickListener(draftListener)
             // 投稿
-            buttonDraftPost.setOnClickListener(saveListener)
+            binding.buttonDraftPost.setOnClickListener(saveListener)
         }
 
         // フッターのマージン
@@ -673,19 +678,19 @@ class ActivityInputReview :
             LinearLayout.LayoutParams.MATCH_PARENT,
             height.convertDpToPx(mContext!!).toInt()
         )
-        layoutFooter.layoutParams = lpm
+        binding.layoutFooter.layoutParams = lpm
     }
 
     /**
      * タグのView更新
      */
     private fun updateViewTag() {
-        tableLayoutTag.removeAllViews()
+        binding.tableLayoutTag.removeAllViews()
         if (condTags.size > 0) {
             // タグの表示
-            tableLayoutTag.visibility = View.VISIBLE
-            textViewTagHint.visibility = View.GONE
-            tableLayoutTag.also {
+            binding.tableLayoutTag.visibility = View.VISIBLE
+            binding.textViewTagHint.visibility = View.GONE
+            binding.tableLayoutTag.also {
                 val rowSize: Int = ceil(condTags.size / 2.0).toInt()
                 for (i in 0..rowSize - 1) {
                     val tr = TableRow(this).also {
@@ -717,8 +722,8 @@ class ActivityInputReview :
                 }
             }
         } else {
-            tableLayoutTag.visibility = View.GONE
-            textViewTagHint.visibility = View.VISIBLE
+            binding.tableLayoutTag.visibility = View.GONE
+            binding.textViewTagHint.visibility = View.VISIBLE
         }
 
     }
@@ -749,7 +754,7 @@ class ActivityInputReview :
             val manager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             manager.hideSoftInputFromWindow(view.windowToken, 0)
         }
-        layoutContent.requestFocus()
+        binding.layoutContent.requestFocus()
     }
 
     // 戻るボタンを押した時しか取得できない
@@ -771,7 +776,7 @@ class ActivityInputReview :
         if (condVisitDate[0] != 0) {
             title = "%d年 %d月 %d日".format(condVisitDate[0], condVisitDate[1], condVisitDate[2])
         }
-        textViewVisitDate.text = title
+        binding.textViewVisitDate.text = title
     }
 
     /**
@@ -837,7 +842,7 @@ class ActivityInputReview :
     private fun onClickPost() {
 
         val isVisitDate = condVisitDate[0] != 0
-        val isReview = editTextReview.length() > 0
+        val isReview = binding.editTextReview.length() > 0
         val isImage = isImages()
 
         var enable = true
@@ -888,7 +893,7 @@ class ActivityInputReview :
         val url = MyString().my_http_url_app() + "/review/error_check_input.php"
         val params = listOf(
             "comingFlg" to getVisitDate(),
-            "review" to editTextReview.text.toString(),
+            "review" to binding.editTextReview.text.toString(),
             "image_name" to "")
 
         url.httpGet(params).responseJson { request, response, result ->
@@ -1115,7 +1120,7 @@ class ActivityInputReview :
         // クチコミ
         var review = condReview
         if (review.isEmpty()) {
-            review = editTextReview.text.toString()
+            review = binding.editTextReview.text.toString()
         }
         params.add("review" to review)
 

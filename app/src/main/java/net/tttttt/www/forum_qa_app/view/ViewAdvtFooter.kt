@@ -6,13 +6,14 @@ import android.content.res.Resources
 import android.net.Uri
 import android.util.AttributeSet
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
 import coil.load
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.view_advt_footer.view.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.ViewAdvtFooterBinding
 import net.tttttt.www.forum_qa_app.value.MySharedPreferences
 import net.tttttt.www.forum_qa_app.value.MyString
 import org.json.JSONObject
@@ -34,6 +35,8 @@ class ViewAdvtFooter : FrameLayout {
         const val TAG = "ViewAdvtFooter"
         const val TAG_SHORT = "AdvtFooter"
     }
+
+    private val binding = ViewAdvtFooterBinding.inflate(LayoutInflater.from(context), this, true)
 
     private val INVISIBLE_TIME = 1 // 非表示の期間（単位：日）
     private var mySP: MySharedPreferences? = null
@@ -62,10 +65,10 @@ class ViewAdvtFooter : FrameLayout {
         mContext = context
         mySP = MySharedPreferences(mContext!!)
 
-        inflate(mContext!!, R.layout.view_advt_footer, this)
+        // inflate(mContext!!, R.layout.view_advt_footer, this)
 
         // 広告画像
-        imageView.setOnClickListener {
+        binding.imageView.setOnClickListener {
             if (advtUrl != null && !advtUrl!!.isEmpty()) {
                 val uri = Uri.parse(advtUrl)
                 val intent = Intent(Intent.ACTION_VIEW, uri)
@@ -74,7 +77,7 @@ class ViewAdvtFooter : FrameLayout {
         }
 
         // 閉じるボタン
-        layoutClose.setOnClickListener {
+        binding.layoutClose.setOnClickListener {
             mySP!!.put_advt(targetScreenName!!.name)
             hideCurrentView()
         }
@@ -128,10 +131,10 @@ class ViewAdvtFooter : FrameLayout {
                 val datas = json.obj().get("datas") as JSONObject
                 val result = datas.get("result") as Boolean
                 if (result) {
-                    imageView.visibility = View.VISIBLE
-                    layoutClose.visibility = View.VISIBLE
+                    binding.imageView.visibility = View.VISIBLE
+                    binding.layoutClose.visibility = View.VISIBLE
 
-                    imageView.load(datas.getString("img")) {
+                    binding.imageView.load(datas.getString("img")) {
                         placeholder(R.drawable.ic_image_placeholder)
                     }
                     advtUrl = datas.getString("url")

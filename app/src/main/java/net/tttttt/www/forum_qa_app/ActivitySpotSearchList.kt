@@ -23,8 +23,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotSearchListBinding
 import net.tttttt.www.forum_qa_app.entities.*
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.storage.*
@@ -40,6 +39,8 @@ class ActivitySpotSearchList : AppCompatActivity() {
         val TAG = "ActivitySpotSearchList"
         val TAG_SHORT = "SpotSearchList"
     }
+
+    private lateinit var binding: ActivitySpotSearchListBinding
 
     // リクエスト
     private val REQUEST_NARROW: Int = 0x1
@@ -71,7 +72,10 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_search_list)
+        // setContentView(R.layout.activity_spot_search_list)
+        binding = ActivitySpotSearchListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -99,7 +103,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
 
         // listViewの初期化
         mAdapter = ListSpotNeighborAdapter(mContext, listData)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // スポット情報へ
@@ -143,7 +147,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
         }
 
         // リフレッシュ
-        refreshLayout.apply {
+        binding.refreshLayout.apply {
             setColorSchemeResources(R.color.colorIosBlue)
 
             setOnRefreshListener {
@@ -158,14 +162,14 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 setLocation()
 
                 // 数秒後に消す
-                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+                Handler().postDelayed({ binding.refreshLayout.isRefreshing = false }, 1500)
             }
         }
 
         setTextViewParams()
 
         // 広告
-        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearchList, resources)
+        binding.viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSearchList, resources)
     }
 
     override fun onPause() {
@@ -220,7 +224,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
                     condPage = 1
                     mLocation = null
                     if (listData.size > 0) {
-                        listView.setSelection(0)
+                        binding.listView.setSelection(0)
                     }
                     setTextViewParams()
                     // このあと onResumeへ
@@ -230,12 +234,14 @@ class ActivitySpotSearchList : AppCompatActivity() {
     }
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // error
+        //binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+        // error
+        //binding.layoutEmpty.visibility = View.GONE
     }
 
     private fun setTextViewParams() {
@@ -310,7 +316,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
             cond_array.add(area)
         }
 
-        textViewParams.text =
+        binding.textViewParams.text =
             if (cond_array.size > 0) cond_array.joinToString("/") else ""
 
     }
@@ -551,7 +557,7 @@ class ActivitySpotSearchList : AppCompatActivity() {
                 loading.onDismiss(300)
 
                 if (condPage == 1 && listData.count() > 0) {
-                    listView.setSelection(0)
+                    binding.listView.setSelection(0)
                     listData.clear()
                     mAdapter.notifyDataSetChanged()
                 }

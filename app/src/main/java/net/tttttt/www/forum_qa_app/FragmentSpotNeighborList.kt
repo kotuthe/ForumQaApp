@@ -21,8 +21,6 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.fragment_spot_neighbor_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
 import net.tttttt.www.forum_qa_app.entities.*
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.network.HttpSpotInfo
@@ -84,6 +82,7 @@ class FragmentSpotNeighborList : Fragment() {
         firebase = FirebaseHelper(requireContext())
         mySP = MySharedPreferences(requireContext())
     }
+    /*
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
@@ -314,9 +313,10 @@ class FragmentSpotNeighborList : Fragment() {
         val distance: String = "%skm".format(condDistance)
         textViewParams.setText(if (category.isEmpty()) distance else "$category/$distance")
 
-    }
+    }*/
 
     /** 位置情報取得 -> 周辺検索への流れ　（周辺検索する場合はこの関数を読めばOK） **/
+    /*
     private fun setLocation() {
         hideListViewEmpty()
         // 端末の位置情報サービスをチェック
@@ -333,11 +333,12 @@ class FragmentSpotNeighborList : Fragment() {
         } else {
             errorLocation()
         }
-    }
+    }*/
 
     /**
      * Permissionのチェック
      */
+    /*
     private fun checkPermission() {
         if (ActivityCompat.checkSelfPermission(requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -350,10 +351,12 @@ class FragmentSpotNeighborList : Fragment() {
             requestLocationPermission()
         }
     }
+    */
 
     /**
      * Permissionの不許可チェック
      */
+    /*
     private fun requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(),
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -368,10 +371,12 @@ class FragmentSpotNeighborList : Fragment() {
             )
         }
     }
+    */
 
     /**
      * Permissionアラートの結果
      */
+    /*
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -398,10 +403,12 @@ class FragmentSpotNeighborList : Fragment() {
             }
         }
     }
+    */
 
     /**
      * 位置情報を取得　Permissionで許可された時
      */
+    /*
     private fun getLocation() {
         mLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
         val request = LocationRequest()
@@ -440,12 +447,13 @@ class FragmentSpotNeighborList : Fragment() {
                     errorLocation()
                 }
             })
-    }
+    }*/
 
     /**
      * getLocationで位置取得できない時、さらに位置情報取得
      * ※位置情報サービスOFF -> ON に変更した時になる
      */
+    /*
     private fun getLocationHighQuality() {
         if (loading != null) {
             // 5秒ほど時間がかかるため
@@ -484,10 +492,12 @@ class FragmentSpotNeighborList : Fragment() {
         }
         mLocationClient!!.requestLocationUpdates(request, mLocationCallback!!, null)
     }
+    */
 
     /**
      * 位置情報の取得失敗
      */
+    /*
     private fun errorLocation() {
         if (!(mySP.get(MySharedPreferences.Keys.spot_neighbor_location_first_alert) as Boolean)) {
             // アラート（1回のみ）
@@ -523,10 +533,12 @@ class FragmentSpotNeighborList : Fragment() {
         }
         showListViewEmpty("現在地を取得できませんでした。\n周辺のお店を検索するには位置情報サービスをONにしてください。")
     }
+    */
 
     /**
      * お店の検索
      */
+    /*
     private fun onSearch() {
         if (mLocation == null) {
             // 周辺検索はできないよ (多分ここにはこないと思う)
@@ -677,6 +689,7 @@ class FragmentSpotNeighborList : Fragment() {
             })
         }
     }
+    */
 
 
 }

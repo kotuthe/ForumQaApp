@@ -13,7 +13,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.setMargins
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_input_review_tag.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityInputReviewTagBinding
 import net.tttttt.www.forum_qa_app.entities.DataReviewTag
 import net.tttttt.www.forum_qa_app.value.MyString
 import net.tttttt.www.forum_qa_app.value.convertDpToPx
@@ -27,6 +27,8 @@ class ActivityInputReviewTag : AppCompatActivity() {
         val TAG_SHORT = "InputReviewTag"
     }
 
+    private lateinit var binding: ActivityInputReviewTagBinding
+
     // データ
     private var spotId: Int = 0
     private var dataTags: ArrayList<DataReviewTag> = ArrayList()
@@ -34,7 +36,10 @@ class ActivityInputReviewTag : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_input_review_tag)
+        // setContentView(R.layout.activity_input_review_tag)
+        binding = ActivityInputReviewTagBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "タグを追加"
@@ -46,14 +51,14 @@ class ActivityInputReviewTag : AppCompatActivity() {
 
         getData()
 
-        buttonClear.setOnClickListener {
+        binding.buttonClear.setOnClickListener {
             // データの更新
             for (i in 0..dataTags.size - 1) {
                 dataTags[i].enable = false
             }
             // Viewの更新
-            for (i in 0 until tableLayout.childCount) {
-                val tr = tableLayout.getChildAt(i) as TableRow
+            for (i in 0 until binding.tableLayout.childCount) {
+                val tr = binding.tableLayout.getChildAt(i) as TableRow
                 for (j in 0 until tr.childCount) {
                     if (tr.getChildAt(j) is TextView) {
                         (tr.getChildAt(j) as TextView).isSelected = false
@@ -62,7 +67,7 @@ class ActivityInputReviewTag : AppCompatActivity() {
             }
         }
 
-        buttonAdd.setOnClickListener {
+        binding.buttonAdd.setOnClickListener {
             var tags: ArrayList<DataReviewTag> = ArrayList()
             for (i in 0..dataTags.size - 1) {
                 if (dataTags[i].enable) {
@@ -85,7 +90,7 @@ class ActivityInputReviewTag : AppCompatActivity() {
 
     private fun updateViewTag() {
         // タグの表示
-        tableLayout.also {
+        binding.tableLayout.also {
             val rowSize: Int = ceil(dataTags.size / 2.0).toInt()
             for (i in 0..rowSize - 1) {
                 val tr = TableRow(this).also {

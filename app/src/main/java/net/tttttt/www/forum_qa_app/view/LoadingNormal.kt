@@ -7,8 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.loading_normal.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.LoadingNormalBinding
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -29,6 +29,8 @@ class LoadingNormal : DialogFragmentFullScreen() {
             }
         }
     }
+
+    private lateinit var binding: LoadingNormalBinding
 
     private object UNINITIALIZED_VALUE_FOR_ARGMENTS
     @Suppress("UNCHECKED_CAST")
@@ -68,13 +70,15 @@ class LoadingNormal : DialogFragmentFullScreen() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.loading_normal, container, false)
+        // return inflater.inflate(R.layout.loading_normal, container, false)
+        binding = LoadingNormalBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutDialog.setOnTouchListener { _, _ -> true }
+        binding.layoutDialog.setOnTouchListener { _, _ -> true }
         setLayout()
     }
 
@@ -102,18 +106,18 @@ class LoadingNormal : DialogFragmentFullScreen() {
     */
 
     private fun setLayout() {
-        if (textViewMsg == null || progressBar == null) { return }
+        if (binding.textViewMsg == null || binding.progressBar == null) { return }
 
         // メッセージ
         if (message == null || message!!.isEmpty()) {
-            textViewMsg.visibility = View.GONE
+            binding.textViewMsg.visibility = View.GONE
         } else {
-            textViewMsg.visibility = View.VISIBLE
-            textViewMsg.text = message
+            binding.textViewMsg.visibility = View.VISIBLE
+            binding.textViewMsg.text = message
         }
 
         // プログレス
-        progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
+        binding.progressBar.visibility = if (isProgress) View.VISIBLE else View.GONE
     }
 
     /**

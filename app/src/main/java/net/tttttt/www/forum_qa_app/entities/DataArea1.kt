@@ -3,7 +3,6 @@ package net.tttttt.www.forum_qa_app.entities
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
-import kotlinx.android.parcel.Parcelize
 
 class DataArea1(
     id: Int = 0,

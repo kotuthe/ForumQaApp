@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_search_narrow_category1.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotSearchNarrowCategory1Binding
 import net.tttttt.www.forum_qa_app.entities.DataCategory1
 import net.tttttt.www.forum_qa_app.entities.DataListSimple
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -20,13 +20,18 @@ class ActivitySpotSearchNarrowCategory1 : AppCompatActivity() {
         val TAG_SHORT = "SNNCategory1"
     }
 
+    private lateinit var binding: ActivitySpotSearchNarrowCategory1Binding
+
     // データ //
     private lateinit var mContext: Context
     private var dataCategory: ArrayList<DataCategory1> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_search_narrow_category1)
+        // setContentView(R.layout.activity_spot_search_narrow_category1)
+        binding = ActivitySpotSearchNarrowCategory1Binding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "カテゴリー"
@@ -58,7 +63,7 @@ class ActivitySpotSearchNarrowCategory1 : AppCompatActivity() {
         for (i in 0..dataCategory.size - 1) {
             mAdapter.add(DataListSimple(dataCategory[i].name, true))
         }
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             setOnItemClickListener{ parent, view, position, id ->
                 // multiへ

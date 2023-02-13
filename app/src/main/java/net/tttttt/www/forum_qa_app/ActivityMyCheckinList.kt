@@ -10,8 +10,7 @@ import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_my_checkin_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyCheckinListBinding
 import net.tttttt.www.forum_qa_app.entities.DataMySpotList
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.network.HttpMyPage
@@ -36,6 +35,8 @@ class ActivityMyCheckinList :
         val TAG_SHORT = "MyCheckinList"
     }
 
+    private lateinit var binding: ActivityMyCheckinListBinding
+
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
     private lateinit var firebase: FirebaseHelper
@@ -51,7 +52,10 @@ class ActivityMyCheckinList :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_checkin_list)
+        // setContentView(R.layout.activity_my_checkin_list)
+        binding = ActivityMyCheckinListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -63,11 +67,11 @@ class ActivityMyCheckinList :
             supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         }
 
-        textViewParams.text = ""
+        binding.textViewParams.text = ""
         hideListViewEmpty()
 
         mAdapter = ListMySpotAdapter(mContext, listData)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // クチコミ詳細へ
@@ -111,13 +115,13 @@ class ActivityMyCheckinList :
         }
 
         // リフレッシュ
-        refreshLayout.apply {
+        binding.refreshLayout.apply {
             setColorSchemeResources(R.color.colorIosBlue)
 
             setOnRefreshListener {
                 doRefresh()
                 // 数秒後に消す
-                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+                Handler().postDelayed({ binding.refreshLayout.isRefreshing = false }, 1500)
             }
         }
         getData()
@@ -148,12 +152,12 @@ class ActivityMyCheckinList :
     }
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+        // binding.layoutEmpty.visibility = View.GONE
     }
 
     /**
@@ -174,11 +178,11 @@ class ActivityMyCheckinList :
             condPage,
             { datas, all_number ->
                 if (condPage == 1 && listData.count() > 0) {
-                    listView.setSelection(0)
+                    binding.listView.setSelection(0)
                     listData.clear()
                     mAdapter.notifyDataSetChanged()
                 }
-                textViewParams.text = "%d件".format(all_number)
+                binding.textViewParams.text = "%d件".format(all_number)
                 listData.addAll(datas)
                 mAdapter.notifyDataSetChanged()
                 condPage++

@@ -10,7 +10,7 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_app_data_update.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityAppDataUpdateBinding
 import net.tttttt.www.forum_qa_app.storage.*
 import net.tttttt.www.forum_qa_app.value.MySharedPreferences
 import net.tttttt.www.forum_qa_app.value.MyString
@@ -27,6 +27,7 @@ class ActivityAppDataUpdate : AppCompatActivity() {
     }
 
     // 変数 //
+    private lateinit var binding: ActivityAppDataUpdateBinding
     private var mContext: Context? = null
     private var fromTag: String = ""
 
@@ -47,7 +48,10 @@ class ActivityAppDataUpdate : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_app_data_update)
+        // setContentView(R.layout.activity_app_data_update)
+        binding = ActivityAppDataUpdateBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         mySP = MySharedPreferences(this)
@@ -74,10 +78,10 @@ class ActivityAppDataUpdate : AppCompatActivity() {
         }
 
         // UI
-        buttonRetry.setOnClickListener {
+        binding.buttonRetry.setOnClickListener {
             getCategory()
         }
-        buttonClose.setOnClickListener {
+        binding.buttonClose.setOnClickListener {
             goBack()
         }
 
@@ -100,17 +104,17 @@ class ActivityAppDataUpdate : AppCompatActivity() {
 
     fun showLoading(text: String) {
         runOnUiThread {
-            progressBar.visibility = View.VISIBLE
-            textViewMsg.text = text
-            buttonRetry.visibility = View.GONE
+            binding.progressBar.visibility = View.VISIBLE
+            binding.textViewMsg.text = text
+            binding.buttonRetry.visibility = View.GONE
         }
     }
 
     fun finishLoading(text: String, retry: Boolean) {
         runOnUiThread {
-            progressBar.visibility = View.GONE
-            textViewMsg.text = text
-            buttonRetry.visibility = if (retry) View.VISIBLE else View.GONE
+            binding.progressBar.visibility = View.GONE
+            binding.textViewMsg.text = text
+            binding.buttonRetry.visibility = if (retry) View.VISIBLE else View.GONE
         }
     }
 
@@ -119,8 +123,8 @@ class ActivityAppDataUpdate : AppCompatActivity() {
      */
     fun getCategory() {
         // ボタンを消す
-        buttonRetry.visibility = View.GONE
-        buttonClose.visibility = View.GONE
+        binding.buttonRetry.visibility = View.GONE
+        binding.buttonClose.visibility = View.GONE
 
         showLoading("サーバーに接続しています\nカテゴリーデータを取得中．．．")
 
@@ -239,9 +243,9 @@ class ActivityAppDataUpdate : AppCompatActivity() {
                 DBTableArea1(mContext!!).count(db) == 0 ||
                 DBTableArea2(mContext!!).count(db) == 0
             ) {
-                buttonClose.visibility = View.GONE
+                binding.buttonClose.visibility = View.GONE
             } else {
-                buttonClose.visibility = View.VISIBLE
+                binding.buttonClose.visibility = View.VISIBLE
             }
         } catch (e: Exception) {
             Log.e(TAG, "" + e.message)

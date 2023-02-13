@@ -18,9 +18,12 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewDetailImageSearchBinding
+/*
 import kotlinx.android.synthetic.main.activity_spot_review_detail_image_search.*
 import kotlinx.android.synthetic.main.view_info_share.view.*
 import kotlinx.android.synthetic.main.view_info_spot_basic.view.*
+*/
 import net.tttttt.www.forum_qa_app.entities.DataISReviewDetailImage
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfoBasic
@@ -43,6 +46,8 @@ class ActivitySpotReviewDetail_ImageSearch :
         val TAG_SHORT = "SpotReviewDetail_IS"
     }
 
+    private lateinit var binding: ActivitySpotReviewDetailImageSearchBinding
+
     // リクエスト
     private val REQUEST_ALERT_PHONE: Int = 0x1
 
@@ -62,7 +67,10 @@ class ActivitySpotReviewDetail_ImageSearch :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_detail_image_search)
+        // setContentView(R.layout.activity_spot_review_detail_image_search)
+        binding = ActivitySpotReviewDetailImageSearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -103,10 +111,10 @@ class ActivitySpotReviewDetail_ImageSearch :
 
         // 写真なしの場合
         if (dataReview.reviewImageUrls.size == 0) {
-            imageViewTop.visibility = View.GONE
-            viewSpotNameArea.setBackgroundColor(Color.WHITE)
-            textViewSpotName.setTextColor(Color.BLACK)
-            viewGalleryArea.visibility = View.GONE
+            binding.imageViewTop.visibility = View.GONE
+            binding.viewSpotNameArea.setBackgroundColor(Color.WHITE)
+            binding.textViewSpotName.setTextColor(Color.BLACK)
+            binding.viewGalleryArea.visibility = View.GONE
         } else {
             // トップ
             // imageViewTopで切り替えアニメーション
@@ -132,7 +140,7 @@ class ActivitySpotReviewDetail_ImageSearch :
             }
 
             imageAdapter = RecyclerISReviewDetailImagesAdapter(mContext, items)
-            recyclerView.apply {
+            binding.recyclerView.apply {
                 // レイアウト設定 //
                 setHasFixedSize(true)
                 // 列
@@ -160,14 +168,14 @@ class ActivitySpotReviewDetail_ImageSearch :
             })
         }
 
-        textViewSpotName.text = dataSpot.name
-        imageViewUserIcon.load(dataReview.userImage) {
+        binding.textViewSpotName.text = dataSpot.name
+        binding.imageViewUserIcon.load(dataReview.userImage) {
             placeholder(R.drawable.ic_image_placeholder)
         }
-        textViewUserName.text = dataReview.userName
-        textViewReviewDate.text = dataReview.reviewDate
+        binding.textViewUserName.text = dataReview.userName
+        binding.textViewReviewDate.text = dataReview.reviewDate
 
-        textViewReview.apply {
+        binding.textViewReview.apply {
             if (!dataReview.review.isEmpty()) {
                 text = dataReview.review
             } else {
@@ -175,7 +183,7 @@ class ActivitySpotReviewDetail_ImageSearch :
             }
         }
 
-        textViewReviewInfo.apply {
+        binding.textViewReviewInfo.apply {
             if (dataReview.goodNum > 0) {
                 text = "\"ぐッ\"ときた　%d件".format(dataReview.goodNum)
             } else {
@@ -189,7 +197,7 @@ class ActivitySpotReviewDetail_ImageSearch :
                 as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        layoutBasic.buttonMap.setOnClickListener {
+        binding.layoutBasic.buttonMap.setOnClickListener {
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
                 FirebaseHelper.eventCategory.Cell,
@@ -197,7 +205,7 @@ class ActivitySpotReviewDetail_ImageSearch :
                 "IS:地図")
             showMap()
         }
-        layoutBasic.buttonWebDetail.setOnClickListener {
+        binding.layoutBasic.buttonWebDetail.setOnClickListener {
             // WEBへ
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
@@ -212,7 +220,7 @@ class ActivitySpotReviewDetail_ImageSearch :
         // 一覧
         basicListData = HttpSpotInfo(mContext).get_is_basic_list_data(dataSpot)
         basicAdapter = ListSpotInfoBasicAdapter(mContext, basicListData)
-        layoutBasic.listView.apply {
+        binding.layoutBasic.listView.apply {
             adapter = basicAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 val item = basicListData[pos]
@@ -253,10 +261,10 @@ class ActivitySpotReviewDetail_ImageSearch :
         }
 
         // クチコミのシェア //
-        layoutShare.textViewTitle.text = "クチコミをシェアする"
-        layoutShare.textViewCopyTitle.text = "URLをコピーする"
-        layoutShare.textViewCopy.text = getShareText()
-        layoutShare.textViewCopy.setOnClickListener {
+        binding.layoutShare.textViewTitle.text = "クチコミをシェアする"
+        binding.layoutShare.textViewCopyTitle.text = "URLをコピーする"
+        binding.layoutShare.textViewCopy.text = getShareText()
+        binding.layoutShare.textViewCopy.setOnClickListener {
             // クリップボードにコピー
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
@@ -275,8 +283,8 @@ class ActivitySpotReviewDetail_ImageSearch :
             alert.show(supportFragmentManager, AlertNormal.TAG)
 
         }
-        layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
-        layoutShare.buttonMail.setOnClickListener {
+        binding.layoutShare.buttonMail.setLeftIcon(R.drawable.img_share_mail)
+        binding.layoutShare.buttonMail.setOnClickListener {
             // メールのシェア
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
@@ -286,8 +294,8 @@ class ActivitySpotReviewDetail_ImageSearch :
             startActivity(
                 MyIntent().mail(getShareText()))
         }
-        layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
-        layoutShare.buttonLine.setOnClickListener {
+        binding.layoutShare.buttonLine.setLeftIcon(R.drawable.img_share_line)
+        binding.layoutShare.buttonLine.setOnClickListener {
             // ラインのシェア
             firebase.sendEvent(
                 FirebaseHelper.screenName.IS_Spot_Info_Kuchikomi_Detail,
@@ -327,7 +335,7 @@ class ActivitySpotReviewDetail_ImageSearch :
     private fun TaskWebImageAnimeListener(): TaskWebImageAnime.Listener? {
         return object : TaskWebImageAnime.Listener {
             override fun onSuccess(anime: AnimationDrawable?) {
-                imageViewTop.setImageDrawable(anime!!)
+                binding.imageViewTop.setImageDrawable(anime!!)
                 anime.start()
             }
         }

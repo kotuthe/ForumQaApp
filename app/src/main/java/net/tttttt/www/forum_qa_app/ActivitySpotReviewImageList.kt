@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_spot_review_image_list.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewImageListBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -28,6 +28,8 @@ class ActivitySpotReviewImageList :
         val TAG_SHORT = "ReviewImageList"
     }
 
+    private lateinit var binding: ActivitySpotReviewImageListBinding
+
     // リクエスト //
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
@@ -43,7 +45,10 @@ class ActivitySpotReviewImageList :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_image_list)
+        // setContentView(R.layout.activity_spot_review_image_list)
+        binding = ActivitySpotReviewImageListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         firebase = FirebaseHelper(applicationContext)
 
@@ -55,7 +60,7 @@ class ActivitySpotReviewImageList :
         }
 
         mAdapter = RecyclerReviewImagesAdapter(this, listData)
-        recyclerView.apply {
+        binding. recyclerView.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 列
@@ -126,7 +131,7 @@ class ActivitySpotReviewImageList :
                 }*/
 
                 if (condPage == 1 && listData.count() > 0) {
-                    recyclerView.smoothScrollToPosition(0)
+                    binding.recyclerView.smoothScrollToPosition(0)
                     listData.clear()
                     mAdapter.notifyDataSetChanged()
                 }

@@ -7,11 +7,10 @@ import android.view.*
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.fragment_spot_search.*
 import net.tttttt.www.forum_qa_app.value.*
 import net.tttttt.www.forum_qa_app.view.*
-import kotlinx.android.synthetic.main.fragment_topics.*
 import net.tttttt.www.forum_qa_app.ActivityTopicsDetail
+import net.tttttt.www.forum_qa_app.databinding.FragmentTopicsBinding
 import net.tttttt.www.forum_qa_app.view.CardTopicsAdapter
 import net.tttttt.www.forum_qa_app.entities.DataCardTopics
 import net.tttttt.www.forum_qa_app.entities.DataSpotList
@@ -25,6 +24,8 @@ class FragmentTopics : Fragment() {
     companion object {
         val TAG = "Topics"
     }
+
+    private lateinit var binding: FragmentTopicsBinding
 
     // リクエスト
     /*
@@ -51,7 +52,8 @@ class FragmentTopics : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_topics,container,false)
+        binding = FragmentTopicsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -104,8 +106,8 @@ class FragmentTopics : Fragment() {
 
         val adapter = CardTopicsAdapter(listData)
 
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
         adapter.setOnItemClickListener {
             val item: DataCardTopics = listData[it.id]
             // Toast.makeText(context, "「${item.title}」", Toast.LENGTH_SHORT).show()

@@ -9,8 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_my_badge_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyBadgeListBinding
 import net.tttttt.www.forum_qa_app.entities.DataBadge
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -31,6 +30,8 @@ class ActivityMyBadgeList :
         val TAG_SHORT = "MyBadgeList"
     }
 
+    private lateinit var binding: ActivityMyBadgeListBinding
+
     // リクエスト //
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
@@ -42,7 +43,10 @@ class ActivityMyBadgeList :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_badge_list)
+        // setContentView(R.layout.activity_my_badge_list)
+        binding = ActivityMyBadgeListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         if (supportActionBar != null) {
             supportActionBar!!.title = "称号一覧"
@@ -57,7 +61,7 @@ class ActivityMyBadgeList :
 
         hideListViewEmpty()
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 画像の表示がかぶるため以下の対策
@@ -112,12 +116,12 @@ class ActivityMyBadgeList :
     }
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+        // binding.layoutEmpty.visibility = View.GONE
     }
 
     //get_badge_list
@@ -159,7 +163,7 @@ class ActivityMyBadgeList :
                             ))
                     }
                     mAdapter.notifyDataSetChanged()
-                    textViewParams.apply {
+                    binding.textViewParams.apply {
                         if (number > 0) {
                             text = "%d件".format(number)
                         } else {
@@ -167,7 +171,7 @@ class ActivityMyBadgeList :
                         }
                     }
                 } else {
-                    textViewParams.text = "称号を取得できませんでした"
+                    binding.textViewParams.text = "称号を取得できませんでした"
                     showAlertNoData("称号を取得できませんでした")
                 }
             }, failure = { error ->

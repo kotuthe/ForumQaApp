@@ -14,8 +14,8 @@ import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_my_draft_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyDraftListBinding
+import net.tttttt.www.forum_qa_app.databinding.ListviewEmptyBinding
 import net.tttttt.www.forum_qa_app.entities.DataMyDraftReview
 import net.tttttt.www.forum_qa_app.entities.DataReviewTag
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -38,6 +38,9 @@ class ActivityMyDraftList :
         val TAG = "MyDraftList"
     }
 
+    private lateinit var binding: ActivityMyDraftListBinding
+    private lateinit var bindingListEmpty: ListviewEmptyBinding
+
     // リクエスト
     private val REQUEST_INPUT_REVIEW: Int = 0x1
     private val REQUEST_ALERT_NO_DATA: Int = 0x2
@@ -59,7 +62,11 @@ class ActivityMyDraftList :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_draft_list)
+        // setContentView(R.layout.activity_my_draft_list)
+        binding = ActivityMyDraftListBinding.inflate(layoutInflater)
+        // bindingListEmpty = ListviewEmptyBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -118,11 +125,11 @@ class ActivityMyDraftList :
     private fun initLayout() {
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
         hideListViewEmpty()
-        textViewParams.text = ""
+        binding.textViewParams.text = ""
 
         // listViewの初期化
         mAdapter = ListMyDraftReviewAdapter(mContext, listData)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // 下書き入力へ
@@ -157,13 +164,13 @@ class ActivityMyDraftList :
         }
 
         // リフレッシュ
-        refreshLayout.apply {
+        binding.refreshLayout.apply {
             setColorSchemeResources(R.color.colorIosBlue)
 
             setOnRefreshListener {
                 doRefresh()
                 // 数秒後に消す
-                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+                Handler().postDelayed({ binding.refreshLayout.isRefreshing = false }, 1500)
             }
         }
     }
@@ -171,12 +178,12 @@ class ActivityMyDraftList :
 
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+        // binding.layoutEmpty.visibility = View.GONE
     }
 
     /**
@@ -225,7 +232,7 @@ class ActivityMyDraftList :
                 }
 
                 if (condPage == 1 && listData.count() > 0) {
-                    listView.setSelection(0)
+                    binding.listView.setSelection(0)
                     listData.clear()
                     mAdapter!!.notifyDataSetChanged()
                 }
@@ -234,7 +241,7 @@ class ActivityMyDraftList :
                 val result = datas.get("result") as Boolean
                 if (result) {
                     val count = datas.getInt("count")
-                    textViewParams.apply {
+                    binding.textViewParams.apply {
                         if (count > 0) {
                             text = "%d件".format(count)
                         } else {

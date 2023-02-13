@@ -14,8 +14,7 @@ import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import kotlinx.android.synthetic.main.activity_my_review_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyReviewListBinding
 import net.tttttt.www.forum_qa_app.entities.DataMyReview
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
@@ -38,6 +37,8 @@ class ActivityMyReviewList : AppCompatActivity() {
         val TAG_SHORT = "MyReviewList"
     }
 
+    private lateinit var binding: ActivityMyReviewListBinding
+
     // リクエスト
     private val REQUEST_INPUT_REVIEW: Int = 0x1
 
@@ -58,7 +59,10 @@ class ActivityMyReviewList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_review_list)
+
+        binding = ActivityMyReviewListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -100,11 +104,11 @@ class ActivityMyReviewList : AppCompatActivity() {
     private fun initLayout() {
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
         hideListViewEmpty()
-        textViewParams.text = ""
+        binding.textViewParams.text = ""
 
         // listViewの初期化
         mAdapter = ListMyReviewAdapter(mContext, listData)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 val item = listData[pos]
@@ -186,13 +190,13 @@ class ActivityMyReviewList : AppCompatActivity() {
         }
 
         // リフレッシュ
-        refreshLayout.apply {
+        binding.refreshLayout.apply {
             setColorSchemeResources(R.color.colorIosBlue)
 
             setOnRefreshListener {
                 doRefresh()
                 // 数秒後に消す
-                Handler().postDelayed({ refreshLayout.isRefreshing = false }, 1500)
+                Handler().postDelayed({ binding.refreshLayout.isRefreshing = false }, 1500)
             }
         }
     }
@@ -200,12 +204,12 @@ class ActivityMyReviewList : AppCompatActivity() {
 
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+        // binding.layoutEmpty.visibility = View.GONE
     }
 
     /**
@@ -254,7 +258,7 @@ class ActivityMyReviewList : AppCompatActivity() {
                 }
 
                 if (condPage == 1 && listData.count() > 0) {
-                    listView.setSelection(0)
+                    binding.listView.setSelection(0)
                     listData.clear()
                     mAdapter!!.notifyDataSetChanged()
                 }
@@ -262,7 +266,7 @@ class ActivityMyReviewList : AppCompatActivity() {
                 val datas = json.obj().get("datas") as JSONObject
                 if (datas.get("result") as Boolean) {
                     val count = datas.getInt("count")
-                    textViewParams.apply {
+                    binding.textViewParams.apply {
                         if (count > 0) {
                             text = "%d件".format(count)
                         } else {

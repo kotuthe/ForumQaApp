@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_info_detail.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotInfoDetailBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfoDetail
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -29,6 +29,8 @@ class ActivitySpotInfoDetail :
         val TAG_SHORT = "SpotInfoDetail"
     }
 
+    private lateinit var binding: ActivitySpotInfoDetailBinding
+
     // リクエスト //
     private val REQUEST_ALERT_PHONE: Int = 0x1
     private val REQUEST_ALERT_NO_DATA: Int = 0x2
@@ -44,7 +46,10 @@ class ActivitySpotInfoDetail :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_info_detail)
+
+        binding = ActivitySpotInfoDetailBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -59,7 +64,7 @@ class ActivitySpotInfoDetail :
         }
 
         mAdapter = ListSpotInfoDetailAdapter(mContext, listData, true)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 val item = listData[pos]

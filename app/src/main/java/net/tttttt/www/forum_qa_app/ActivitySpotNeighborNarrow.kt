@@ -12,7 +12,7 @@ import android.widget.SimpleAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import kotlinx.android.synthetic.main.activity_spot_neighbor_narrow.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotNeighborNarrowBinding
 import net.tttttt.www.forum_qa_app.entities.DataCategory1
 import net.tttttt.www.forum_qa_app.entities.DataListSimple
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -41,6 +41,8 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         val dataDistanceArray: ArrayList<Double> = arrayListOf(0.5, 2.0, 5.0)
     }
 
+    private lateinit var binding: ActivitySpotNeighborNarrowBinding
+
     // 変数 //
     private var dataCategoryArray: ArrayList<DataCategory1> = ArrayList()
     // private val dataDistanceArray: ArrayList<Double> = arrayListOf(0.5, 2.0, 5.0)
@@ -52,7 +54,10 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_neighbor_narrow)
+
+        binding = ActivitySpotNeighborNarrowBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         condCategory = intent.getIntExtra("category_id", 0)
         condCategoryType = intent.getIntExtra("category_type", 0)
@@ -90,9 +95,9 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
                 selectFinalCategory(0, 0) // Final値をzeroにする
 
                 // レイアウト
-                listViewCategory.visibility = View.GONE
-                textViewCategoryTitle.text = getCategoryTitle()
-                imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
+                binding.listViewCategory.visibility = View.GONE
+                binding.textViewCategoryTitle.text = getCategoryTitle()
+                binding.imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
             }
         }
     }
@@ -113,16 +118,16 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         setListViewDistance()
 
         // クーポン
-        layoutCoupon.setOnClickListener {
-            checkboxCoupon.isChecked = !checkboxCoupon.isChecked
-            condCoupon = checkboxCoupon.isChecked
+        binding.layoutCoupon.setOnClickListener {
+            binding.checkboxCoupon.isChecked = !binding.checkboxCoupon.isChecked
+            condCoupon = binding.checkboxCoupon.isChecked
         }
-        checkboxCoupon.setOnClickListener {
-            condCoupon = checkboxCoupon.isChecked
+        binding.checkboxCoupon.setOnClickListener {
+            condCoupon = binding.checkboxCoupon.isChecked
         }
 
         // クリア
-        buttonClear.setOnClickListener {
+        binding.buttonClear.setOnClickListener {
             condCategory = 0
             condCategoryType = 1
             condDistance = dataDistanceArray[0]
@@ -130,11 +135,11 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
 
             updateLayoutCategory(true)
             updateLayoutDistance(true)
-            checkboxCoupon.isChecked = false
+            binding.checkboxCoupon.isChecked = false
         }
 
         // 検索
-        buttonSearch.setOnClickListener {
+        binding.buttonSearch.setOnClickListener {
             val intent = Intent()
             intent.putExtra("category_id", condCategory)
             intent.putExtra("category_type", condCategoryType)
@@ -145,7 +150,7 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         }
 
         // 条件からレイアウトの更新
-        checkboxCoupon.isChecked = condCoupon
+        binding.checkboxCoupon.isChecked = condCoupon
     }
 
     /**
@@ -156,7 +161,7 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         for (i in 0..dataCategoryArray.size - 1) {
             mAdapter.add(setListData(dataCategoryArray[i].name))
         }
-        listViewCategory.apply {
+        binding.listViewCategory.apply {
             adapter = mAdapter
             setOnItemClickListener{ parent, view, position, id ->
                 val intent = Intent(context, ActivitySpotNeighborNarrowCategorySecond::class.java)
@@ -165,10 +170,10 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
                 startActivityForResult(intent, REQUEST_CATEGORY)
             }
         }
-        listViewCategory.visibility = View.GONE
-        textViewCategoryTitle.text = getCategoryTitle()
-        layoutCategory.setOnClickListener{
-            if (listViewCategory.isVisible) {
+        binding.listViewCategory.visibility = View.GONE
+        binding.textViewCategoryTitle.text = getCategoryTitle()
+        binding.layoutCategory.setOnClickListener{
+            if (binding.listViewCategory.isVisible) {
                 // 閉じる
                 updateLayoutCategory(true)
             } else {
@@ -181,14 +186,14 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
     private fun updateLayoutCategory(close: Boolean) {
         if (close) {
             // 閉じる
-            listViewCategory.visibility = View.GONE
-            textViewCategoryTitle.text = getCategoryTitle()
-            imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
+            binding.listViewCategory.visibility = View.GONE
+            binding.textViewCategoryTitle.text = getCategoryTitle()
+            binding.imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
         } else {
             // 開く
-            listViewCategory.visibility = View.VISIBLE
-            textViewCategoryTitle.text = getString(R.string.spot_neighbor_narrow_select)
-            imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_minus))
+            binding.listViewCategory.visibility = View.VISIBLE
+            binding.textViewCategoryTitle.text = getString(R.string.spot_neighbor_narrow_select)
+            binding.imageViewCategoryAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_minus))
         }
     }
 
@@ -221,7 +226,7 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
             arrayOf(fromKey),
             intArrayOf(R.id.textViewTitle)
         )
-        listViewDistance.apply {
+        binding.listViewDistance.apply {
             adapter = mAdapter
             choiceMode = AbsListView.CHOICE_MODE_SINGLE
             setItemChecked(selectIndex, true)
@@ -231,12 +236,12 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
         }
 
         // 最初から開いている場合は下２行を消すだけ
-        listViewDistance.visibility = View.GONE
-        textViewDistanceTitle.text = getDistanceTitle(condDistance)
+        binding.listViewDistance.visibility = View.GONE
+        binding.textViewDistanceTitle.text = getDistanceTitle(condDistance)
 
         // イベント
-        layoutDistance.setOnClickListener{
-            if (listViewDistance.isVisible) {
+        binding.layoutDistance.setOnClickListener{
+            if (binding.listViewDistance.isVisible) {
                 // 閉じる
                 updateLayoutDistance(true)
             } else {
@@ -249,14 +254,14 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
     private fun updateLayoutDistance(close: Boolean) {
         if (close) {
             // 閉じる
-            listViewDistance.visibility = View.GONE
-            textViewDistanceTitle.text = getDistanceTitle(condDistance)
-            imageViewDistanceAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
+            binding.listViewDistance.visibility = View.GONE
+            binding.textViewDistanceTitle.text = getDistanceTitle(condDistance)
+            binding.imageViewDistanceAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_plus))
         } else {
             // 開く
-            listViewDistance.visibility = View.VISIBLE
-            textViewDistanceTitle.text = getString(R.string.spot_neighbor_narrow_select)
-            imageViewDistanceAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_minus))
+            binding.listViewDistance.visibility = View.VISIBLE
+            binding.textViewDistanceTitle.text = getString(R.string.spot_neighbor_narrow_select)
+            binding.imageViewDistanceAnchor.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_minus))
         }
     }
 
@@ -300,7 +305,7 @@ class ActivitySpotNeighborNarrow : AppCompatActivity() {
      */
     private fun getSelectDistance(): Double {
         var rVal: Double = 0.0
-        val checked = listViewDistance.checkedItemPositions
+        val checked = binding.listViewDistance.checkedItemPositions
         for (i in 0..checked.size() - 1) {
             // checked: checked.valueAt(i), index: checked.keyAt(i)
             if (checked.valueAt(i)) {

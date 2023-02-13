@@ -26,6 +26,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotInfoBinding
+/*
 import kotlinx.android.synthetic.main.activity_spot_info.*
 import kotlinx.android.synthetic.main.activity_spot_info.buttonMap
 import kotlinx.android.synthetic.main.activity_spot_info.viewAdvtFooter
@@ -36,6 +38,7 @@ import kotlinx.android.synthetic.main.view_info_spot_basic.view.buttonMap
 import kotlinx.android.synthetic.main.view_info_spot_basic.view.listView
 import kotlinx.android.synthetic.main.view_info_spot_basic_old.view.*
 import kotlinx.android.synthetic.main.view_info_spot_review_old.view.*
+*/
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfoBasic
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
@@ -53,6 +56,8 @@ class ActivitySpotInfo :
         val TAG = "ActivitySpotInfo"
         val TAG_SHORT = "ActivitySpotInfo"
     }
+
+    private lateinit var binding: ActivitySpotInfoBinding
 
     // 位置情報サービスの使用用途
     enum class LocationType {
@@ -106,7 +111,10 @@ class ActivitySpotInfo :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_info)
+
+        binding = ActivitySpotInfoBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -248,12 +256,12 @@ class ActivitySpotInfo :
         loading = LoadingNormal.newInstance( message = "", isProgress = true )
 
         // 上部 //
-        buttonPhone.setSpotInfoTintColor(true)
-        buttonMap.setSpotInfoTintColor(true)
-        buttonReview.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_review)
-        buttonReviewImage.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_camera)
-        buttonFavorite.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_favorite)
-        buttonPhone.setOnClickListener {
+        binding.buttonPhone.setSpotInfoTintColor(true)
+        binding.buttonMap.setSpotInfoTintColor(true)
+        binding.buttonReview.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_review)
+        binding.buttonReviewImage.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_camera)
+        binding.buttonFavorite.setSpotInfoTopIcon(R.drawable.img_spot_info_btn_favorite)
+        binding.buttonPhone.setOnClickListener {
             // 電話
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -266,7 +274,7 @@ class ActivitySpotInfo :
             showPhoneAlert()
         }
 
-        buttonMap.setOnClickListener {
+        binding.buttonMap.setOnClickListener {
             // 地図
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -282,14 +290,14 @@ class ActivitySpotInfo :
         }
 
         // スポットの写真をクリックしたらギャラリー or プレビュー（one image）
-        imageViewMoreGallery.setOnClickListener {
+        binding.imageViewMoreGallery.setOnClickListener {
             showReviewImageList()
         }
-        imageViewSpotImage.setOnClickListener {
+        binding.imageViewSpotImage.setOnClickListener {
             showReviewImageList()
         }
 
-        buttonCheckin.setOnClickListener {
+        binding.buttonCheckin.setOnClickListener {
             // チェックイン
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -328,7 +336,7 @@ class ActivitySpotInfo :
             }
         }
 
-        buttonReview.setOnClickListener {
+        binding.buttonReview.setOnClickListener {
             // クチコミ
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -346,7 +354,7 @@ class ActivitySpotInfo :
             }
         }
 
-        buttonReviewImage.setOnClickListener {
+        binding.buttonReviewImage.setOnClickListener {
             // クチコミ　画像のみ
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -364,7 +372,7 @@ class ActivitySpotInfo :
             }
         }
 
-        buttonFavorite.setOnClickListener {
+        binding.buttonFavorite.setOnClickListener {
             // お気に入り
             if (!isGetSpotInfo) {
                 return@setOnClickListener
@@ -399,7 +407,7 @@ class ActivitySpotInfo :
         val activity = this
 
         // 基本情報 //
-        layoutBasic.apply {
+        binding.layoutBasic.apply {
             textViewTitle.text = "基本情報"
             textViewSpotName.text = dataSpot.name
 
@@ -465,7 +473,7 @@ class ActivitySpotInfo :
 
         // クチコミ //
         reviewAdapter = ListSpotReviewAdapter(mContext, reviewListData)
-        layoutReview.listView.apply {
+        binding.layoutReview.listView.apply {
             adapter = reviewAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 val intent = Intent(this@ActivitySpotInfo, ActivitySpotReviewDetail::class.java)
@@ -475,7 +483,7 @@ class ActivitySpotInfo :
             }
         }
         // もっとみる
-        layoutReview.layoutMore.setOnClickListener {
+        binding.layoutReview.layoutMore.setOnClickListener {
             val intent = Intent(this@ActivitySpotInfo,
                 ActivitySpotReviewList::class.java)
             intent.putExtra("dataSpot", dataSpot)
@@ -483,7 +491,7 @@ class ActivitySpotInfo :
         }
 
         // お店のシェア //
-        layoutShare.apply {
+        binding.layoutShare.apply {
             textViewTitle.text = "お店の情報をシェアする"
             textViewCopyTitle.text = "URLをコピーする"
             textViewCopy.text = ""
@@ -543,7 +551,7 @@ class ActivitySpotInfo :
         }
 
         // 広告
-        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSpotInfo, resources)
+        binding.viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppSpotInfo, resources)
     }
 
     private fun showReviewImageList() {
@@ -871,32 +879,32 @@ class ActivitySpotInfo :
      */
     private fun setLayoutDataSpot() {
         // 上部 //
-        (imageViewCategory.background as TransitionDrawable).startTransition(1000)
-        imageViewCategory.setImageDrawable(
+        (binding.imageViewCategory.background as TransitionDrawable).startTransition(1000)
+        binding.imageViewCategory.setImageDrawable(
             ContextCompat.getDrawable(this, MyImage().icon_category_mini(dataSpot.category_large_id)))
-        imageViewSpotImage.load(dataSpot.imageUrl) {
+        binding.imageViewSpotImage.load(dataSpot.imageUrl) {
             placeholder(R.drawable.ic_image_placeholder)
         }
         if (!dataSpot.simple_caption.isEmpty()) {
-            layoutSpotMessage.visibility = View.VISIBLE
-            textViewSpotMessage.text = dataSpot.simple_caption
+            binding.layoutSpotMessage.visibility = View.VISIBLE
+            binding.textViewSpotMessage.text = dataSpot.simple_caption
         } else {
-            layoutSpotMessage.visibility = View.GONE
+            binding.layoutSpotMessage.visibility = View.GONE
         }
-        imageViewMoreGallery.visibility =
+        binding.imageViewMoreGallery.visibility =
             if (dataSpot.moreImage) View.VISIBLE else View.GONE
 
-        buttonCheckin.setSpotInfoTintColor(dataSpot.checkinEnable)
-        buttonReview.setSpotInfoTintColor(dataSpot.reviewEnable)
-        buttonReviewImage.setSpotInfoTintColor(dataSpot.imageEnable)
-        buttonFavorite.setSpotInfoTintColor(true)
+        binding.buttonCheckin.setSpotInfoTintColor(dataSpot.checkinEnable)
+        binding.buttonReview.setSpotInfoTintColor(dataSpot.reviewEnable)
+        binding.buttonReviewImage.setSpotInfoTintColor(dataSpot.imageEnable)
+        binding.buttonFavorite.setSpotInfoTintColor(true)
 
-        buttonFavorite.text = getString(
+        binding.buttonFavorite.text = getString(
             if (dataSpot.bookMarkEnable) R.string.spot_info_favorite else R.string.spot_info_favorite_dis)
 
         // 基本情報 //
-        layoutBasic.textViewTitle.text = "基本情報"
-        layoutBasic.textViewSpotName.text = dataSpot.name
+        binding.layoutBasic.textViewTitle.text = "基本情報"
+        binding.layoutBasic.textViewSpotName.text = dataSpot.name
         // 地図更新
         HttpSpotInfo(mContext).update_map_position(
             mGoogleMap,
@@ -909,11 +917,11 @@ class ActivitySpotInfo :
         basicAdapter!!.notifyDataSetChanged()
 
         // シェア
-        layoutShare.textViewCopy.text = dataSpot.snsShareText
+        binding.layoutShare.textViewCopy.text = dataSpot.snsShareText
 
         // 上部の項目を表示することで下にスライドしなくなる
-        (textViewInfo.background as TransitionDrawable).startTransition(500)
-        textViewInfo.text = dataSpot.simple_detail
+        (binding.textViewInfo.background as TransitionDrawable).startTransition(500)
+        binding.textViewInfo.text = dataSpot.simple_detail
     }
 
     /**
@@ -934,10 +942,10 @@ class ActivitySpotInfo :
                 when (it) {
                     Constants.HTTP_STATUS.nodata -> {
                         // ギャラリーのデータなし
-                        layoutReview.visibility = View.GONE
+                        //binding.layoutReview.visibility = View.GONE
                     }
                     Constants.HTTP_STATUS.network -> {
-                        layoutReview.visibility = View.GONE
+                        //binding.layoutReview.visibility = View.GONE
                         val alert = AlertNormal.newInstance(
                             requestCode = REQUEST_ALERT_NO_DATA,
                             title = "クチコミを取得できません",
@@ -955,9 +963,9 @@ class ActivitySpotInfo :
      * DataSpotReviewで設定できるレイアウト
      */
     private fun setLayoutDataSpotReview() {
-        layoutReview.apply {
+        binding.layoutReview.apply {
             if (reviewListData.size > 0) {
-                visibility = View.VISIBLE
+                //visibility = View.VISIBLE
                 reviewAdapter!!.notifyDataSetChanged()
 
                 textViewTitle.text = "お店・スポットのクチコミ"
@@ -966,7 +974,7 @@ class ActivitySpotInfo :
                     if (reviewNumber >= 6) View.VISIBLE else View.GONE
             } else {
                 // will never called??
-                visibility = View.GONE
+                //visibility = View.GONE
             }
         }
     }

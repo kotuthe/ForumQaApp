@@ -6,7 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_neighbor_narrow_category.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotNeighborNarrowCategoryBinding
 import net.tttttt.www.forum_qa_app.entities.DataCategory2
 import net.tttttt.www.forum_qa_app.entities.DataCategory3
 import net.tttttt.www.forum_qa_app.entities.DataListSimple
@@ -25,6 +25,8 @@ class ActivitySpotNeighborNarrowCategorySecond : AppCompatActivity() {
         val TAG_SHORT = "SNNCategory2"
     }
 
+    private lateinit var binding: ActivitySpotNeighborNarrowCategoryBinding
+
     // 変数 //
     private var parentId: Int = 0
     private var parentName: String = ""
@@ -32,7 +34,10 @@ class ActivitySpotNeighborNarrowCategorySecond : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_neighbor_narrow_category)
+
+        binding = ActivitySpotNeighborNarrowCategoryBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val intent = intent
         parentId = intent.getIntExtra("id", 0)
@@ -68,7 +73,7 @@ class ActivitySpotNeighborNarrowCategorySecond : AppCompatActivity() {
         for (i in 0..dataArray.size - 1) {
             mAdapter.add(setListData(dataArray[i].name))
         }
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             setOnItemClickListener{ parent, view, position, id ->
                 if (position == 0) {
@@ -103,6 +108,8 @@ class ActivitySpotNeighborNarrowCategoryThird : AppCompatActivity() {
         val TAG_SHORT = "SNNCategory3"
     }
 
+    private lateinit var binding: ActivitySpotNeighborNarrowCategoryBinding
+
     // 変数 //
     private var parentId: Int = 0
     private var parentName: String = ""
@@ -110,7 +117,10 @@ class ActivitySpotNeighborNarrowCategoryThird : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_neighbor_narrow_category)
+
+        binding = ActivitySpotNeighborNarrowCategoryBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         val intent = intent
         parentId = intent.getIntExtra("id", 0)
@@ -147,7 +157,7 @@ class ActivitySpotNeighborNarrowCategoryThird : AppCompatActivity() {
         for (i in 0..dataArray.size - 1) {
             mAdapter.add(setListData(dataArray[i].name))
         }
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             setOnItemClickListener{ parent, view, position, id ->
                 if (position == 0) {

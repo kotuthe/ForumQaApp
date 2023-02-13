@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_init_description.*
 import net.tttttt.www.forum_qa_app.view.RecyclerInitDescriptionAdapter
 import java.util.*
 
@@ -32,6 +31,7 @@ class ActivityInitDescription : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_init_description)
 
+        /*
         buttonClose.isEnabled = false
         buttonClose.setOnClickListener {
             // データベースのアップデート
@@ -42,8 +42,10 @@ class ActivityInitDescription : AppCompatActivity() {
         }
 
         initLayout()
+        */
     }
 
+    /*
     private fun initLayout() {
 
         mAdapter = RecyclerInitDescriptionAdapter(this, imageDatas)
@@ -84,5 +86,6 @@ class ActivityInitDescription : AppCompatActivity() {
             }
         })
     }
+    */
 
 }

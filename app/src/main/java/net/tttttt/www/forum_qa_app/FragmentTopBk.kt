@@ -26,9 +26,7 @@ import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
 import com.google.android.gms.location.*
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.fragment_top_bk.*
-import kotlinx.android.synthetic.main.view_top_selection.*
-import kotlinx.android.synthetic.main.view_top_selection.view.*
+import net.tttttt.www.forum_qa_app.databinding.FragmentTopBkBinding
 import net.tttttt.www.forum_qa_app.entities.DataCategory1
 import net.tttttt.www.forum_qa_app.entities.DataSpotList
 import net.tttttt.www.forum_qa_app.entities.DataTopSelection
@@ -49,6 +47,8 @@ class FragmentTopBk : Fragment() {
     companion object {
         val TAG = "Top"
     }
+
+    private lateinit var binding: FragmentTopBkBinding
 
     // リクエスト
     private val REQUEST_PERMISSION_FINE_LOCATION: Int = 0x1
@@ -101,7 +101,9 @@ class FragmentTopBk : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_top_bk,container,false)
+
+        binding = FragmentTopBkBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -162,24 +164,24 @@ class FragmentTopBk : Fragment() {
         // メニュー
         createViewMenu()
         // 選択項目
-        textViewArea.text = dataSelectionAreas[0].value
-        textViewSort.text = dataSelectionSorts[0].value
+        binding.textViewArea.text = dataSelectionAreas[0].value
+        binding.textViewSort.text = dataSelectionSorts[0].value
 
         // エリアをクリック
-        viewArea.setOnClickListener {
+        binding.viewArea.setOnClickListener {
             showSelection(1)
         }
 
         // 並べ替えをクリック
-        viewSort.setOnClickListener { showSelection(2) }
+        binding.viewSort.setOnClickListener { showSelection(2) }
 
         // 広告
-        viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppTopPage, resources)
+        binding.viewAdvtFooter.setAdvt(ViewAdvtFooter.screenName.AppTopPage, resources)
 
         // 一覧
         mAdapter = RecyclerTopAdapter(requireContext(), listData)
 
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // レイアウト設定 //
             setHasFixedSize(true)
             // 列
@@ -292,7 +294,7 @@ class FragmentTopBk : Fragment() {
                 newOnSearch()
             })
             viewMenuItems.add(v)
-            viewMenu.addView(viewMenuItems.get(i))
+            binding.viewMenu.addView(viewMenuItems.get(i))
         }
 
         // すべてを選択状態にする
@@ -316,7 +318,7 @@ class FragmentTopBk : Fragment() {
             selectColor = MyColor().top_menu_category(dataCategoryArray[tag].id)
         }
         viewMenuItems[tag].setBackgroundColor(selectColor)
-        viewMenuUnder.setBackgroundColor(selectColor)
+        binding.viewMenuUnder.setBackgroundColor(selectColor)
         val textViewSelect = viewMenuItems[tag].getChildAt(0) as TextView
         textViewSelect.setTextColor(Color.WHITE)
         selectMenuIndex = tag
@@ -355,10 +357,10 @@ class FragmentTopBk : Fragment() {
     // layoutSelectionは後ろをクリックしたらボタンを押せないようにする
     private fun showSelection(type: Int) {
         setClickEnableParentView(false)
-        layoutSelection.visibility = View.VISIBLE
+        // binding.layoutSelection.visibility = View.VISIBLE
         val animeAlpha = AlphaAnimation(0f, 1f)
         animeAlpha.duration = 250
-        layoutSelection.startAnimation(animeAlpha)
+        // binding.layoutSelection.startAnimation(animeAlpha)
 
         var title = ""
         var items: ArrayList<DataTopSelection> = ArrayList()
@@ -373,26 +375,26 @@ class FragmentTopBk : Fragment() {
             }
         }
 
-        layoutSelection.textViewTitle.text = title
+        binding.layoutSelection.textViewTitle.text = title
 
         // 閉じる
-        layoutSelection.viewClose.setOnClickListener {
+        binding.layoutSelection.viewClose.setOnClickListener {
             hideSelection()
         }
 
         val adapter = ListTopSelectionAdapter(requireContext(), 0)
         adapter.addAll(items)
-        layoutSelection.listView.adapter = adapter
+        binding.layoutSelection.listView.adapter = adapter
 
         // チェックした位置にスクロール
         for (i in 0..items.size - 1) {
             if (items[i].checke) {
-                listView.setSelection(if (i>2) i - 2 else 0)
+                // binding.listView.setSelection(if (i>2) i - 2 else 0)
                 break
             }
         }
 
-        layoutSelection.listView.setOnItemClickListener { parent, view, position, id ->
+        binding.layoutSelection.listView.setOnItemClickListener { parent, view, position, id ->
             when (type) {
                 1 -> {
                     // エリア
@@ -400,7 +402,7 @@ class FragmentTopBk : Fragment() {
                         dataSelectionAreas[i].checke = false
                     }
                     dataSelectionAreas[position].checke = true
-                    textViewArea.text = dataSelectionAreas[position].value
+                    binding.textViewArea.text = dataSelectionAreas[position].value
                     condArea = dataSelectionAreas[position].key
                     if (condArea == 0) {
                         mySP!!.put(MySharedPreferences.Keys.top_location_first_alert, false)
@@ -413,7 +415,7 @@ class FragmentTopBk : Fragment() {
                     }
 
                     dataSelectionSorts[position].checke = true
-                    textViewSort.text = dataSelectionSorts[position].value
+                    binding.textViewSort.text = dataSelectionSorts[position].value
                     condSort = dataSelectionSorts[position].key
                 }
             }
@@ -430,15 +432,15 @@ class FragmentTopBk : Fragment() {
 
     private fun hideSelection() {
         setClickEnableParentView(true)
-        layoutSelection.visibility = View.GONE
+        // binding.layoutSelection.visibility = View.GONE
     }
 
     private fun setClickEnableParentView(enable: Boolean) {
         for (i in 0..viewMenuItems.size - 1) {
             viewMenuItems[i].isEnabled = enable
         }
-        viewArea.isEnabled = enable
-        viewSort.isEnabled = enable
+        binding.viewArea.isEnabled = enable
+        binding.viewSort.isEnabled = enable
         mAdapter!!.setIsClickable(enable)
     }
 
@@ -697,9 +699,9 @@ class FragmentTopBk : Fragment() {
         mAdapter!!.setRandomNumber()
 
         // イベントを更新する
-        val lmg = recyclerView.layoutManager as LinearLayoutManager
-        recyclerView.clearOnScrollListeners()
-        recyclerView.addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
+        val lmg = binding.recyclerView.layoutManager as LinearLayoutManager
+        binding.recyclerView.clearOnScrollListeners()
+        binding.recyclerView.addOnScrollListener(RecyclerInfiniteScrollListener(lmg) {
             onSearch()
         })
 
@@ -772,7 +774,7 @@ class FragmentTopBk : Fragment() {
                 }
 
                 if (condPage == 1 && listData.count() > 0) {
-                    recyclerView.smoothScrollToPosition(0)
+                    binding.recyclerView.smoothScrollToPosition(0)
                     listData.clear()
                     mAdapter!!.notifyDataSetChanged()
                 }

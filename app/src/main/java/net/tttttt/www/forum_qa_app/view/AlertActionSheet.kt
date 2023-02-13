@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.alert_action_sheet.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.AlertActionSheetBinding
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
 
@@ -37,6 +37,8 @@ class AlertActionSheet : DialogFragmentFullScreen() {
             }
         }
     }
+
+    private lateinit var binding: AlertActionSheetBinding
 
     private object UNINITIALIZED_VALUE_FOR_ARGMENTS
     @Suppress("UNCHECKED_CAST")
@@ -161,28 +163,29 @@ class AlertActionSheet : DialogFragmentFullScreen() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.alert_action_sheet, container, false)
+        binding = AlertActionSheetBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        layoutDialog.setOnTouchListener { _, _ -> true }
+        binding.layoutDialog.setOnTouchListener { _, _ -> true }
 
         // タイトル
         if (title == null || title!!.isEmpty()) {
-            textViewTitle.visibility = View.GONE
+            binding.textViewTitle.visibility = View.GONE
         } else {
-            textViewTitle.visibility = View.VISIBLE
-            textViewTitle.text = title
+            binding.textViewTitle.visibility = View.VISIBLE
+            binding.textViewTitle.text = title
         }
 
         // メッセージ
         if (msg == null || msg!!.isEmpty()) {
-            textViewMsg.visibility = View.GONE
+            binding.textViewMsg.visibility = View.GONE
         } else {
-            textViewMsg.visibility = View.VISIBLE
-            textViewMsg.text = msg
+            binding.textViewMsg.visibility = View.VISIBLE
+            binding.textViewMsg.text = msg
         }
 
         // アクションボタン ※Action1は必須
@@ -193,23 +196,23 @@ class AlertActionSheet : DialogFragmentFullScreen() {
                 var separator: View? = null
                 when(i) {
                     0 -> {
-                        button = buttonAction01
+                        button = binding.buttonAction01
                     }
                     1 -> {
-                        separator = viewSeparator02
-                        button = buttonAction02
+                        separator = binding.viewSeparator02
+                        button = binding.buttonAction02
                     }
                     2 -> {
-                        separator = viewSeparator03
-                        button = buttonAction03
+                        separator = binding.viewSeparator03
+                        button = binding.buttonAction03
                     }
                     3 -> {
-                        separator = viewSeparator04
-                        button = buttonAction04
+                        separator = binding.viewSeparator04
+                        button = binding.buttonAction04
                     }
                     4 -> {
-                        separator = viewSeparator05
-                        button = buttonAction05
+                        separator = binding.viewSeparator05
+                        button = binding.buttonAction05
                     }
                 }
 
@@ -222,7 +225,7 @@ class AlertActionSheet : DialogFragmentFullScreen() {
                     button.text = title
                     // Destructiveモードのレイアウト
                     if (getActionDestructive(i)) {
-                        button.setTextColor(ContextCompat.getColor(context!!, R.color.colorIosPink))
+                        button.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorIosPink))
                     }
                     button.setOnClickListener {
                         listener?.onSimpleDialogActionClick(requestCode, i)
@@ -236,17 +239,17 @@ class AlertActionSheet : DialogFragmentFullScreen() {
 
         // ネガティブボタン
         if (!negativeLabel.isNullOrEmpty()) {
-            buttonNegative.text = negativeLabel
-            buttonNegative.visibility = View.VISIBLE
-            buttonNegative.setOnClickListener {
+            binding.buttonNegative.text = negativeLabel
+            binding.buttonNegative.visibility = View.VISIBLE
+            binding.buttonNegative.setOnClickListener {
                 listener?.onSimpleDialogNegativeClick(requestCode)
                 dismiss()
             }
         }
 
         // Destructiveモードのレイアウト
-        if (buttonNegative.isVisible && is_negative_destructive) {
-            buttonNegative.setTextColor(ContextCompat.getColor(context!!, R.color.colorIosPink))
+        if (binding.buttonNegative.isVisible && is_negative_destructive) {
+            binding.buttonNegative.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorIosPink))
         }
     }
 

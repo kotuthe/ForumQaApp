@@ -26,12 +26,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
-import kotlinx.android.synthetic.main.activity_hospital_info.*
-import kotlinx.android.synthetic.main.activity_hospital_info.buttonMap
-import kotlinx.android.synthetic.main.view_info_hospital_basic_old.*
-import kotlinx.android.synthetic.main.view_info_share.view.*
-import kotlinx.android.synthetic.main.view_info_share.view.textViewTitle
-import kotlinx.android.synthetic.main.view_info_spot_basic_old.view.*
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfoDetail
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -44,9 +38,7 @@ import net.tttttt.www.forum_qa_app.view.*
 // クチコミがないので注意すること
 
 class ActivityHospitalInfo :
-    AppCompatActivity(),
-    OnMapReadyCallback,
-    AlertNormal.OnSimpleDialogClickListener {
+    AppCompatActivity() {
 
     companion object {
         val TAG = "ActivityHospitalInfo"
@@ -101,6 +93,12 @@ class ActivityHospitalInfo :
 
     // 条件
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_hospital_info)
+    }
+
+    /*
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hospital_info)
@@ -181,9 +179,7 @@ class ActivityHospitalInfo :
         return super.onOptionsItemSelected(item)
     }
 
-    /**
-     * アラート　ポジティブ
-     */
+    // アラート　ポジティブ
     override fun onSimpleDialogPositiveClick(requestCode: Int) {
         when (requestCode) {
             REQUEST_ALERT_NO_DATA -> {
@@ -228,17 +224,13 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * アラート　ネガティブ
-     */
+    // アラート　ネガティブ
     override fun onSimpleDialogNegativeClick(requestCode: Int) {
         // Log.i(">> $TAG_SHORT", "onSimpleDialogNegativeClick requestCode: $requestCode")
     }
 
 
-    /**
-     * UI設定
-     */
+    // UI設定
     private fun initLayout() {
 
         // UI
@@ -544,9 +536,7 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * 電話をしますかアラート
-     */
+    // 電話をしますかアラート
     private fun showPhoneAlert() {
         val alert = AlertNormal.newInstance(
             requestCode = REQUEST_ALERT_PHONE,
@@ -558,9 +548,7 @@ class ActivityHospitalInfo :
         alert.show(supportFragmentManager, AlertNormal.TAG)
     }
 
-    /**
-     * ログインしますかアラート
-     */
+    // ログインしますかアラート
     private fun showNoLoginAlert(type: LoginType) {
         var title = ""
         when (type) {
@@ -590,7 +578,7 @@ class ActivityHospitalInfo :
         HttpSpotInfo(mContext).init_map_position(googleMap)
     }
 
-    /** 位置情報取得 -> スポット取得 or チェックイン **/
+    // 位置情報取得 -> スポット取得 or チェックイン
     private fun setLocation() {
         // 端末の位置情報サービスをチェック
         val manager = mContext.getSystemService(LOCATION_SERVICE) as LocationManager
@@ -608,9 +596,7 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * Permissionのチェック
-     */
+    // Permissionのチェック
     private fun checkPermission() {
         if (ActivityCompat.checkSelfPermission(mContext,
                 Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -624,9 +610,7 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * Permissionの不許可チェック
-     */
+    // Permissionの不許可チェック
     private fun requestLocationPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)) {
@@ -645,9 +629,7 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * Permissionアラートの結果
-     */
+    // Permissionアラートの結果
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -670,9 +652,7 @@ class ActivityHospitalInfo :
         }
     }
 
-    /**
-     * 位置情報を取得　Permissionで許可された時
-     */
+    // 位置情報を取得　Permissionで許可された時
     private fun getLocation() {
         mLocationClient = LocationServices.getFusedLocationProviderClient(this)
         val request = LocationRequest()
@@ -704,10 +684,8 @@ class ActivityHospitalInfo :
             })
     }
 
-    /**
-     * getLocationで位置取得できない時、さらに位置情報取得
-     * ※位置情報サービスOFF -> ON に変更した時になる
-     */
+    // getLocationで位置取得できない時、さらに位置情報取得
+    // ※位置情報サービスOFF -> ON に変更した時になる
     private fun getLocationHighQuality() {
         // 取得が長いのでアラート
         if (targetLocationType == LocationType.checkin) {
@@ -765,9 +743,7 @@ class ActivityHospitalInfo :
         targetLocationType = LocationType.getAll
     }
 
-    /**
-     * 位置情報の取得失敗
-     */
+    // 位置情報の取得失敗
     private fun errorLocation() {
         mLocation = null
         when (targetLocationType) {
@@ -798,9 +774,7 @@ class ActivityHospitalInfo :
 
     }
 
-    /**
-     * スポットデータの取得
-     */
+    // スポットデータの取得
     private fun getSpotData() {
         // DataSpotInfo, ArrayList<DataSpotInfoDetail>, ArrayList<DataSpotInfoDetail>
         HttpHospitalInfo(mContext).get_hospital_info(
@@ -831,9 +805,7 @@ class ActivityHospitalInfo :
             })
     }
 
-    /**
-     * dataSpotで設定できるレイアウト
-     */
+    // dataSpotで設定できるレイアウト
     private fun setLayoutDataSpot() {
         // 上部 //
         (imageViewCategory.background as TransitionDrawable).startTransition(1000)
@@ -875,9 +847,7 @@ class ActivityHospitalInfo :
         textViewInfo.text = dataSpot.simple_detail
     }
 
-    /**
-     * チェックインする
-     */
+    // チェックインする
     private fun doCheckin() {
         HttpHospitalInfo(mContext).do_checkin(
             dataSpot.id,
@@ -920,9 +890,7 @@ class ActivityHospitalInfo :
             })
     }
 
-    /**
-     * お気に入り
-     */
+    // お気に入り
     private fun doFavorite() {
         HttpHospitalInfo(mContext).do_favorite(
             dataSpot.id,
@@ -949,9 +917,7 @@ class ActivityHospitalInfo :
             })
     }
 
-    /**
-     * クチコミをする
-     */
+    // クチコミをする
     private fun doInputReview(type: Int) {
         val alert = AlertNormal.newInstance(
             requestCode = 0,
@@ -962,5 +928,6 @@ class ActivityHospitalInfo :
         )
         alert.show(supportFragmentManager, AlertNormal.TAG)
     }
+    */
 
 }

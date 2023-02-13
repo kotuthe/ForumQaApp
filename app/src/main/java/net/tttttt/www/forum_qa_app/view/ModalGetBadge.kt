@@ -10,8 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
-import kotlinx.android.synthetic.main.modal_get_badge.*
 import net.tttttt.www.forum_qa_app.R
+import net.tttttt.www.forum_qa_app.databinding.ModalGetBadgeBinding
 import net.tttttt.www.forum_qa_app.entities.DataBadge
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -30,6 +30,8 @@ class ModalGetBadge : DialogFragmentFullScreen() {
             }
         }
     }
+
+    private lateinit var binding: ModalGetBadgeBinding
 
     private object UNINITIALIZED_VALUE_FOR_ARGMENTS
     @Suppress("UNCHECKED_CAST")
@@ -95,7 +97,9 @@ class ModalGetBadge : DialogFragmentFullScreen() {
         savedInstanceState: Bundle?
     ): View? {
         super.onCreateView(inflater, container, savedInstanceState)
-        return inflater.inflate(R.layout.modal_get_badge, container, false)
+        // return inflater.inflate(R.layout.modal_get_badge, container, false)
+        binding = ModalGetBadgeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -104,7 +108,7 @@ class ModalGetBadge : DialogFragmentFullScreen() {
         // 多分、背景をタッチしても消えない設定をするようにしている
         // layoutDialog.setOnTouchListener { _, _ -> true }
 
-        buttonClose.setOnClickListener {
+        binding.buttonClose.setOnClickListener {
             listener?.onModalGetBadgeCloseClick()
             onDismiss(250)
         }
@@ -113,14 +117,14 @@ class ModalGetBadge : DialogFragmentFullScreen() {
 
     private fun initLayout() {
 
-        mAdapter = RecyclerGetBadgeAdapter(context!!, items)
+        mAdapter = RecyclerGetBadgeAdapter(requireContext(), items)
 
         // ページコントロール
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(binding.recyclerView)
 
         // recyclerViewの設定
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // 表示計算の最適化（推奨）
             setHasFixedSize(true)
 

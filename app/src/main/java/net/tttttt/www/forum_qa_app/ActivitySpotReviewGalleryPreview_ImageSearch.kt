@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_spot_review_gallery_image_search.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewGalleryImageSearchBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
 import net.tttttt.www.forum_qa_app.view.RecyclerISReviewGalleryPreviewAdapter
@@ -22,6 +22,8 @@ class ActivitySpotReviewGalleryPreview_ImageSearch :
         val TAG_SHORT = "ReviewGalleryPre_IS"
     }
 
+    private lateinit var binding: ActivitySpotReviewGalleryImageSearchBinding
+
     // データ
     private lateinit var mContext: Context
     private var selectIndex = 0
@@ -32,7 +34,10 @@ class ActivitySpotReviewGalleryPreview_ImageSearch :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_gallery_image_search)
+        // setContentView(R.layout.activity_spot_review_gallery_image_search)
+        binding = ActivitySpotReviewGalleryImageSearchBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
 
@@ -48,22 +53,22 @@ class ActivitySpotReviewGalleryPreview_ImageSearch :
      * UIの初期設定
      */
     private fun initLayout() {
-        viewPageClose.setOnClickListener{
+        binding.viewPageClose.setOnClickListener{
             finish()
         }
 
-        buttonReviewDetail.visibility = View.GONE
-        textViewSpotName.text = dataSpot.name
-        textViewDate.text = dataReview.reviewDate
+        binding.buttonReviewDetail.visibility = View.GONE
+        binding.textViewSpotName.text = dataSpot.name
+        binding.textViewDate.text = dataReview.reviewDate
 
         mAdapter = RecyclerISReviewGalleryPreviewAdapter(mContext, dataReview.reviewImageUrls)
 
         // ページコントロール
         val snapHelper = PagerSnapHelper()
-        snapHelper.attachToRecyclerView(recyclerView)
+        snapHelper.attachToRecyclerView(binding.recyclerView)
 
         // recyclerViewの設定
-        recyclerView.apply {
+        binding.recyclerView.apply {
             // 表示計算の最適化（推奨）
             setHasFixedSize(true)
 
@@ -104,7 +109,7 @@ class ActivitySpotReviewGalleryPreview_ImageSearch :
             // 2以上
             title = "%d / %d".format(index + 1, all)
         }
-        textViewNumber.text = title
+        binding.textViewNumber.text = title
     }
 
 

@@ -9,8 +9,7 @@ import android.widget.AbsListView
 import android.widget.AdapterView
 import android.widget.BaseAdapter
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_spot_review_list.*
-import kotlinx.android.synthetic.main.listview_empty.view.*
+import net.tttttt.www.forum_qa_app.databinding.ActivitySpotReviewListBinding
 import net.tttttt.www.forum_qa_app.entities.DataSpotInfo
 import net.tttttt.www.forum_qa_app.entities.DataSpotReview
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -29,6 +28,8 @@ class ActivitySpotReviewList :
         val TAG_SHORT = "SpotReviewList"
     }
 
+    private lateinit var binding: ActivitySpotReviewListBinding
+
     private val REQUEST_ALERT_NO_DATA: Int = 0x1
 
     private lateinit var firebase: FirebaseHelper
@@ -45,7 +46,10 @@ class ActivitySpotReviewList :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_spot_review_list)
+        // setContentView(R.layout.activity_spot_review_list)
+        binding = ActivitySpotReviewListBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext)
@@ -61,7 +65,7 @@ class ActivitySpotReviewList :
         hideListViewEmpty()
 
         mAdapter = ListSpotReviewAdapter(mContext, listData)
-        listView.apply {
+        binding.listView.apply {
             adapter = mAdapter
             onItemClickListener = AdapterView.OnItemClickListener { parent, view, pos, id ->
                 // クチコミ詳細へ
@@ -122,12 +126,14 @@ class ActivitySpotReviewList :
     }
 
     private fun showListViewEmpty(message: String) {
-        layoutEmpty.visibility = View.VISIBLE
-        layoutEmpty.textViewMsg.text = message
+        // error
+        // binding.layoutEmpty.visibility = View.VISIBLE
+        binding.layoutEmpty.textViewMsg.text = message
     }
 
     private fun hideListViewEmpty() {
-        layoutEmpty.visibility = View.GONE
+    //error
+    // binding.layoutEmpty.visibility = View.GONE
     }
 
     /**
@@ -138,7 +144,7 @@ class ActivitySpotReviewList :
             dataSpot,
             condPage,
             { datas, all_number ->
-                textViewNumber.text = "%d件".format(all_number)
+                binding.textViewNumber.text = "%d件".format(all_number)
                 listData.addAll(datas)
                 mAdapter!!.notifyDataSetChanged()
                 condPage++

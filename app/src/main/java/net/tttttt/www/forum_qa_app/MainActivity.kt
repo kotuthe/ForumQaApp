@@ -7,20 +7,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.util.TypedValue
-import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.viewpager.widget.ViewPager
 import com.github.kittinunf.fuel.android.extension.responseJson
 import com.github.kittinunf.fuel.httpGet
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.tab_item_main.view.*
-import net.tttttt.www.forum_qa_app.FragmentMyPage
+import net.tttttt.www.forum_qa_app.databinding.ActivityMainBinding
 import net.tttttt.www.forum_qa_app.entities.DataAppData
 import net.tttttt.www.forum_qa_app.entities.ServiceNearWishSpot
 import net.tttttt.www.forum_qa_app.storage.DBHelper
@@ -28,7 +21,6 @@ import net.tttttt.www.forum_qa_app.storage.DBTableAppData
 import net.tttttt.www.forum_qa_app.storage.DBTableNotificationNearWish
 import net.tttttt.www.forum_qa_app.storage.DBTableUsers
 import net.tttttt.www.forum_qa_app.value.*
-import net.tttttt.www.forum_qa_app.view.TabMainAdapter
 import org.json.JSONObject
 
 
@@ -43,12 +35,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     // 変数 //
-    private lateinit var mContext: Context
+    private lateinit var binding: ActivityMainBinding
+            private lateinit var mContext: Context
     private lateinit var mySP: MySharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        // setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         mySP = MySharedPreferences(mContext)
@@ -93,11 +89,11 @@ class MainActivity : AppCompatActivity() {
         // setActionBar(0)
         // setStatusBar(0)
 
-        bottomNavigationView.background = null
-        bottomNavigationView.menu.getItem(2).isEnabled = false
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
-        bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener)
-        floatingActionButton.setOnClickListener {
+        binding.bottomNavigationView.setOnItemSelectedListener(mOnNavigationItemSelectedListener)
+        binding.floatingActionButton.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, FragmentPostQa())
                 .commit()
@@ -105,19 +101,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, FragmentTop())
             .commit()
-
-        // フッタータブ
-        /*val adapter = TabMainAdapter(supportFragmentManager,this)
-        viewPager.adapter = adapter
-        viewPager.setPagingEnabled(false)
-        viewPager.currentItem = Constants.TAB_ITEM.TOP.ordinal
-        viewPager.addOnPageChangeListener(object : ViewPager.SimpleOnPageChangeListener() {
-            override fun onPageSelected(position: Int) {
-                setActionBar(position)
-                setStatusBar(position)
-            }
-        })
-        setTabLayout(viewPager)*/
     }
 
     /**

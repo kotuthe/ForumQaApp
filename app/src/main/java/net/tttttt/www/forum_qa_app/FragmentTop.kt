@@ -8,10 +8,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import net.tttttt.www.forum_qa_app.databinding.FragmentTopBinding
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
 import net.tttttt.www.forum_qa_app.value.*
 import net.tttttt.www.forum_qa_app.view.*
-import kotlinx.android.synthetic.main.fragment_top.*
 import net.tttttt.www.forum_qa_app.view.CardTopAdapter
 import org.json.JSONObject
 
@@ -22,6 +22,8 @@ class FragmentTop : Fragment() {
     companion object {
         val TAG = "Top"
     }
+
+    private lateinit var binding: FragmentTopBinding
 
     // リクエスト
     /*
@@ -50,7 +52,8 @@ class FragmentTop : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_top,container,false)
+        binding = FragmentTopBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -92,8 +95,8 @@ class FragmentTop : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = CardTopAdapter(arrayOf(1,1,1,1))
-        recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = adapter
+        binding.recyclerView.layoutManager = LinearLayoutManager(context)
+        binding.recyclerView.adapter = adapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

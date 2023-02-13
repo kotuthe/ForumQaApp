@@ -10,7 +10,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
-import kotlinx.android.synthetic.main.activity_my_page_setting.*
+import net.tttttt.www.forum_qa_app.databinding.ActivityMyPageSettingBinding
 import net.tttttt.www.forum_qa_app.entities.DataListSimple
 import net.tttttt.www.forum_qa_app.entities.ServiceNearWishSpot
 import net.tttttt.www.forum_qa_app.network.FirebaseHelper
@@ -28,6 +28,8 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         val TAG = "ActivityMyPageSetting"
     }
 
+    private lateinit var binding: ActivityMyPageSettingBinding
+
     private val REQUEST_LOGIN: Int = 0x1
     private val REQUEST_DEVICE_SETTING: Int = 0x2
     private val REQUEST_ALERT_LOGOUT: Int = 0x3
@@ -38,7 +40,10 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_my_page_setting)
+        // setContentView(R.layout.activity_my_page_setting)
+        binding = ActivityMyPageSettingBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
 
         mContext = applicationContext
         firebase = FirebaseHelper(mContext!!)
@@ -131,8 +136,8 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         adapter.add(setListData("使い方の説明"))
         adapter.add(setListData("運営会社"))
         adapter.add(setListData("プライバシーポリシー"))
-        listView.adapter = adapter
-        listView.setOnItemClickListener { parent, view, position, id ->
+        binding.listView.adapter = adapter
+        binding.listView.setOnItemClickListener { parent, view, position, id ->
 
             ifNotNull(adapter.getItem(position), {
                 firebase.sendEvent(
@@ -164,7 +169,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         }
 
         // アプリ通知の設定へ
-        layoutNotice.setOnClickListener {
+        binding.layoutNotice.setOnClickListener {
             val intent = Intent()
             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
             intent.addCategory(Intent.CATEGORY_DEFAULT)
@@ -178,7 +183,7 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
         }
 
         // ログイン or ログアウト
-        layoutLogin.setOnClickListener {
+        binding.layoutLogin.setOnClickListener {
             if (mySP.get_status_login()) {
                 // ログアウト
                 val alert = AlertActionSheet.newInstance(
@@ -227,8 +232,8 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
             title = "ログイン"
             color = R.color.colorLinkBlue
         }
-        textViewStatusLogin.text = title
-        textViewStatusLogin.setTextColor(ContextCompat.getColor(mContext!!, color))
+        binding.textViewStatusLogin.text = title
+        binding.textViewStatusLogin.setTextColor(ContextCompat.getColor(mContext!!, color))
     }
 
     /**
@@ -237,6 +242,6 @@ class ActivityMyPageSetting : AppCompatActivity(), AlertActionSheet.OnSimpleDial
     private fun updateStatusNotice() {
         val manager = NotificationManagerCompat.from(mContext!!)
         val enabled = manager.areNotificationsEnabled()
-        textViewStatusNotice.text = if (enabled) "オン" else "オフ"
+        binding.textViewStatusNotice.text = if (enabled) "オン" else "オフ"
     }
 }
