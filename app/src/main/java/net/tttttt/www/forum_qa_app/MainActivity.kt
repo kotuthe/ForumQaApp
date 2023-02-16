@@ -74,9 +74,9 @@ class MainActivity : AppCompatActivity() {
                     .commit()
             }
 
-            R.id.navigation_menu -> {
+            R.id.navigation_search -> {
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout, FragmentSpotSearch())
+                    .replace(R.id.frameLayout, FragmentSearch())
                     .commit()
             }
         }

@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ActivityMyQuestionList">
 
+    <net.tttttt.www.forum_qa_app.view.RecyclerViewSlowScroll
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorListBackground"
+        android:clipToPadding="false"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

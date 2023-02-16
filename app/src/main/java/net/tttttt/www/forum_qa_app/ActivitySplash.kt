@@ -7,13 +7,17 @@ import android.os.Bundle
 import android.os.Handler
 import android.util.Log
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
+import net.tttttt.www.forum_qa_app.databinding.ActivitySplashBinding
 import net.tttttt.www.forum_qa_app.storage.DBHelper
 import net.tttttt.www.forum_qa_app.storage.DBTableAppData
 import net.tttttt.www.forum_qa_app.value.MySharedPreferences
 
 class ActivitySplash : Activity() {
     private val TAG: String = "ActivitySplash"
+
+    private lateinit var binding: ActivitySplashBinding
     private val mHandler = Handler()
     private var mContext: Context? = null
     // private var dbHelper: DBHelper? = null
@@ -21,7 +25,13 @@ class ActivitySplash : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_splash)
+
+        binding = ActivitySplashBinding.inflate(layoutInflater)
+        val view = binding.root
+        setContentView(view)
+
+        val anim = AnimationUtils.loadAnimation(this, R.anim.aplash_img)
+        binding.imageLogo.startAnimation(anim)
 
         // データの初期設定
         mySP = MySharedPreferences(this)
@@ -49,7 +59,7 @@ class ActivitySplash : Activity() {
             db.endTransaction()
             db.cleanup()
             // Topへ遷移
-                mHandler.postDelayed(mRunnable, 800)
+                mHandler.postDelayed(mRunnable, 1000)
         }
 
     }
@@ -60,7 +70,13 @@ class ActivitySplash : Activity() {
     }
 
     private val mRunnable = Runnable {
-        if (mySP!!.get(MySharedPreferences.Keys.init_description_count) as Int == 0) {
+
+        // MainActivityに移行
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
+
+        /*if (mySP!!.get(MySharedPreferences.Keys.init_description_count) as Int == 0) {
             // 初回説明に遷移
             val intent = Intent(this, ActivityInitDescription::class.java)
             startActivity(intent)
@@ -70,7 +86,7 @@ class ActivitySplash : Activity() {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
-        }
+        }*/
 
     }
 

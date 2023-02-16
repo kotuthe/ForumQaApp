@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorListBackground"
+    tools:context=".ActivityUserProfile">
+
+    <!-- login ver -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layout_margin="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <!-- Info -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_rounded_corners"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:id="@+id/imageBlock"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentStart="true"
+                            android:src="@drawable/ic_user_block"
+                            android:scaleType="centerCrop"/>
+
+                        <ImageView
+                            android:id="@+id/imageFollow"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_alignParentEnd="true"
+                            android:src="@drawable/ic_user_follow"
+                            android:scaleType="centerCrop"/>
+
+                    </RelativeLayout>
+
+                    <ImageView
+                        android:id="@+id/imageUser"
+                        android:layout_width="@dimen/fragment_my_page_img_user_size"
+                        android:layout_height="@dimen/fragment_my_page_img_user_size"
+                        android:scaleType="centerCrop"
+                        android:background="@drawable/layout_image_empty"/>
+
+                    <TextView
+                        android:id="@+id/textName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="name"
+                        android:textSize="@dimen/font_size_normal"
+                        android:textColor="#333"/>
+
+                    <TextView
+                        android:id="@+id/textDetail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="18dp"
+                        android:text="detail"
+                        android:textColor="#555"
+                        android:textSize="@dimen/font_size_normal" />
+
+                </LinearLayout>
+
+                <!-- score 1 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="質問した数"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonQuestionList"
+                            android:layout_marginTop="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="回答した数"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonAnswerList"
+                            android:layout_marginTop="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- score 2 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="フォロワー"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonFollower"
+                            android:layout_marginTop="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="16dp"
+                        android:layout_height="match_parent"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="100dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/shape_rounded_corners"
+                        android:orientation="vertical"
+                        android:gravity="center">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#333"
+                            android:text="フォロー中"/>
+
+                        <Button
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/buttonFollowing"
+                            android:layout_marginTop="8dp"
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <!-- 広告 -->
+        <View
+            android:id="@+id/viewAdvtFooter"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:background="#80555555"
+            android:layout_gravity="bottom"/>
+
+    </LinearLayout>
+
+</FrameLayout>

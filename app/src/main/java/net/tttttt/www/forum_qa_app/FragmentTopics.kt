@@ -27,17 +27,6 @@ class FragmentTopics : Fragment() {
 
     private lateinit var binding: FragmentTopicsBinding
 
-    // リクエスト
-    /*
-    private val REQUEST_PERMISSION_FINE_LOCATION: Int = 0x1
-    private val REQUEST_CODE_ALERT_LOCATION: Int = 0x2
-    private val REQUEST_APP_DATA_UPDATE: Int = 0x3
-
-    // カラー
-    private val COLOR_CATEGORY_ALL = Color.parseColor("#555555")
-    private val COLOR_DIS_CATEGORY_ALL = Color.parseColor("#CCCCCC")
-    */
-
     private var mySP: MySharedPreferences? = null
     private var functions: Functions? = null
 

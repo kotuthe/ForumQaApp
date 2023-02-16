@@ -6,15 +6,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorListBackground"
     tools:context=".MainActivity">
 
     <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:id="@+id/imageLogo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="100dp"
-        android:src="@drawable/img_app_logo"
+        android:src="@mipmap/ic_launcher"
         android:scaleType="fitCenter"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +36,7 @@
         <ImageView
             android:layout_width="@dimen/activity_splash_company_width"
             android:layout_height="@dimen/activity_splash_company_height"
-            android:src="@drawable/img_app_company"
+            android:background="#aaa"
             android:scaleType="fitCenter"/>
 
         <net.tttttt.www.forum_qa_app.view.TextViewFontFit

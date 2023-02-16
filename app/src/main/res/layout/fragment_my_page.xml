@@ -33,14 +33,14 @@
                     android:background="@drawable/shape_rounded_corners"
                     android:gravity="center"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="26dp">
 
                     <ImageView
                         android:id="@+id/imageUser"
-                        android:layout_width="@dimen/fragment_my_page_img_user_size"
-                        android:layout_height="@dimen/fragment_my_page_img_user_size"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
                         android:scaleType="centerCrop"
-                        android:background="@drawable/layout_image_empty"/>
+                        android:src="@drawable/test_my_user"/>
 
                     <TextView
                         android:id="@+id/textName"
@@ -100,6 +100,7 @@
                             android:layout_height="wrap_content"
                             android:id="@+id/buttonQuestionList"
                             android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
                             android:paddingLeft="16dp"
                             android:paddingRight="16dp"
                             android:background="@drawable/btn_normal"
@@ -163,17 +164,17 @@
                             android:textColor="#333"
                             android:text="フォロワー"/>
 
-                        <TextView
+                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/buttonFollower"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/txt_mypage_counter"
-                            android:textColor="@android:color/white"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="26dp"
-                            android:paddingRight="26dp"
-                            android:text="16"/>
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
 
@@ -195,17 +196,17 @@
                             android:textColor="#333"
                             android:text="フォロー中"/>
 
-                        <TextView
+                        <Button
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:id="@+id/buttonFollowing"
                             android:layout_marginTop="8dp"
-                            android:background="@drawable/txt_mypage_counter"
-                            android:textColor="@android:color/white"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:paddingLeft="26dp"
-                            android:paddingRight="26dp"
-                            android:text="16"/>
+                            android:paddingLeft="16dp"
+                            android:paddingRight="16dp"
+                            android:background="@drawable/btn_normal"
+                            android:text="16"
+                            android:textColor="#fff"
+                            android:textSize="13sp" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -216,12 +217,20 @@
         </ScrollView>
 
         <!-- 広告 -->
-        <View
-            android:id="@+id/viewAdvtFooter"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:background="#555"
-            android:layout_gravity="bottom"/>
+            android:layout_height="100dp"
+            android:background="#80AA5555"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:text="広告エリア" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

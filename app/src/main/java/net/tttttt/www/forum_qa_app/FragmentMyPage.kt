@@ -54,6 +54,16 @@ class FragmentMyPage : Fragment() {
             val intent = Intent(activity, ActivityMyAnswerList::class.java)
             startActivity(intent)
         }
+
+        binding.buttonFollower.setOnClickListener {
+            val intent = Intent(activity, ActivityMyFollowList::class.java)
+            startActivity(intent)
+        }
+
+        binding.buttonFollowing.setOnClickListener {
+            val intent = Intent(activity, ActivityMyFollowList::class.java)
+            startActivity(intent)
+        }
     }
 
 

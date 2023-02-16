@@ -6,6 +6,7 @@ import android.os.*
 import android.view.*
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import net.tttttt.www.forum_qa_app.databinding.FragmentTopBinding
@@ -94,6 +95,9 @@ class FragmentTop : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // タイトル //
+        (activity as AppCompatActivity).supportActionBar?.title = ""
+
         val adapter = CardTopAdapter(arrayOf(1,1,1,1))
         binding.recyclerView.layoutManager = LinearLayoutManager(context)
         binding.recyclerView.adapter = adapter
@@ -105,14 +109,15 @@ class FragmentTop : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        /*
-        when (item.itemId) {
-            R.id.action_support ->
 
-                R.id.action_1 ->
+        when (item.itemId) {
+            R.id.action_support -> {
+                val intent = Intent(activity, ActivityOfficialSupport::class.java)
+                startActivity(intent)
+            }
         }
-        */
-        Toast.makeText(context, "「${item.title}」が押されました。", Toast.LENGTH_SHORT).show()
+
+        //Toast.makeText(context, "「${item.title}」が押されました。", Toast.LENGTH_SHORT).show()
         return super.onOptionsItemSelected(item)
     }
     // フラグメント　オンスクリーン
